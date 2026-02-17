@@ -5,7 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useUser } from '@/contexts/UserContext';
 import {
   ChevronLeft, ChevronRight, CheckCircle, PlayCircle,
-  BookOpen, Menu, Layout, List
+  BookOpen, Menu, Layout, X
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { courseService } from '@/lib/courseService';
@@ -179,24 +179,18 @@ export default function StudentLearning() {
   return (
     <StudentLayout title={course.title}>
       {/* ── Top Bar ─────────────────────────────────────── */}
-      <div className={`sticky top-0 z-40 -mx-6 px-6 py-3 border-b backdrop-blur-xl ${
+      <div className={`sticky top-0 z-30 -mx-4 lg:-mx-6 px-4 lg:px-6 py-2.5 lg:py-3 border-b backdrop-blur-xl ${
         isDark ? 'bg-slate-950/80 border-yellow-500/10' : 'bg-white/80 border-yellow-200'
       }`}>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 lg:gap-3 min-w-0">
             <button
               onClick={() => setLocation('/student')}
-              className={`flex items-center gap-1 text-sm font-medium ${
+              className={`flex items-center gap-1 text-xs lg:text-sm font-medium shrink-0 ${
                 isDark ? 'text-gray-400 hover:text-yellow-500' : 'text-gray-600 hover:text-yellow-600'
               }`}
             >
-              <ChevronLeft className="w-4 h-4" /> Dashboard
-            </button>
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className={`p-1.5 rounded-lg lg:hidden ${isDark ? 'hover:bg-slate-800 text-gray-400' : 'hover:bg-gray-100 text-gray-500'}`}
-            >
-              <List className="w-4 h-4" />
+              <ChevronLeft className="w-3.5 h-3.5 lg:w-4 lg:h-4" /> <span className="hidden xs:inline">Dashboard</span>
             </button>
           </div>
           <div className="flex items-center gap-3">
@@ -215,31 +209,42 @@ export default function StudentLearning() {
         </div>
       </div>
 
-      <div className="flex gap-8 mt-6">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 mt-4 lg:mt-6">
+        {/* ── Mobile sidebar toggle ─────────────────────── */}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className={`lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-bold ${
+            isDark ? 'bg-slate-900/40 border-yellow-500/10 text-yellow-500' : 'bg-white border-yellow-200 text-yellow-600'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" />
+          Course Content
+        </button>
+
         {/* ── Sidebar ──────────────────────────────────── */}
-        <div className={`shrink-0 w-72 ${
+        <div className={`shrink-0 w-full lg:w-72 ${
           sidebarOpen
-            ? 'fixed inset-0 z-50 p-6 lg:relative lg:inset-auto lg:p-0'
+            ? 'fixed inset-0 z-50 p-4 lg:relative lg:inset-auto lg:p-0'
             : 'hidden lg:block'
         }`}>
           {sidebarOpen && (
-            <div className="fixed inset-0 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)} />
+            <div className="fixed inset-0 bg-black/60 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
           )}
           <div className={`relative h-full lg:h-auto rounded-2xl border p-4 ${
             isDark ? 'bg-slate-900/90 border-yellow-500/10' : 'bg-white border-yellow-200'
-          } ${sidebarOpen ? 'max-w-sm' : ''}`}>
+          } ${sidebarOpen ? 'max-w-sm w-full z-50 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-sm flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-yellow-500" />
                 Course Content
               </h3>
               {sidebarOpen && (
-                <button onClick={() => setSidebarOpen(false)} className="text-gray-400 hover:text-gray-300">
-                  <ChevronLeft className="w-4 h-4" />
+                <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 rounded-lg hover:bg-white/10 text-gray-400">
+                  <X className="w-5 h-5" />
                 </button>
               )}
             </div>
-            <div className="space-y-1 max-h-[60vh] overflow-y-auto">
+            <div className="space-y-1 max-h-[50vh] lg:max-h-[60vh] overflow-y-auto">
               {modules.map((mod, mi) => {
                 const modCompleted = enrollment.completedModules.includes(mod.id);
                 const isActiveMod = currentStepData?.moduleIndex === mi;
@@ -256,14 +261,13 @@ export default function StudentLearning() {
                           : isDark ? 'hover:bg-slate-800 text-gray-400' : 'hover:bg-gray-50 text-gray-600'
                       }`}
                     >
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
                         modCompleted ? 'bg-green-500/20 text-green-500' : isDark ? 'bg-slate-800 text-gray-500' : 'bg-gray-100 text-gray-400'
                       }`}>
                         {modCompleted ? <CheckCircle className="w-3 h-3" /> : mi + 1}
                       </div>
                       <span className="truncate flex-1">{mod.title}</span>
                     </button>
-                    {/* Module sub-steps */}
                     {isActiveMod && steps.filter((s) => s.moduleIndex === mi).map((s, si) => (
                       <button
                         key={`${mi}-${si}`}
@@ -274,7 +278,7 @@ export default function StudentLearning() {
                             : isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'
                         }`}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-current shrink-0" />
                         {s.type === 'video' ? 'Video' : s.block?.type ?? 'Content'}
                       </button>
                     ))}
@@ -357,13 +361,13 @@ export default function StudentLearning() {
             </div>
 
             {/* ── Navigation Footer ──────────────────────── */}
-            <div className={`px-6 py-4 border-t flex items-center justify-between ${
+            <div className={`px-4 lg:px-6 py-3 lg:py-4 border-t flex items-center justify-between gap-2 ${
               isDark ? 'border-slate-800' : 'border-gray-100'
             }`}>
               <button
                 onClick={handlePrev}
                 disabled={currentStep === 0}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                className={`flex items-center gap-1 lg:gap-2 px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-bold transition-all ${
                   currentStep === 0
                     ? 'opacity-30 cursor-not-allowed'
                     : isDark
@@ -371,25 +375,25 @@ export default function StudentLearning() {
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                <ChevronLeft className="w-4 h-4" /> Previous
+                <ChevronLeft className="w-3.5 h-3.5 lg:w-4 lg:h-4" /> <span className="hidden xs:inline">Previous</span>
               </button>
 
-              <div className="flex gap-2">
+              <div className="flex gap-1 lg:gap-2">
                 {isModuleVideo && !isModuleComplete && (
                   <button
                     onClick={() => markModuleComplete(currentStepData!.moduleId)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:scale-105`}
+                    className={`flex items-center gap-1 lg:gap-2 px-2.5 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-bold transition-all bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:scale-105`}
                   >
-                    <CheckCircle className="w-4 h-4" /> Mark Complete
+                    <CheckCircle className="w-3.5 h-3.5 lg:w-4 lg:h-4" /> <span className="hidden xs:inline">Mark Done</span>
                   </button>
                 )}
 
                 {currentStep === totalSteps - 1 && isModuleVideo ? (
                   <button
                     onClick={handleFinishModule}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold bg-gradient-to-r from-emerald-400 to-teal-500 text-white hover:scale-105`}
+                    className={`flex items-center gap-1 lg:gap-2 px-2.5 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-bold bg-gradient-to-r from-emerald-400 to-teal-500 text-white hover:scale-105`}
                   >
-                    <Layout className="w-4 h-4" /> Finish Module
+                    <Layout className="w-3.5 h-3.5 lg:w-4 lg:h-4" /> <span className="hidden xs:inline">Finish</span>
                   </button>
                 ) : null}
               </div>
@@ -397,13 +401,13 @@ export default function StudentLearning() {
               <button
                 onClick={handleNext}
                 disabled={currentStep >= totalSteps - 1}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                className={`flex items-center gap-1 lg:gap-2 px-3 lg:px-4 py-2 rounded-lg text-xs lg:text-sm font-bold transition-all ${
                   currentStep >= totalSteps - 1
                     ? 'opacity-30 cursor-not-allowed'
                     : 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white hover:scale-105'
                 }`}
               >
-                Next <ChevronRight className="w-4 h-4" />
+                <span className="hidden xs:inline">Next</span> <ChevronRight className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
               </button>
             </div>
           </div>

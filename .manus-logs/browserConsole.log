@@ -434,3 +434,25 @@
 [2026-07-09T18:00:07.279Z] {"timestamp":1783620005281,"level":"DEBUG","args":["[vite] connected."],"stack":null}
 [2026-07-09T18:00:07.279Z] {"timestamp":1783620005744,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
 [2026-07-09T18:00:07.279Z] {"timestamp":1783620005780,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T18:04:51.142Z] {"timestamp":1783620288894,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T18:04:51.142Z] {"timestamp":1783620288898,"level":"DEBUG","args":["[vite]","invalidate /src/contexts/SidebarContext.tsx: Could not Fast Refresh (\"useSidebar\" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react#consistent-components-exports"],"stack":null}
+[2026-07-09T18:04:51.142Z] {"timestamp":1783620288898,"level":"DEBUG","args":["[vite]","hot updated: /src/contexts/SidebarContext.tsx"],"stack":null}
+[2026-07-09T18:04:53.839Z] {"timestamp":1783620292236,"level":"DEBUG","args":["[vite]","hot updated: /src/App.tsx"],"stack":null}
+[2026-07-09T18:04:53.839Z] {"timestamp":1783620292256,"level":"DEBUG","args":["[vite]","hot updated: /src/components/AdminSidebar.tsx"],"stack":null}
+[2026-07-09T18:04:53.839Z] {"timestamp":1783620292257,"level":"DEBUG","args":["[vite]","hot updated: /src/components/AdminLayout.tsx"],"stack":null}
+[2026-07-09T18:04:53.839Z] {"timestamp":1783620292259,"level":"DEBUG","args":["[vite]","hot updated: /src/components/StudentSidebar.tsx"],"stack":null}
+[2026-07-09T18:04:53.839Z] {"timestamp":1783620292264,"level":"DEBUG","args":["[vite]","hot updated: /src/components/StudentLayout.tsx"],"stack":null}
+[2026-07-09T18:04:53.839Z] {"timestamp":1783620292265,"level":"DEBUG","args":["[vite]","hot updated: /src/components/InstructorSidebar.tsx"],"stack":null}
+[2026-07-09T18:04:53.839Z] {"timestamp":1783620292266,"level":"DEBUG","args":["[vite]","hot updated: /src/components/InstructorLayout.tsx"],"stack":null}
+[2026-07-09T18:05:33.978Z] {"timestamp":1783620325354,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T18:05:33.979Z] {"timestamp":1783620325392,"level":"DEBUG","args":["[vite]","hot updated: /src/components/AdminSidebar.tsx"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620343330,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620343330,"level":"DEBUG","args":["[vite]","hot updated: /src/components/StudentSidebar.tsx"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620370286,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620370288,"level":"DEBUG","args":["[vite]","hot updated: /src/components/InstructorSidebar.tsx"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620381581,"level":"DEBUG","args":["[vite]","hot updated: /src/components/AdminLayout.tsx"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620381581,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620393486,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T18:06:33.834Z] {"timestamp":1783620393576,"level":"DEBUG","args":["[vite]","hot updated: /src/components/StudentLayout.tsx"],"stack":null}
+[2026-07-09T18:07:27.349Z] {"timestamp":1783620407155,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T18:07:27.353Z] {"timestamp":1783620407156,"level":"DEBUG","args":["[vite]","hot updated: /src/components/InstructorLayout.tsx"],"stack":null}

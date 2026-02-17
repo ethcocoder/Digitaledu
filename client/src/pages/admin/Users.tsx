@@ -110,7 +110,8 @@ export default function AdminUsers() {
           </div>
         </div>
 
-        <div className={`rounded-2xl border overflow-hidden ${
+        {/* Desktop table */}
+        <div className={`hidden md:block rounded-2xl border overflow-hidden ${
           isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'
         }`}>
           <div className="overflow-x-auto">
@@ -127,9 +128,7 @@ export default function AdminUsers() {
               <tbody className="divide-y divide-gray-500/10">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                      Loading users...
-                    </td>
+                    <td colSpan={5} className="px-6 py-8 text-center text-gray-500">Loading users...</td>
                   </tr>
                 ) : (
                   filteredUsers.map((user, index) => (
@@ -141,16 +140,16 @@ export default function AdminUsers() {
                       className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-blue-50/50'}`}
                     >
                       <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white ${
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white shrink-0 ${
                             user.role === 'admin' ? 'bg-purple-500' :
                             user.role === 'instructor' ? 'bg-orange-500' : 'bg-blue-500'
                           }`}>
                             {user.fullName.charAt(0)}
                           </div>
-                          <div>
-                            <div className="font-bold">{user.fullName}</div>
-                            <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{user.email}</div>
+                          <div className="min-w-0">
+                            <div className="font-bold truncate">{user.fullName}</div>
+                            <div className={`text-xs truncate ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{user.email}</div>
                           </div>
                         </div>
                       </td>
@@ -159,9 +158,7 @@ export default function AdminUsers() {
                           user.role === 'admin' ? 'bg-purple-500/10 text-purple-500' :
                           user.role === 'instructor' ? 'bg-orange-500/10 text-orange-500' :
                           'bg-blue-500/10 text-blue-500'
-                        }`}>
-                          {user.role}
-                        </span>
+                        }`}>{user.role}</span>
                       </td>
                       <td className="px-6 py-4">
                         {user.status === 'active' ? (
@@ -181,22 +178,14 @@ export default function AdminUsers() {
                       <td className={`px-6 py-4 text-xs font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                         {new Date(user.createdAt).toLocaleDateString()}
                       </td>
-                      <td className="px-6 py-4 text-right space-x-2">
+                      <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
                         {user.status === 'pending' && (
-                          <button 
-                            onClick={() => handleApprove(user.uid)}
-                            className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs font-bold transition-colors"
-                          >
-                            Approve
-                          </button>
+                          <button onClick={() => handleApprove(user.uid)}
+                            className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs font-bold transition-colors">Approve</button>
                         )}
                         {user.status === 'active' && user.role !== 'admin' && (
-                          <button 
-                            onClick={() => handleSuspend(user.uid)}
-                            className="px-3 py-1 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded text-xs font-bold transition-colors"
-                          >
-                            Suspend
-                          </button>
+                          <button onClick={() => handleSuspend(user.uid)}
+                            className="px-3 py-1 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded text-xs font-bold transition-colors">Suspend</button>
                         )}
                       </td>
                     </motion.tr>
@@ -204,13 +193,69 @@ export default function AdminUsers() {
                 )}
               </tbody>
             </table>
-            
             {!loading && filteredUsers.length === 0 && (
-              <div className="p-8 text-center text-gray-500">
-                No users found matching your criteria.
-              </div>
+              <div className="p-8 text-center text-gray-500">No users found matching your criteria.</div>
             )}
           </div>
+        </div>
+
+        {/* Mobile cards */}
+        <div className="md:hidden space-y-3">
+          {loading ? (
+            <div className="text-center py-8 text-gray-500">Loading users...</div>
+          ) : filteredUsers.length === 0 ? (
+            <div className="text-center py-8 text-gray-500">No users found matching your criteria.</div>
+          ) : (
+            filteredUsers.map((user, index) => (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                key={user.uid}
+                className={`p-4 rounded-2xl border ${isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'}`}
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shrink-0 ${
+                      user.role === 'admin' ? 'bg-purple-500' :
+                      user.role === 'instructor' ? 'bg-orange-500' : 'bg-blue-500'
+                    }`}>
+                      {user.fullName.charAt(0)}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="font-bold text-sm truncate">{user.fullName}</div>
+                      <div className={`text-xs truncate ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{user.email}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 text-xs">
+                  <span className={`px-2 py-1 rounded-md font-bold uppercase ${
+                    user.role === 'admin' ? 'bg-purple-500/10 text-purple-500' :
+                    user.role === 'instructor' ? 'bg-orange-500/10 text-orange-500' :
+                    'bg-blue-500/10 text-blue-500'
+                  }`}>{user.role}</span>
+                  {user.status === 'active' ? (
+                    <span className="flex items-center gap-1 text-green-500 font-bold"><CheckCircle className="w-3 h-3" /> Active</span>
+                  ) : user.status === 'pending' ? (
+                    <span className="flex items-center gap-1 text-yellow-500 font-bold"><Clock className="w-3 h-3" /> Pending</span>
+                  ) : (
+                    <span className="flex items-center gap-1 text-red-500 font-bold"><XCircle className="w-3 h-3" /> Suspended</span>
+                  )}
+                  <span className={isDark ? 'text-gray-400' : 'text-gray-500'}>{new Date(user.createdAt).toLocaleDateString()}</span>
+                </div>
+                <div className="flex gap-2 mt-3 pt-3 border-t border-gray-500/10">
+                  {user.status === 'pending' && (
+                    <button onClick={() => handleApprove(user.uid)}
+                      className="flex-1 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-xs font-bold transition-colors">Approve</button>
+                  )}
+                  {user.status === 'active' && user.role !== 'admin' && (
+                    <button onClick={() => handleSuspend(user.uid)}
+                      className="flex-1 py-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-lg text-xs font-bold transition-colors">Suspend</button>
+                  )}
+                </div>
+              </motion.div>
+            ))
+          )}
         </div>
       </div>
     </AdminLayout>

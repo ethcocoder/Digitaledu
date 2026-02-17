@@ -167,9 +167,9 @@ export default function AdminCourseReview({ layout: Layout }: Props) {
 
   return (
     <Layout title="Course Review">
-      <div className="flex gap-8">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
         {/* Sidebar */}
-        <div className="w-80 shrink-0 space-y-4">
+        <div className="w-full lg:w-80 shrink-0 space-y-4">
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => setActionTab('pending')}

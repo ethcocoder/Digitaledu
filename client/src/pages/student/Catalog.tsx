@@ -81,30 +81,30 @@ export default function StudentCatalog() {
 
   return (
     <StudentLayout title="Course Catalog">
-      <div className="space-y-8">
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-          <div className="relative w-full md:w-96">
-            <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
+      <div className="space-y-4 lg:space-y-8">
+        <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 items-stretch sm:items-center justify-between">
+          <div className="relative flex-1 max-w-md">
+            <Search className={`absolute left-3 lg:left-4 top-1/2 -translate-y-1/2 w-4 h-4 lg:w-5 lg:h-5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
             <input
               type="text"
-              placeholder="Search for courses, skills, or instructors..."
+              placeholder="Search courses..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-12 pr-4 py-3 rounded-xl outline-none transition-all ${
+              className={`w-full pl-10 lg:pl-12 pr-4 py-2.5 lg:py-3 rounded-xl outline-none transition-all text-sm lg:text-base ${
                 isDark
                   ? 'bg-slate-900/50 border border-yellow-500/20 focus:border-yellow-500'
                   : 'bg-white border border-yellow-200 focus:border-yellow-400'
               }`}
             />
           </div>
-          <div className={`flex items-center gap-2 px-4 py-3 rounded-xl border ${
+          <div className={`flex items-center gap-2 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl border self-start sm:self-auto ${
             isDark ? 'bg-slate-900/50 border-yellow-500/20' : 'bg-white border-yellow-200'
           }`}>
-            <Filter className="w-4 h-4 text-yellow-500" />
+            <Filter className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-yellow-500" />
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-transparent border-none outline-none text-sm font-bold cursor-pointer"
+              className="bg-transparent border-none outline-none text-xs lg:text-sm font-bold cursor-pointer"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -125,7 +125,7 @@ export default function StudentCatalog() {
             <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>Try adjusting your search or filters.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-8">
             {filteredCourses.map((course, i) => (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}

@@ -137,22 +137,22 @@ export default function StudentCourseIntro() {
     <StudentLayout title={`Getting Started: ${course.title}`}>
       <div className="max-w-2xl mx-auto">
         {/* Progress steps */}
-        <div className="flex gap-2 mb-8">
+        <div className="flex gap-1.5 lg:gap-2 mb-6 lg:mb-8">
           {['Welcome', 'Assessment', 'Goal', 'Ready'].map((label, i) => {
             const states = ['welcome', 'assessment', 'goal', 'complete'];
             const currentIdx = states.indexOf(step);
             const isActive = i <= currentIdx;
             return (
               <div key={label} className="flex-1">
-                <div className={`h-1.5 rounded-full transition-all ${isActive ? 'bg-yellow-500' : isDark ? 'bg-slate-800' : 'bg-gray-200'}`} />
-                <p className={`text-xs font-bold mt-1 ${isActive ? 'text-yellow-500' : isDark ? 'text-gray-600' : 'text-gray-400'}`}>{label}</p>
+                <div className={`h-1 lg:h-1.5 rounded-full transition-all ${isActive ? 'bg-yellow-500' : isDark ? 'bg-slate-800' : 'bg-gray-200'}`} />
+                <p className={`text-[10px] lg:text-xs font-bold mt-0.5 lg:mt-1 ${isActive ? 'text-yellow-500' : isDark ? 'text-gray-600' : 'text-gray-400'}`}>{label}</p>
               </div>
             );
           })}
         </div>
 
         {step === 'welcome' && (
-          <div className={`p-8 rounded-2xl border text-center space-y-6 ${isDark ? 'bg-slate-900/40 border-yellow-500/10' : 'bg-white border-yellow-200'}`}>
+          <div className={`p-5 lg:p-8 rounded-2xl border text-center space-y-4 lg:space-y-6 ${isDark ? 'bg-slate-900/40 border-yellow-500/10' : 'bg-white border-yellow-200'}`}>
             <GraduationCap className="w-16 h-16 mx-auto text-yellow-500" />
             <h2 className="text-2xl font-bold">Welcome to {course.title}</h2>
             <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
