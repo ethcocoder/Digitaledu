@@ -28,7 +28,7 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-slate-900/30 border-b border-cyan-400/20">
         <div className="container flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <img src="/manus-storage/digitaledu-logo_f62bdadc.png" alt="DigitalEdu Logo" className="w-10 h-10 object-contain" />
+            <img src="/digitaledu-logo.png" alt="DigitalEdu Logo" className="w-10 h-10 object-contain" />
           </div>
           <div className="hidden md:flex gap-8">
             <a href="#features" className="text-sm hover:text-cyan-400 transition-colors">Features</a>
@@ -58,7 +58,7 @@ export default function Home() {
         {/* Content */}
         <div className="relative z-20 container max-w-4xl mx-auto px-4 text-center">
           <div className="mb-8 animate-fade-in-up flex justify-center">
-            <img src="/manus-storage/digitaledu-logo_f62bdadc.png" alt="DigitalEdu" className="w-48 h-48 md:w-64 md:h-64 object-contain mb-8" />
+            <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-48 h-48 md:w-64 md:h-64 object-contain mb-8" />
           </div>
           <div className="mb-8 animate-fade-in-up">
             <h1 className="font-display text-5xl md:text-7xl font-bold mb-6 leading-tight">
@@ -303,7 +303,7 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             {/* Brand */}
             <div>
-              <img src="/manus-storage/digitaledu-logo_f62bdadc.png" alt="DigitalEdu" className="w-12 h-12 object-contain mb-4" />
+              <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-12 h-12 object-contain mb-4" />
               <p className="font-body text-slate-400 text-sm">
                 Connecting the world of education, one learner at a time.
               </p>
