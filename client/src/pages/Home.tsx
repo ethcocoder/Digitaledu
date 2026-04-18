@@ -1,60 +1,63 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Globe, Zap, Users, BookOpen, Github, Linkedin, Mail, ChevronDown, ArrowRight } from 'lucide-react';
-import MorphingLogo from '@/components/MorphingLogo';
+import { Globe, Zap, Users, BookOpen, Github, Linkedin, Mail, ChevronDown, ArrowRight, Play } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * DigitalEdu Premium Landing Page - Morphing Transitions Edition
+ * DigitalEdu Premium Landing Page - Production Level
  * 
- * Design Philosophy:
- * - Premium, modern aesthetic with 3D graphics
- * - Smooth morphing transitions between sections
- * - Parallax scrolling and dynamic motion
- * - Interactive 3D logo and elements
- * - Professional, sophisticated appearance
+ * Features:
+ * - Professional 3D visuals (teacher, student, technology)
+ * - Creative morphing transitions between sections
+ * - Smooth scroll animations
+ * - Interactive elements
+ * - Premium aesthetic
  */
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
-  const featuresRef = useRef<HTMLDivElement>(null);
-  const categoriesRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
 
-    // GSAP animations for sections
-    const sections = document.querySelectorAll('[data-animate]');
-    sections.forEach((section) => {
-      gsap.fromTo(
-        section,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            end: 'top 20%',
-            scrub: 0.5,
-          },
+    // Animate elements on scroll
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('[data-scroll-animate]');
+      elements.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isVisible && !el.classList.contains('animated')) {
+          gsap.fromTo(
+            el,
+            { opacity: 0, y: 50 },
+            { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+          );
+          el.classList.add('animated');
         }
-      );
-    });
+      });
+    };
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', animateOnScroll);
+    animateOnScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', animateOnScroll);
+    };
   }, []);
 
   return (
     <div className="w-full bg-slate-950 text-slate-100 overflow-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-slate-900/20 border-b border-cyan-400/10">
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-slate-900/30 border-b border-cyan-400/10">
         <div className="container flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-10 h-10 object-contain" />
@@ -72,21 +75,21 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section with 3D Logo */}
+      {/* Hero Section with 3D Teacher Visual */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        {/* Animated Background */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <img 
+            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-teacher-7ih8TQoEaxdkPU6eUPz2LC.webp" 
+            alt="Teacher" 
+            className="w-full h-full object-cover"
+            style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+          />
         </div>
+        
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/70 to-transparent z-10" />
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/40 to-slate-950 z-10" />
-
-        {/* Content */}
         <div className="relative z-20 container max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
+          <div className="max-w-2xl">
             <div className="space-y-8 animate-fade-in-up">
               <div>
                 <h1 className="font-display text-6xl md:text-7xl font-bold mb-6 leading-tight">
@@ -107,8 +110,9 @@ export default function Home() {
                   Get Started
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                <Button className="btn-gradient-outline text-base font-semibold">
-                  Explore Courses
+                <Button className="btn-gradient-outline text-base font-semibold flex items-center gap-2">
+                  <Play className="w-4 h-4" />
+                  Watch Demo
                 </Button>
               </div>
 
@@ -128,24 +132,89 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Right - 3D Logo */}
-            <div className="hidden md:block">
-              <MorphingLogo />
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center animate-bounce z-20">
+          <ChevronDown className="w-8 h-8 text-cyan-400" />
+        </div>
+      </section>
+
+      {/* Student Learning Section */}
+      <section className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900 overflow-hidden">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div data-scroll-animate className="space-y-8">
+              <h2 className="font-display text-5xl md:text-6xl font-bold">
+                <span className="text-cyan-400">Learn</span>
+                <br />
+                <span className="text-white">Your Way</span>
+              </h2>
+              <p className="font-body text-lg text-slate-300 leading-relaxed">
+                Whether you're a student diving into new subjects or a professional advancing your career, DigitalEdu adapts to your learning style and pace.
+              </p>
+              <ul className="space-y-4">
+                {['Interactive lessons with real-time feedback', 'Personalized learning paths', 'Expert instructors worldwide'].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3 text-slate-300">
+                    <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Button className="btn-gradient text-base font-semibold">Explore Learning</Button>
+            </div>
+            <div data-scroll-animate className="relative">
+              <img 
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-student-BdWgEwEakpiqU8L3NQxzKV.webp" 
+                alt="Student Learning" 
+                className="rounded-2xl shadow-2xl shadow-cyan-500/20"
+              />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center animate-bounce">
-            <ChevronDown className="w-8 h-8 text-cyan-400" />
+      {/* Technology Integration Section */}
+      <section className="relative py-32 bg-slate-950 overflow-hidden">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div data-scroll-animate className="relative order-2 md:order-1">
+              <img 
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-technology-2d4YXVPmMSXLWuwxWDZR7z.webp" 
+                alt="Technology" 
+                className="rounded-2xl shadow-2xl shadow-yellow-500/20"
+              />
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+            </div>
+            <div data-scroll-animate className="space-y-8 order-1 md:order-2">
+              <h2 className="font-display text-5xl md:text-6xl font-bold">
+                <span className="text-yellow-400">Connected</span>
+                <br />
+                <span className="text-white">Everywhere</span>
+              </h2>
+              <p className="font-body text-lg text-slate-300 leading-relaxed">
+                Access your courses on any device, anytime, anywhere. Our platform seamlessly syncs across laptop, tablet, and mobile.
+              </p>
+              <ul className="space-y-4">
+                {['Offline access to course materials', 'Sync progress across devices', 'Cloud-based learning platform'].map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-3 text-slate-300">
+                    <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Button className="btn-gradient text-base font-semibold">Get Started Now</Button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} id="features" className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900">
+      <section id="features" className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900">
         <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-animate>
+          <div className="text-center mb-20" data-scroll-animate>
             <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
               <span className="text-cyan-400">Why Choose</span>
               <br />
@@ -161,31 +230,31 @@ export default function Home() {
               {
                 icon: Globe,
                 title: 'Global Curriculum',
-                description: 'Access courses from educational systems worldwide, ensuring diverse learning perspectives.',
+                description: 'Access courses from educational systems worldwide.',
                 color: 'from-cyan-400 to-blue-500',
               },
               {
                 icon: BookOpen,
                 title: 'All Learning Levels',
-                description: 'From early education through Grade 12, university, and professional development programs.',
+                description: 'From early education through professional development.',
                 color: 'from-yellow-400 to-orange-500',
               },
               {
                 icon: Zap,
                 title: 'Smart Learning',
-                description: 'AI-powered personalization adapts to each learner\'s pace and learning style.',
+                description: 'AI-powered personalization adapts to your pace.',
                 color: 'from-purple-400 to-pink-500',
               },
               {
                 icon: Users,
                 title: 'Global Community',
-                description: 'Connect with learners and educators from over 150 countries worldwide.',
+                description: 'Connect with learners from 150+ countries.',
                 color: 'from-cyan-400 to-teal-500',
               },
             ].map((feature, idx) => (
               <div
                 key={idx}
-                data-animate
+                data-scroll-animate
                 className="glass-dark p-8 rounded-2xl hover:border-cyan-400/50 transition-all duration-500 hover:shadow-lg hover:shadow-cyan-500/20 group cursor-pointer"
               >
                 <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
@@ -203,10 +272,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section ref={categoriesRef} id="categories" className="relative py-32 bg-slate-950">
+      {/* Learning Journey Section */}
+      <section className="relative py-32 bg-slate-950 overflow-hidden">
         <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-animate>
+          <div className="text-center mb-20" data-scroll-animate>
+            <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
+              <span className="text-yellow-400">Your Learning</span>
+              <br />
+              <span className="text-white">Journey Starts Here</span>
+            </h2>
+          </div>
+
+          <div data-scroll-animate className="relative">
+            <img 
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/learning-journey-Gmstv2eyV53SfXjyU7FTr9.webp" 
+              alt="Learning Journey" 
+              className="rounded-2xl shadow-2xl shadow-cyan-500/30 w-full"
+            />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section id="categories" className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-center mb-20" data-scroll-animate>
             <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
               <span className="text-yellow-400">Learning</span>
               <br />
@@ -223,7 +314,7 @@ export default function Home() {
             ].map((category, idx) => (
               <div
                 key={idx}
-                data-animate
+                data-scroll-animate
                 className="group relative overflow-hidden rounded-2xl h-64 cursor-pointer"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-80 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -239,9 +330,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Global Network Section */}
+      <section className="relative py-32 bg-slate-950 overflow-hidden">
+        <div className="container max-w-6xl mx-auto px-4">
+          <div className="text-center mb-20" data-scroll-animate>
+            <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
+              <span className="text-cyan-400">Global</span>
+              <br />
+              <span className="text-white">Learning Network</span>
+            </h2>
+            <p className="font-body text-slate-400 text-lg max-w-2xl mx-auto">
+              Connected with educators and learners across 150+ countries
+            </p>
+          </div>
+
+          <div data-scroll-animate className="relative">
+            <img 
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/global-network-Mxzjz2XnCzok6xecRo4N8T.webp" 
+              alt="Global Network" 
+              className="rounded-2xl shadow-2xl shadow-cyan-500/30 w-full"
+            />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
       <section className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900">
-        <div className="container max-w-4xl mx-auto px-4 text-center" data-animate>
+        <div className="container max-w-4xl mx-auto px-4 text-center" data-scroll-animate>
           <h2 className="font-display text-5xl md:text-6xl font-bold mb-8">
             <span className="text-cyan-400">About</span>
             <br />
@@ -259,7 +375,7 @@ export default function Home() {
       {/* Team Section */}
       <section id="team" className="relative py-32 bg-slate-950">
         <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-animate>
+          <div className="text-center mb-20" data-scroll-animate>
             <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
               <span className="text-yellow-400">Meet the</span>
               <br />
@@ -287,7 +403,7 @@ export default function Home() {
             ].map((member, idx) => (
               <div
                 key={idx}
-                data-animate
+                data-scroll-animate
                 className="glass-dark p-8 rounded-2xl text-center hover:border-cyan-400/50 transition-all duration-500 hover:shadow-lg hover:shadow-cyan-500/20"
               >
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-yellow-400 mx-auto mb-6 flex items-center justify-center">
@@ -306,11 +422,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CTA Section */}
+      <section className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl" />
+        </div>
+
+        <div className="relative z-10 container max-w-4xl mx-auto px-4 text-center" data-scroll-animate>
+          <h2 className="font-display text-5xl md:text-6xl font-bold mb-8">
+            <span className="text-cyan-400">Ready to</span>
+            <br />
+            <span className="text-white">Transform Your Learning?</span>
+          </h2>
+          <p className="font-body text-lg text-slate-300 mb-12 max-w-2xl mx-auto">
+            Join millions of learners worldwide and start your educational journey today.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button className="btn-gradient text-base font-semibold">
+              Start Learning Now
+            </Button>
+            <Button className="btn-gradient-outline text-base font-semibold">
+              Schedule a Demo
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="relative py-16 bg-gradient-to-b from-slate-900 to-slate-950 border-t border-cyan-400/10">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
-            {/* Brand */}
             <div>
               <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-12 h-12 object-contain mb-4" />
               <p className="font-body text-slate-400 text-sm">
@@ -318,7 +460,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Quick Links */}
             <div>
               <h4 className="font-heading font-bold text-white mb-4">Quick Links</h4>
               <ul className="space-y-2">
@@ -328,7 +469,6 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Resources */}
             <div>
               <h4 className="font-heading font-bold text-white mb-4">Resources</h4>
               <ul className="space-y-2">
@@ -338,7 +478,6 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Social */}
             <div>
               <h4 className="font-heading font-bold text-white mb-4">Follow Us</h4>
               <div className="flex gap-4">
@@ -355,7 +494,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Copyright */}
           <div className="border-t border-cyan-400/10 pt-8 text-center">
             <p className="font-body text-slate-500 text-sm">
               © 2026 DigitalEdu. All rights reserved. | Built by Paradox Team
