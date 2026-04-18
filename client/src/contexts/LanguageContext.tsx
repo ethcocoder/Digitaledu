@@ -1,0 +1,278 @@
+import { createContext, useContext, useState, useEffect } from 'react';
+
+type Language = 'en' | 'am';
+type Theme = 'light' | 'dark';
+
+interface LanguageContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  t: (key: string) => string;
+}
+
+const translations = {
+  en: {
+    // Navigation
+    'nav.features': 'Features',
+    'nav.categories': 'Categories',
+    'nav.team': 'Team',
+    'nav.getStarted': 'Get Started',
+
+    // Hero Section
+    'hero.connect': 'Connect',
+    'hero.theWorld': 'the World of',
+    'hero.education': 'Education',
+    'hero.description': 'A global digital education center connecting all types of learning—from early childhood to Grade 12, university, and professional courses from any country curriculum.',
+    'hero.getStarted': 'Get Started',
+    'hero.watchDemo': 'Watch Demo',
+    'hero.countries': 'Countries',
+    'hero.courses': 'Courses',
+    'hero.learners': 'Learners',
+
+    // Student Section
+    'student.learn': 'Learn',
+    'student.yourWay': 'Your Way',
+    'student.description': 'Whether you\'re a student diving into new subjects or a professional advancing your career, DigitalEdu adapts to your learning style and pace.',
+    'student.interactive': 'Interactive lessons with real-time feedback',
+    'student.personalized': 'Personalized learning paths',
+    'student.experts': 'Expert instructors worldwide',
+    'student.explore': 'Explore Learning',
+
+    // Technology Section
+    'tech.connected': 'Connected',
+    'tech.everywhere': 'Everywhere',
+    'tech.description': 'Access your courses on any device, anytime, anywhere. Our platform seamlessly syncs across laptop, tablet, and mobile.',
+    'tech.offline': 'Offline access to course materials',
+    'tech.sync': 'Sync progress across devices',
+    'tech.cloud': 'Cloud-based learning platform',
+    'tech.getStarted': 'Get Started Now',
+
+    // Features Section
+    'features.why': 'Why Choose',
+    'features.digitaledu': 'DigitalEdu?',
+    'features.subtitle': 'Comprehensive learning solutions designed for every level',
+    'features.global': 'Global Curriculum',
+    'features.globalDesc': 'Access courses from educational systems worldwide.',
+    'features.levels': 'All Learning Levels',
+    'features.levelsDesc': 'From early education through professional development.',
+    'features.smart': 'Smart Learning',
+    'features.smartDesc': 'AI-powered personalization adapts to your pace.',
+    'features.community': 'Global Community',
+    'features.communityDesc': 'Connect with learners from 150+ countries.',
+
+    // Journey Section
+    'journey.your': 'Your Learning',
+    'journey.starts': 'Journey Starts Here',
+
+    // Categories Section
+    'categories.learning': 'Learning',
+    'categories.categories': 'Categories',
+    'categories.kids': 'Kids Education',
+    'categories.kidsAge': 'Ages 3-8',
+    'categories.school': 'School',
+    'categories.schoolGrade': 'Grade 1-12',
+    'categories.university': 'University',
+    'categories.universityYears': 'All Years',
+    'categories.professional': 'Professional',
+    'categories.professionalGrowth': 'Career Growth',
+
+    // Global Network Section
+    'network.global': 'Global',
+    'network.network': 'Learning Network',
+    'network.subtitle': 'Connected with educators and learners across 150+ countries',
+
+    // About Section
+    'about.about': 'About',
+    'about.digitaledu': 'DigitalEdu',
+    'about.mission': 'DigitalEdu is a revolutionary platform designed to democratize education globally. We believe that quality education should be accessible to everyone, regardless of their location, age, or background. Our mission is to connect learners and educators worldwide, breaking down barriers and creating opportunities for growth.',
+    'about.vision': 'With courses spanning from early childhood education to professional development, we\'re building the future of learning—one student at a time.',
+
+    // Team Section
+    'team.meet': 'Meet the',
+    'team.paradox': 'Paradox Team',
+    'team.latera': 'Latera Zelalem',
+    'team.lateraRole': 'CEO & Founder',
+    'team.lateraBio': 'Visionary leader passionate about democratizing global education',
+    'team.natnael': 'Natnael Ermiyas',
+    'team.natnaelRole': 'CTO',
+    'team.natnaelBio': 'Tech innovator building scalable solutions for millions of learners',
+    'team.tadios': 'Tadios Aschalew',
+    'team.tadiosRole': 'Technical Manager',
+    'team.tadiosBio': 'Operations expert ensuring seamless platform performance',
+
+    // CTA Section
+    'cta.ready': 'Ready to',
+    'cta.transform': 'Transform Your Learning?',
+    'cta.subtitle': 'Join millions of learners worldwide and start your educational journey today.',
+    'cta.start': 'Start Learning Now',
+    'cta.schedule': 'Schedule a Demo',
+
+    // Footer
+    'footer.tagline': 'Connecting the world of education, one learner at a time.',
+    'footer.quickLinks': 'Quick Links',
+    'footer.resources': 'Resources',
+    'footer.followUs': 'Follow Us',
+    'footer.blog': 'Blog',
+    'footer.documentation': 'Documentation',
+    'footer.support': 'Support',
+    'footer.copyright': '© 2026 DigitalEdu. All rights reserved. | Built by Paradox Team',
+  },
+  am: {
+    // Navigation
+    'nav.features': 'ባህሪዎች',
+    'nav.categories': 'ምድቦች',
+    'nav.team': 'ቡድን',
+    'nav.getStarted': 'ጀምር',
+
+    // Hero Section
+    'hero.connect': 'ተገናኝ',
+    'hero.theWorld': 'የዓለም',
+    'hero.education': 'ትምህርት',
+    'hero.description': 'ሁሉንም ዓይነት ትምህርት የሚያገናኝ ዓለምአቀፍ ዲጂታል ትምህርት ማእከል - ከልጅነት ጀምሮ እስከ 12ኛ ክፍል፣ ዩኒቨርሲቲ እና ከማንኛውም ሀገር ሥርዓተ ትምህርት ሙያዊ ኮርሶች።',
+    'hero.getStarted': 'ጀምር',
+    'hero.watchDemo': 'ማሳያ ተመልከት',
+    'hero.countries': 'ሀገራት',
+    'hero.courses': 'ኮርሶች',
+    'hero.learners': 'ተማሪዎች',
+
+    // Student Section
+    'student.learn': 'ተማር',
+    'student.yourWay': 'በራስህ መንገድ',
+    'student.description': 'ምንም ይሁን እንደ ተማሪ ወደ አዲስ ርዕሰ ጉዳዮች ወይም ሙያዊ ሆነህ ስራህን እንደ ማሻሻል፣ DigitalEdu ከአንተ ትምህርት ዘይቤ እና ፍጥነት ጋር ይስተካከላል።',
+    'student.interactive': 'ሪアルタイም ግብረመልስ ያለ ተግባራዊ ትምህርቶች',
+    'student.personalized': 'ለግል የተወሰነ ትምህርት መንገዶች',
+    'student.experts': 'ዓለም አቀፍ ባለሙያ መምህራን',
+    'student.explore': 'ትምህርት ተመልከት',
+
+    // Technology Section
+    'tech.connected': 'ተገናኝተው',
+    'tech.everywhere': 'በሁሉም ቦታ',
+    'tech.description': 'በማንኛውም መሳሪያ ላይ ኮርሶችህን ተደራስ - በማንኛውም ጊዜ፣ በማንኛውም ቦታ። ፕላትፎርምናችን በላፕቶፕ፣ ታብሌት እና ሞባይል ላይ በተገቢ ሁኔታ ይመሳሰላል።',
+    'tech.offline': 'ኮርስ ቁሳቁሶች ከመስመር ውጭ ተደራሽነት',
+    'tech.sync': 'ሁሉም መሳሪያዎ ላይ ሁኔታ ተመሳሳይ ያድርጉ',
+    'tech.cloud': 'ደመና ላይ ተመሰረተ ትምህርት ፕላትፎርም',
+    'tech.getStarted': 'አሁን ጀምር',
+
+    // Features Section
+    'features.why': 'ለምን',
+    'features.digitaledu': 'DigitalEdu?',
+    'features.subtitle': 'ለእያንዳንዱ ደረጃ የተነደፈ ሁሉን አቀፍ ትምህርት መፍትሄዎች',
+    'features.global': 'ዓለምአቀፍ ሥርዓተ ትምህርት',
+    'features.globalDesc': 'ከዓለም ሙያዊ ትምህርት ስርዓቶች ኮርሶች ተደራስ።',
+    'features.levels': 'ሁሉም ትምህርት ደረጃዎች',
+    'features.levelsDesc': 'ከመጀመሪያ ትምህርት እስከ ሙያዊ ልማት።',
+    'features.smart': 'ስሌት ትምህርት',
+    'features.smartDesc': 'AI-ሊሆን የሚችል ግላዊነት ከአንተ ፍጥነት ጋር ይስተካከላል።',
+    'features.community': 'ዓለምአቀፍ ማህበረሰብ',
+    'features.communityDesc': 'ከ150+ ሀገራት ተማሪዎች ጋር ተገናኝ።',
+
+    // Journey Section
+    'journey.your': 'የአንተ ትምህርት',
+    'journey.starts': 'መንገድ እዚህ ይጀምራል',
+
+    // Categories Section
+    'categories.learning': 'ትምህርት',
+    'categories.categories': 'ምድቦች',
+    'categories.kids': 'ልጆች ትምህርት',
+    'categories.kidsAge': 'ዓመታት 3-8',
+    'categories.school': 'ትምህርት ቤት',
+    'categories.schoolGrade': 'ክፍል 1-12',
+    'categories.university': 'ዩኒቨርሲቲ',
+    'categories.universityYears': 'ሁሉም ዓመታት',
+    'categories.professional': 'ሙያዊ',
+    'categories.professionalGrowth': 'ስራ እድገት',
+
+    // Global Network Section
+    'network.global': 'ዓለምአቀፍ',
+    'network.network': 'ትምህርት ኔትወርክ',
+    'network.subtitle': 'ከ150+ ሀገራት መምህራን እና ተማሪዎች ጋር ተገናኝተው',
+
+    // About Section
+    'about.about': 'ስለ',
+    'about.digitaledu': 'DigitalEdu',
+    'about.mission': 'DigitalEdu ትምህርትን በዓለም ላይ ለሁሉም ተደራሽ ለማድረግ የተነደፈ አብዮታዊ ፕላትፎርም ነው። ጥራት ያለበት ትምህርት ምንም ይሁን እንደ ሰዎች ቦታ፣ ዕድሜ ወይም ዳራ ለሁሉም ተደራሽ መሆን አለበት ብለን እናምናለን። ሰላም ከሌለበት ነገር ወጥተው ለሁሉም ተማሪዎች እና መምህራን ዓለም አቀፍ ተገናኝነት መፍጠር ነው።',
+    'about.vision': 'ከልጅነት ትምህርት ጀምሮ እስከ ሙያዊ ልማት ያለው ኮርሶች ያሉ ሲሆን፣ ትምህርትን ለወደፊት ሰው ሰው በሰው መሠረት እንገነባለን።',
+
+    // Team Section
+    'team.meet': 'ሁለተኛ',
+    'team.paradox': 'Paradox ቡድን',
+    'team.latera': 'ላተራ ዘላለም',
+    'team.lateraRole': 'ዋና ሥራ አስፈፃሚ እና ተመሥራች',
+    'team.lateraBio': 'ዓለምአቀፍ ትምህርትን ለሁሉም ተደራሽ ለማድረግ ፍቅር ያለ ራዕይ ያለ መሪ',
+    'team.natnael': 'ናትናኤል ኤርሚያስ',
+    'team.natnaelRole': 'ዋና ቴክኖሎጂ ሥራ አስፈፃሚ',
+    'team.natnaelBio': 'ለሚሊዮን ተማሪዎች ሚዛናዊ መፍትሄዎች የሚገነቡ ቴክኖሎጂ ፈጠራ ሰው',
+    'team.tadios': 'ታድዮስ አስቻለው',
+    'team.tadiosRole': 'ቴክኒካል ሥራ አስተዳዳሪ',
+    'team.tadiosBio': 'ፕላትፎርም አፈጻጸም ለስላሳ ለማድረግ ሥራ አስተዳዳሪ',
+
+    // CTA Section
+    'cta.ready': 'ዝግጁ ነህ',
+    'cta.transform': 'ትምህርትህን ለውጥ?',
+    'cta.subtitle': 'ከሚሊዮን ተማሪዎች ጋር ተገናኝተው ትምህርት ጉዞህ ዛሬ ጀምር።',
+    'cta.start': 'አሁን ትምህርት ጀምር',
+    'cta.schedule': 'ማሳያ ጊዜ ያሰናጁ',
+
+    // Footer
+    'footer.tagline': 'ትምህርትን በዓለም ላይ ለሁሉም ተደራሽ ለማድረግ - ሰው ሰው ሰው።',
+    'footer.quickLinks': 'ፈጣን ሊንኮች',
+    'footer.resources': 'ሀብቶች',
+    'footer.followUs': 'ኡስ ተከተል',
+    'footer.blog': 'ብሎግ',
+    'footer.documentation': 'ሰነዶች',
+    'footer.support': 'ድጋፍ',
+    'footer.copyright': '© 2026 DigitalEdu. ሁሉም መብቶች የተጠበቁ ናቸው | በ Paradox ቡድን ተገንብቷል',
+  },
+};
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguage] = useState<Language>(() => {
+    const saved = localStorage.getItem('language');
+    return (saved as Language) || 'en';
+  });
+
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem('theme');
+    return (saved as Theme) || 'dark';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('language', language);
+  }, [language]);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+    const root = document.documentElement;
+    if (theme === 'light') {
+      root.classList.add('light-mode');
+    } else {
+      root.classList.remove('light-mode');
+    }
+  }, [theme]);
+
+  const t = (key: string): string => {
+    const keys = key.split('.');
+    let value: any = translations[language];
+    for (const k of keys) {
+      value = value?.[k];
+    }
+    return value || key;
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, theme, setTheme, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (!context) {
+    throw new Error('useLanguage must be used within LanguageProvider');
+  }
+  return context;
+}

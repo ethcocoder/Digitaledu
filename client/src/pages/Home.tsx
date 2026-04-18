@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Globe, Zap, Users, BookOpen, Github, Linkedin, Mail, ChevronDown, ArrowRight, Play } from 'lucide-react';
+import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -13,15 +15,16 @@ gsap.registerPlugin(ScrollTrigger);
  * - Professional 3D visuals (teacher, student, technology)
  * - Creative morphing transitions between sections
  * - Smooth scroll animations
+ * - Multi-language support (English & Amharic)
+ * - Light & Dark mode
  * - Interactive elements
  * - Premium aesthetic
  */
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
-  const [activeTab, setActiveTab] = useState(0);
+  const { t, theme } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -55,28 +58,59 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full bg-slate-950 text-slate-100 overflow-hidden">
+    <div className={`w-full overflow-hidden transition-colors duration-300 ${
+      theme === 'light' 
+        ? 'bg-slate-50 text-slate-900' 
+        : 'bg-slate-950 text-slate-100'
+    }`}>
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-slate-900/30 border-b border-cyan-400/10">
+      <nav className={`fixed top-0 w-full z-50 backdrop-blur-xl transition-colors duration-300 ${
+        theme === 'light'
+          ? 'bg-white/30 border-b border-blue-200/20'
+          : 'bg-slate-900/30 border-b border-cyan-400/10'
+      }`}>
         <div className="container flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-10 h-10 object-contain" />
-            <span className="font-display text-lg font-bold">
-              <span className="text-yellow-400">Digital</span>
-              <span className="text-cyan-400">Edu</span>
+            <span className={`font-display text-lg font-bold ${
+              theme === 'light' ? 'text-blue-600' : ''
+            }`}>
+              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>Digital</span>
+              <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>Edu</span>
             </span>
           </div>
           <div className="hidden md:flex gap-8">
-            <a href="#features" className="text-sm hover:text-cyan-400 transition-colors duration-300">Features</a>
-            <a href="#categories" className="text-sm hover:text-cyan-400 transition-colors duration-300">Categories</a>
-            <a href="#team" className="text-sm hover:text-cyan-400 transition-colors duration-300">Team</a>
+            <a href="#features" className={`text-sm transition-colors duration-300 ${
+              theme === 'light'
+                ? 'hover:text-blue-600'
+                : 'hover:text-cyan-400'
+            }`}>{t('nav.features')}</a>
+            <a href="#categories" className={`text-sm transition-colors duration-300 ${
+              theme === 'light'
+                ? 'hover:text-blue-600'
+                : 'hover:text-cyan-400'
+            }`}>{t('nav.categories')}</a>
+            <a href="#team" className={`text-sm transition-colors duration-300 ${
+              theme === 'light'
+                ? 'hover:text-blue-600'
+                : 'hover:text-cyan-400'
+            }`}>{t('nav.team')}</a>
           </div>
-          <Button className="btn-gradient text-xs md:text-sm">Get Started</Button>
+          <div className="flex items-center gap-4">
+            <LanguageThemeSwitcher />
+            <Button className={`text-xs md:text-sm ${
+              theme === 'light'
+                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'btn-gradient'
+            }`}>{t('nav.getStarted')}</Button>
+          </div>
         </div>
       </nav>
 
       {/* Hero Section with 3D Teacher Visual */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      <section ref={heroRef} className={`relative min-h-screen flex items-center justify-center pt-20 overflow-hidden transition-colors duration-300 ${
+        theme === 'light' ? 'bg-gradient-to-b from-blue-50 to-slate-100' : 'bg-slate-950'
+      }`}>
         <div className="absolute inset-0 z-0">
           <img 
             src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-teacher-7ih8TQoEaxdkPU6eUPz2LC.webp" 
@@ -86,49 +120,81 @@ export default function Home() {
           />
         </div>
         
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/70 to-transparent z-10" />
+        <div className={`absolute inset-0 ${
+          theme === 'light'
+            ? 'bg-gradient-to-r from-white via-white/70 to-transparent'
+            : 'bg-gradient-to-r from-slate-950 via-slate-950/70 to-transparent'
+        } z-10`} />
 
         <div className="relative z-20 container max-w-6xl mx-auto px-4">
           <div className="max-w-2xl">
             <div className="space-y-8 animate-fade-in-up">
               <div>
-                <h1 className="font-display text-6xl md:text-7xl font-bold mb-6 leading-tight">
-                  <span className="text-cyan-400">Connect</span>
+                <h1 className={`font-display text-6xl md:text-7xl font-bold mb-6 leading-tight ${
+                  theme === 'light' ? 'text-slate-900' : ''
+                }`}>
+                  <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('hero.connect')}</span>
                   <br />
-                  <span className="text-white">the World of</span>
+                  <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('hero.theWorld')}</span>
                   <br />
-                  <span className="text-yellow-400">Education</span>
+                  <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('hero.education')}</span>
                 </h1>
               </div>
 
-              <p className="font-body text-lg md:text-xl text-slate-300 max-w-lg leading-relaxed">
-                A global digital education center connecting all types of learning—from early childhood to Grade 12, university, and professional courses from any country curriculum.
+              <p className={`font-body text-lg md:text-xl max-w-lg leading-relaxed ${
+                theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+              }`}>
+                {t('hero.description')}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="btn-gradient text-base font-semibold group">
-                  Get Started
+                <Button className={`text-base font-semibold group ${
+                  theme === 'light'
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'btn-gradient'
+                }`}>
+                  {t('hero.getStarted')}
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
-                <Button className="btn-gradient-outline text-base font-semibold flex items-center gap-2">
+                <Button className={`text-base font-semibold flex items-center gap-2 ${
+                  theme === 'light'
+                    ? 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50'
+                    : 'btn-gradient-outline'
+                }`}>
                   <Play className="w-4 h-4" />
-                  Watch Demo
+                  {t('hero.watchDemo')}
                 </Button>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-cyan-400/20">
+              <div className={`grid grid-cols-3 gap-6 pt-8 transition-colors duration-300 ${
+                theme === 'light'
+                  ? 'border-t border-blue-200'
+                  : 'border-t border-cyan-400/20'
+              }`}>
                 <div>
-                  <p className="text-2xl font-bold text-cyan-400">150+</p>
-                  <p className="text-sm text-slate-400">Countries</p>
+                  <p className={`text-2xl font-bold ${
+                    theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
+                  }`}>150+</p>
+                  <p className={`text-sm ${
+                    theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+                  }`}>{t('hero.countries')}</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-yellow-400">10K+</p>
-                  <p className="text-sm text-slate-400">Courses</p>
+                  <p className={`text-2xl font-bold ${
+                    theme === 'light' ? 'text-orange-500' : 'text-yellow-400'
+                  }`}>10K+</p>
+                  <p className={`text-sm ${
+                    theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+                  }`}>{t('hero.courses')}</p>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-cyan-400">1M+</p>
-                  <p className="text-sm text-slate-400">Learners</p>
+                  <p className={`text-2xl font-bold ${
+                    theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
+                  }`}>1M+</p>
+                  <p className={`text-sm ${
+                    theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+                  }`}>{t('hero.learners')}</p>
                 </div>
               </div>
             </div>
@@ -137,91 +203,145 @@ export default function Home() {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center animate-bounce z-20">
-          <ChevronDown className="w-8 h-8 text-cyan-400" />
+          <ChevronDown className={`w-8 h-8 ${
+            theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
+          }`} />
         </div>
       </section>
 
       {/* Student Learning Section */}
-      <section className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900 overflow-hidden">
+      <section className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light'
+          ? 'bg-white'
+          : 'bg-gradient-to-b from-slate-950 to-slate-900'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div data-scroll-animate className="space-y-8">
-              <h2 className="font-display text-5xl md:text-6xl font-bold">
-                <span className="text-cyan-400">Learn</span>
+              <h2 className={`font-display text-5xl md:text-6xl font-bold ${
+                theme === 'light' ? 'text-slate-900' : ''
+              }`}>
+                <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('student.learn')}</span>
                 <br />
-                <span className="text-white">Your Way</span>
+                <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('student.yourWay')}</span>
               </h2>
-              <p className="font-body text-lg text-slate-300 leading-relaxed">
-                Whether you're a student diving into new subjects or a professional advancing your career, DigitalEdu adapts to your learning style and pace.
+              <p className={`font-body text-lg leading-relaxed ${
+                theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+              }`}>
+                {t('student.description')}
               </p>
               <ul className="space-y-4">
-                {['Interactive lessons with real-time feedback', 'Personalized learning paths', 'Expert instructors worldwide'].map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-slate-300">
-                    <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                {[t('student.interactive'), t('student.personalized'), t('student.experts')].map((item, idx) => (
+                  <li key={idx} className={`flex items-center gap-3 ${
+                    theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+                  }`}>
+                    <div className={`w-2 h-2 rounded-full ${
+                      theme === 'light' ? 'bg-blue-600' : 'bg-cyan-400'
+                    }`} />
                     {item}
                   </li>
                 ))}
               </ul>
-              <Button className="btn-gradient text-base font-semibold">Explore Learning</Button>
+              <Button className={`text-base font-semibold ${
+                theme === 'light'
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  : 'btn-gradient'
+              }`}>{t('student.explore')}</Button>
             </div>
             <div data-scroll-animate className="relative">
               <img 
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-student-BdWgEwEakpiqU8L3NQxzKV.webp" 
                 alt="Student Learning" 
-                className="rounded-2xl shadow-2xl shadow-cyan-500/20"
+                className={`rounded-2xl shadow-2xl ${
+                  theme === 'light'
+                    ? 'shadow-blue-500/20'
+                    : 'shadow-cyan-500/20'
+                }`}
               />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+              <div className={`absolute inset-0 rounded-2xl ${
+                theme === 'light'
+                  ? 'bg-gradient-to-t from-white via-transparent to-transparent'
+                  : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
+              }`} />
             </div>
           </div>
         </div>
       </section>
 
       {/* Technology Integration Section */}
-      <section className="relative py-32 bg-slate-950 overflow-hidden">
+      <section className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div data-scroll-animate className="relative order-2 md:order-1">
               <img 
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-technology-2d4YXVPmMSXLWuwxWDZR7z.webp" 
                 alt="Technology" 
-                className="rounded-2xl shadow-2xl shadow-yellow-500/20"
+                className={`rounded-2xl shadow-2xl ${
+                  theme === 'light'
+                    ? 'shadow-orange-500/20'
+                    : 'shadow-yellow-500/20'
+                }`}
               />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+              <div className={`absolute inset-0 rounded-2xl ${
+                theme === 'light'
+                  ? 'bg-gradient-to-t from-slate-100 via-transparent to-transparent'
+                  : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
+              }`} />
             </div>
             <div data-scroll-animate className="space-y-8 order-1 md:order-2">
-              <h2 className="font-display text-5xl md:text-6xl font-bold">
-                <span className="text-yellow-400">Connected</span>
+              <h2 className={`font-display text-5xl md:text-6xl font-bold ${
+                theme === 'light' ? 'text-slate-900' : ''
+              }`}>
+                <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('tech.connected')}</span>
                 <br />
-                <span className="text-white">Everywhere</span>
+                <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('tech.everywhere')}</span>
               </h2>
-              <p className="font-body text-lg text-slate-300 leading-relaxed">
-                Access your courses on any device, anytime, anywhere. Our platform seamlessly syncs across laptop, tablet, and mobile.
+              <p className={`font-body text-lg leading-relaxed ${
+                theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+              }`}>
+                {t('tech.description')}
               </p>
               <ul className="space-y-4">
-                {['Offline access to course materials', 'Sync progress across devices', 'Cloud-based learning platform'].map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-slate-300">
-                    <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                {[t('tech.offline'), t('tech.sync'), t('tech.cloud')].map((item, idx) => (
+                  <li key={idx} className={`flex items-center gap-3 ${
+                    theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+                  }`}>
+                    <div className={`w-2 h-2 rounded-full ${
+                      theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'
+                    }`} />
                     {item}
                   </li>
                 ))}
               </ul>
-              <Button className="btn-gradient text-base font-semibold">Get Started Now</Button>
+              <Button className={`text-base font-semibold ${
+                theme === 'light'
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  : 'btn-gradient'
+              }`}>{t('tech.getStarted')}</Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900">
+      <section id="features" className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-20" data-scroll-animate>
-            <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
-              <span className="text-cyan-400">Why Choose</span>
+            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
+              theme === 'light' ? 'text-slate-900' : ''
+            }`}>
+              <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('features.why')}</span>
               <br />
-              <span className="text-white">DigitalEdu?</span>
+              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('features.digitaledu')}</span>
             </h2>
-            <p className="font-body text-slate-400 text-lg max-w-2xl mx-auto">
-              Comprehensive learning solutions designed for every level
+            <p className={`font-body text-lg max-w-2xl mx-auto ${
+              theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+            }`}>
+              {t('features.subtitle')}
             </p>
           </div>
 
@@ -229,41 +349,51 @@ export default function Home() {
             {[
               {
                 icon: Globe,
-                title: 'Global Curriculum',
-                description: 'Access courses from educational systems worldwide.',
-                color: 'from-cyan-400 to-blue-500',
+                title: t('features.global'),
+                description: t('features.globalDesc'),
+                color: theme === 'light' ? 'from-blue-400 to-blue-500' : 'from-cyan-400 to-blue-500',
               },
               {
                 icon: BookOpen,
-                title: 'All Learning Levels',
-                description: 'From early education through professional development.',
-                color: 'from-yellow-400 to-orange-500',
+                title: t('features.levels'),
+                description: t('features.levelsDesc'),
+                color: theme === 'light' ? 'from-orange-400 to-orange-500' : 'from-yellow-400 to-orange-500',
               },
               {
                 icon: Zap,
-                title: 'Smart Learning',
-                description: 'AI-powered personalization adapts to your pace.',
-                color: 'from-purple-400 to-pink-500',
+                title: t('features.smart'),
+                description: t('features.smartDesc'),
+                color: theme === 'light' ? 'from-purple-400 to-pink-500' : 'from-purple-400 to-pink-500',
               },
               {
                 icon: Users,
-                title: 'Global Community',
-                description: 'Connect with learners from 150+ countries.',
-                color: 'from-cyan-400 to-teal-500',
+                title: t('features.community'),
+                description: t('features.communityDesc'),
+                color: theme === 'light' ? 'from-teal-400 to-teal-500' : 'from-cyan-400 to-teal-500',
               },
             ].map((feature, idx) => (
               <div
                 key={idx}
                 data-scroll-animate
-                className="glass-dark p-8 rounded-2xl hover:border-cyan-400/50 transition-all duration-500 hover:shadow-lg hover:shadow-cyan-500/20 group cursor-pointer"
+                className={`p-8 rounded-2xl transition-all duration-500 hover:shadow-lg group cursor-pointer ${
+                  theme === 'light'
+                    ? 'bg-slate-50 border border-slate-200 hover:border-blue-300 hover:shadow-blue-500/20'
+                    : 'glass-dark hover:border-cyan-400/50 hover:shadow-cyan-500/20'
+                }`}
               >
                 <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <feature.icon className="w-6 h-6 text-slate-900" />
+                  <feature.icon className={`w-6 h-6 ${
+                    theme === 'light' ? 'text-white' : 'text-slate-900'
+                  }`} />
                 </div>
-                <h3 className="font-heading text-xl font-bold mb-3 text-white">
+                <h3 className={`font-heading text-xl font-bold mb-3 ${
+                  theme === 'light' ? 'text-slate-900' : 'text-white'
+                }`}>
                   {feature.title}
                 </h3>
-                <p className="font-body text-slate-400">
+                <p className={`font-body ${
+                  theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+                }`}>
                   {feature.description}
                 </p>
               </div>
@@ -273,13 +403,17 @@ export default function Home() {
       </section>
 
       {/* Learning Journey Section */}
-      <section className="relative py-32 bg-slate-950 overflow-hidden">
+      <section className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-20" data-scroll-animate>
-            <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
-              <span className="text-yellow-400">Your Learning</span>
+            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
+              theme === 'light' ? 'text-slate-900' : ''
+            }`}>
+              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('journey.your')}</span>
               <br />
-              <span className="text-white">Journey Starts Here</span>
+              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('journey.starts')}</span>
             </h2>
           </div>
 
@@ -287,30 +421,42 @@ export default function Home() {
             <img 
               src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/learning-journey-Gmstv2eyV53SfXjyU7FTr9.webp" 
               alt="Learning Journey" 
-              className="rounded-2xl shadow-2xl shadow-cyan-500/30 w-full"
+              className={`rounded-2xl shadow-2xl w-full ${
+                theme === 'light'
+                  ? 'shadow-blue-500/20'
+                  : 'shadow-cyan-500/30'
+              }`}
             />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+            <div className={`absolute inset-0 rounded-2xl ${
+              theme === 'light'
+                ? 'bg-gradient-to-t from-slate-100 via-transparent to-transparent'
+                : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
+            }`} />
           </div>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section id="categories" className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900">
+      <section id="categories" className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-20" data-scroll-animate>
-            <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
-              <span className="text-yellow-400">Learning</span>
+            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
+              theme === 'light' ? 'text-slate-900' : ''
+            }`}>
+              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('categories.learning')}</span>
               <br />
-              <span className="text-white">Categories</span>
+              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('categories.categories')}</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: 'Kids Education', subtitle: 'Ages 3-8', gradient: 'from-pink-500 via-purple-500 to-indigo-500' },
-              { title: 'School', subtitle: 'Grade 1-12', gradient: 'from-cyan-500 via-blue-500 to-indigo-500' },
-              { title: 'University', subtitle: 'All Years', gradient: 'from-yellow-500 via-orange-500 to-red-500' },
-              { title: 'Professional', subtitle: 'Career Growth', gradient: 'from-teal-500 via-green-500 to-emerald-500' },
+              { title: t('categories.kids'), subtitle: t('categories.kidsAge'), gradient: 'from-pink-500 via-purple-500 to-indigo-500' },
+              { title: t('categories.school'), subtitle: t('categories.schoolGrade'), gradient: 'from-cyan-500 via-blue-500 to-indigo-500' },
+              { title: t('categories.university'), subtitle: t('categories.universityYears'), gradient: 'from-yellow-500 via-orange-500 to-red-500' },
+              { title: t('categories.professional'), subtitle: t('categories.professionalGrowth'), gradient: 'from-teal-500 via-green-500 to-emerald-500' },
             ].map((category, idx) => (
               <div
                 key={idx}
@@ -331,16 +477,22 @@ export default function Home() {
       </section>
 
       {/* Global Network Section */}
-      <section className="relative py-32 bg-slate-950 overflow-hidden">
+      <section className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-20" data-scroll-animate>
-            <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
-              <span className="text-cyan-400">Global</span>
+            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
+              theme === 'light' ? 'text-slate-900' : ''
+            }`}>
+              <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('network.global')}</span>
               <br />
-              <span className="text-white">Learning Network</span>
+              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('network.network')}</span>
             </h2>
-            <p className="font-body text-slate-400 text-lg max-w-2xl mx-auto">
-              Connected with educators and learners across 150+ countries
+            <p className={`font-body text-lg max-w-2xl mx-auto ${
+              theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+            }`}>
+              {t('network.subtitle')}
             </p>
           </div>
 
@@ -348,74 +500,110 @@ export default function Home() {
             <img 
               src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/global-network-Mxzjz2XnCzok6xecRo4N8T.webp" 
               alt="Global Network" 
-              className="rounded-2xl shadow-2xl shadow-cyan-500/30 w-full"
+              className={`rounded-2xl shadow-2xl w-full ${
+                theme === 'light'
+                  ? 'shadow-blue-500/20'
+                  : 'shadow-cyan-500/30'
+              }`}
             />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+            <div className={`absolute inset-0 rounded-2xl ${
+              theme === 'light'
+                ? 'bg-gradient-to-t from-slate-100 via-transparent to-transparent'
+                : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
+            }`} />
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900">
+      <section className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
+      }`}>
         <div className="container max-w-4xl mx-auto px-4 text-center" data-scroll-animate>
-          <h2 className="font-display text-5xl md:text-6xl font-bold mb-8">
-            <span className="text-cyan-400">About</span>
+          <h2 className={`font-display text-5xl md:text-6xl font-bold mb-8 ${
+            theme === 'light' ? 'text-slate-900' : ''
+          }`}>
+            <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('about.about')}</span>
             <br />
-            <span className="text-white">DigitalEdu</span>
+            <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('about.digitaledu')}</span>
           </h2>
-          <p className="font-body text-lg text-slate-300 leading-relaxed mb-8">
-            DigitalEdu is a revolutionary platform designed to democratize education globally. We believe that quality education should be accessible to everyone, regardless of their location, age, or background. Our mission is to connect learners and educators worldwide, breaking down barriers and creating opportunities for growth.
+          <p className={`font-body text-lg leading-relaxed mb-8 ${
+            theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+          }`}>
+            {t('about.mission')}
           </p>
-          <p className="font-body text-lg text-slate-300 leading-relaxed">
-            With courses spanning from early childhood education to professional development, we're building the future of learning—one student at a time.
+          <p className={`font-body text-lg leading-relaxed ${
+            theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+          }`}>
+            {t('about.vision')}
           </p>
         </div>
       </section>
 
       {/* Team Section */}
-      <section id="team" className="relative py-32 bg-slate-950">
+      <section id="team" className={`relative py-32 transition-colors duration-300 ${
+        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center mb-20" data-scroll-animate>
-            <h2 className="font-display text-5xl md:text-6xl font-bold mb-6">
-              <span className="text-yellow-400">Meet the</span>
+            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
+              theme === 'light' ? 'text-slate-900' : ''
+            }`}>
+              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('team.meet')}</span>
               <br />
-              <span className="text-white">Paradox Team</span>
+              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('team.paradox')}</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Latera Zelalem',
-                role: 'CEO & Founder',
-                bio: 'Visionary leader passionate about democratizing global education',
+                name: t('team.latera'),
+                role: t('team.lateraRole'),
+                bio: t('team.lateraBio'),
               },
               {
-                name: 'Natnael Ermiyas',
-                role: 'CTO',
-                bio: 'Tech innovator building scalable solutions for millions of learners',
+                name: t('team.natnael'),
+                role: t('team.natnaelRole'),
+                bio: t('team.natnaelBio'),
               },
               {
-                name: 'Tadios Aschalew',
-                role: 'Technical Manager',
-                bio: 'Operations expert ensuring seamless platform performance',
+                name: t('team.tadios'),
+                role: t('team.tadiosRole'),
+                bio: t('team.tadiosBio'),
               },
             ].map((member, idx) => (
               <div
                 key={idx}
                 data-scroll-animate
-                className="glass-dark p-8 rounded-2xl text-center hover:border-cyan-400/50 transition-all duration-500 hover:shadow-lg hover:shadow-cyan-500/20"
+                className={`p-8 rounded-2xl transition-all duration-500 hover:shadow-lg ${
+                  theme === 'light'
+                    ? 'bg-white border border-slate-200 hover:border-blue-300 hover:shadow-blue-500/20 text-center'
+                    : 'glass-dark text-center hover:border-cyan-400/50 hover:shadow-cyan-500/20'
+                }`}
               >
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-yellow-400 mx-auto mb-6 flex items-center justify-center">
-                  <span className="font-display text-2xl font-bold text-slate-900">
+                <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${
+                  theme === 'light'
+                    ? 'from-blue-400 to-orange-400'
+                    : 'from-cyan-400 to-yellow-400'
+                } mx-auto mb-6 flex items-center justify-center`}>
+                  <span className={`font-display text-2xl font-bold ${
+                    theme === 'light' ? 'text-white' : 'text-slate-900'
+                  }`}>
                     {member.name.charAt(0)}
                   </span>
                 </div>
-                <h3 className="font-heading text-xl font-bold mb-2 text-white">
+                <h3 className={`font-heading text-xl font-bold mb-2 ${
+                  theme === 'light' ? 'text-slate-900' : 'text-white'
+                }`}>
                   {member.name}
                 </h3>
-                <p className="font-body text-cyan-400 text-sm mb-4">{member.role}</p>
-                <p className="font-body text-slate-400 text-sm">{member.bio}</p>
+                <p className={`font-body text-sm mb-4 ${
+                  theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
+                }`}>{member.role}</p>
+                <p className={`font-body text-sm ${
+                  theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+                }`}>{member.bio}</p>
               </div>
             ))}
           </div>
@@ -423,80 +611,150 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-32 bg-gradient-to-b from-slate-950 to-slate-900 overflow-hidden">
+      <section className={`relative py-32 overflow-hidden transition-colors duration-300 ${
+        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
+      }`}>
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl" />
+          <div className={`absolute top-0 left-0 w-96 h-96 rounded-full blur-3xl ${
+            theme === 'light' ? 'bg-blue-500/10' : 'bg-cyan-500/10'
+          }`} />
+          <div className={`absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl ${
+            theme === 'light' ? 'bg-orange-500/10' : 'bg-yellow-500/10'
+          }`} />
         </div>
 
-        <div className="relative z-10 container max-w-4xl mx-auto px-4 text-center" data-scroll-animate>
-          <h2 className="font-display text-5xl md:text-6xl font-bold mb-8">
-            <span className="text-cyan-400">Ready to</span>
+        <div className={`relative z-10 container max-w-4xl mx-auto px-4 text-center`} data-scroll-animate>
+          <h2 className={`font-display text-5xl md:text-6xl font-bold mb-8 ${
+            theme === 'light' ? 'text-slate-900' : ''
+          }`}>
+            <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('cta.ready')}</span>
             <br />
-            <span className="text-white">Transform Your Learning?</span>
+            <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('cta.transform')}</span>
           </h2>
-          <p className="font-body text-lg text-slate-300 mb-12 max-w-2xl mx-auto">
-            Join millions of learners worldwide and start your educational journey today.
+          <p className={`font-body text-lg mb-12 max-w-2xl mx-auto ${
+            theme === 'light' ? 'text-slate-700' : 'text-slate-300'
+          }`}>
+            {t('cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="btn-gradient text-base font-semibold">
-              Start Learning Now
+            <Button className={`text-base font-semibold ${
+              theme === 'light'
+                ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'btn-gradient'
+            }`}>
+              {t('cta.start')}
             </Button>
-            <Button className="btn-gradient-outline text-base font-semibold">
-              Schedule a Demo
+            <Button className={`text-base font-semibold ${
+              theme === 'light'
+                ? 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50'
+                : 'btn-gradient-outline'
+            }`}>
+              {t('cta.schedule')}
             </Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="relative py-16 bg-gradient-to-b from-slate-900 to-slate-950 border-t border-cyan-400/10">
+      <footer className={`relative py-16 transition-colors duration-300 ${
+        theme === 'light'
+          ? 'bg-slate-100 border-t border-slate-200'
+          : 'bg-gradient-to-b from-slate-900 to-slate-950 border-t border-cyan-400/10'
+      }`}>
         <div className="container max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div>
               <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-12 h-12 object-contain mb-4" />
-              <p className="font-body text-slate-400 text-sm">
-                Connecting the world of education, one learner at a time.
+              <p className={`font-body text-sm ${
+                theme === 'light' ? 'text-slate-600' : 'text-slate-400'
+              }`}>
+                {t('footer.tagline')}
               </p>
             </div>
 
             <div>
-              <h4 className="font-heading font-bold text-white mb-4">Quick Links</h4>
+              <h4 className={`font-heading font-bold mb-4 ${
+                theme === 'light' ? 'text-slate-900' : 'text-white'
+              }`}>{t('footer.quickLinks')}</h4>
               <ul className="space-y-2">
-                <li><a href="#features" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm">Features</a></li>
-                <li><a href="#categories" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm">Categories</a></li>
-                <li><a href="#team" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm">Team</a></li>
+                <li><a href="#features" className={`text-sm transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>{t('nav.features')}</a></li>
+                <li><a href="#categories" className={`text-sm transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>{t('nav.categories')}</a></li>
+                <li><a href="#team" className={`text-sm transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>{t('nav.team')}</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-heading font-bold text-white mb-4">Resources</h4>
+              <h4 className={`font-heading font-bold mb-4 ${
+                theme === 'light' ? 'text-slate-900' : 'text-white'
+              }`}>{t('footer.resources')}</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm">Blog</a></li>
-                <li><a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm">Documentation</a></li>
-                <li><a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm">Support</a></li>
+                <li><a href="#" className={`text-sm transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>{t('footer.blog')}</a></li>
+                <li><a href="#" className={`text-sm transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>{t('footer.documentation')}</a></li>
+                <li><a href="#" className={`text-sm transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>{t('footer.support')}</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-heading font-bold text-white mb-4">Follow Us</h4>
+              <h4 className={`font-heading font-bold mb-4 ${
+                theme === 'light' ? 'text-slate-900' : 'text-white'
+              }`}>{t('footer.followUs')}</h4>
               <div className="flex gap-4">
-                <a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                <a href="#" className={`transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>
                   <Github className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                <a href="#" className={`transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                <a href="#" className={`transition-colors ${
+                  theme === 'light'
+                    ? 'text-slate-600 hover:text-blue-600'
+                    : 'text-slate-400 hover:text-cyan-400'
+                }`}>
                   <Mail className="w-5 h-5" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-cyan-400/10 pt-8 text-center">
-            <p className="font-body text-slate-500 text-sm">
-              © 2026 DigitalEdu. All rights reserved. | Built by Paradox Team
+          <div className={`border-t transition-colors ${
+            theme === 'light' ? 'border-slate-200' : 'border-cyan-400/10'
+          } pt-8 text-center`}>
+            <p className={`font-body text-sm ${
+              theme === 'light' ? 'text-slate-600' : 'text-slate-500'
+            }`}>
+              {t('footer.copyright')}
             </p>
           </div>
         </div>
