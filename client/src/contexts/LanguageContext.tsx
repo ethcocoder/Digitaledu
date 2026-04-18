@@ -140,7 +140,7 @@ const translations = {
     'student.learn': 'ተማር',
     'student.yourWay': 'በራስህ መንገድ',
     'student.description': 'ምንም ይሁን እንደ ተማሪ ወደ አዲስ ርዕሰ ጉዳዮች ወይም ሙያዊ ሆነህ ስራህን እንደ ማሻሻል፣ DigitalEdu ከአንተ ትምህርት ዘይቤ እና ፍጥነት ጋር ይስተካከላል።',
-    'student.interactive': 'ሪアルタイም ግብረመልስ ያለ ተግባራዊ ትምህርቶች',
+    'student.interactive': 'ሪアルታይም ግብረመልስ ያለ ተግባራዊ ትምህርቶች',
     'student.personalized': 'ለግል የተወሰነ ትምህርት መንገዶች',
     'student.experts': 'ዓለም አቀፍ ባለሙያ መምህራን',
     'student.explore': 'ትምህርት ተመልከት',
@@ -229,37 +229,55 @@ const translations = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('language');
-    return (saved as Language) || 'en';
+  const [language, setLanguageState] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('language') as Language) || 'en';
+    }
+    return 'en';
   });
 
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('theme');
-    return (saved as Theme) || 'dark';
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as Theme) || 'dark';
+    }
+    return 'dark';
   });
 
-  useEffect(() => {
-    localStorage.setItem('language', language);
-  }, [language]);
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', lang);
+    }
+  };
+
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', newTheme);
+      const html = document.documentElement;
+      if (newTheme === 'light') {
+        html.classList.add('light-mode');
+        html.classList.remove('dark');
+      } else {
+        html.classList.remove('light-mode');
+        html.classList.add('dark');
+      }
+    }
+  };
 
   useEffect(() => {
-    localStorage.setItem('theme', theme);
-    const root = document.documentElement;
+    const html = document.documentElement;
     if (theme === 'light') {
-      root.classList.add('light-mode');
+      html.classList.add('light-mode');
+      html.classList.remove('dark');
     } else {
-      root.classList.remove('light-mode');
+      html.classList.remove('light-mode');
+      html.classList.add('dark');
     }
   }, [theme]);
 
   const t = (key: string): string => {
-    const keys = key.split('.');
-    let value: any = translations[language];
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
+    return translations[language][key as keyof typeof translations['en']] || key;
   };
 
   return (
@@ -269,10 +287,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useLanguage() {
+export function useLanguage(): LanguageContextType {
   const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within LanguageProvider');
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
 }
