@@ -137,6 +137,46 @@
 }
 
 @layer components {
+  /* Morphing & Transition Animations */
+  @keyframes morph {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 217, 255, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(0, 217, 255, 0.6); }
+  }
+
+  .animate-morph {
+    animation: morph 8s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+
+  .glass-dark {
+    @apply bg-slate-900/40 backdrop-blur-xl border border-cyan-400/20 transition-all duration-300;
+  }
+
+  .btn-gradient {
+    @apply bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-300 shadow-lg shadow-cyan-500/50 hover:shadow-cyan-500/75;
+  }
+
+  .btn-gradient-outline {
+    @apply border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400/10 font-semibold px-6 py-2 rounded-lg transition-all duration-300;
+  }
+
   /**
    * Custom container utility that centers content and adds responsive padding.
    *
@@ -256,7 +296,7 @@
   }
 
   /* Scroll Fade In */
-  @keyframes fade-in-up {
+  @keyframes fadeInUp {
     from {
       opacity: 0;
       transform: translateY(30px);
@@ -268,6 +308,15 @@
   }
 
   .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  /* Scroll-triggered animations */
+  [data-animate] {
+    opacity: 0;
+  }
+
+  [data-animate].animated {
+    animation: fadeInUp 0.8s ease-out forwards;
   }
 }
