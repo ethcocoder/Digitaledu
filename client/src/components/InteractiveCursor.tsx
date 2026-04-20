@@ -13,7 +13,6 @@ export default function InteractiveCursor() {
       mouseX.current = e.clientX;
       mouseY.current = e.clientY;
 
-      // Update dot cursor immediately
       if (cursorDotRef.current) {
         cursorDotRef.current.style.left = `${e.clientX}px`;
         cursorDotRef.current.style.top = `${e.clientY}px`;
@@ -40,11 +39,14 @@ export default function InteractiveCursor() {
 
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
+      const isInteractive =
         target.tagName === 'BUTTON' ||
         target.tagName === 'A' ||
-        target.classList.contains('interactive')
-      ) {
+        target.classList.contains('interactive') ||
+        target.closest('button') ||
+        target.closest('a');
+
+      if (isInteractive) {
         if (cursorRef.current) {
           cursorRef.current.classList.add('cursor-active');
         }
@@ -56,11 +58,14 @@ export default function InteractiveCursor() {
 
     const onMouseOut = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
+      const isInteractive =
         target.tagName === 'BUTTON' ||
         target.tagName === 'A' ||
-        target.classList.contains('interactive')
-      ) {
+        target.classList.contains('interactive') ||
+        target.closest('button') ||
+        target.closest('a');
+
+      if (isInteractive) {
         if (cursorRef.current) {
           cursorRef.current.classList.remove('cursor-active');
         }
@@ -70,7 +75,6 @@ export default function InteractiveCursor() {
       }
     };
 
-    // Smooth cursor following animation
     const animateCursor = () => {
       cursorX.current += (mouseX.current - cursorX.current) * 0.15;
       cursorY.current += (mouseY.current - cursorY.current) * 0.15;
@@ -91,7 +95,6 @@ export default function InteractiveCursor() {
 
     const animationId = requestAnimationFrame(animateCursor);
 
-    // Hide default cursor
     document.body.style.cursor = 'none';
 
     return () => {
@@ -107,25 +110,25 @@ export default function InteractiveCursor() {
 
   return (
     <>
-      {/* Outer cursor ring with glow */}
       <div
         ref={cursorRef}
-        className="fixed w-8 h-8 border-2 border-cyan-400 rounded-full pointer-events-none z-50 transition-all duration-200"
+        className="fixed w-8 h-8 border-2 border-cyan-400 rounded-full z-40 transition-all duration-200"
         style={{
           transform: 'translate(-50%, -50%)',
           boxShadow: '0 0 20px rgba(0, 217, 255, 0.5), inset 0 0 20px rgba(0, 217, 255, 0.2)',
           opacity: 0,
+          pointerEvents: 'none',
         }}
       />
 
-      {/* Inner cursor dot */}
       <div
         ref={cursorDotRef}
-        className="fixed w-2 h-2 bg-cyan-400 rounded-full pointer-events-none z-50"
+        className="fixed w-2 h-2 bg-cyan-400 rounded-full z-40"
         style={{
           transform: 'translate(-50%, -50%)',
           boxShadow: '0 0 10px rgba(0, 217, 255, 0.8)',
           opacity: 0,
+          pointerEvents: 'none',
         }}
       />
 
@@ -144,8 +147,8 @@ export default function InteractiveCursor() {
           box-shadow: 0 0 15px rgba(255, 215, 0, 1) !important;
         }
 
-        /* Smooth transitions */
-        button, a {
+        button, a, input, textarea, select {
+          pointer-events: auto !important;
           transition: all 0.3s ease;
         }
       `}</style>
