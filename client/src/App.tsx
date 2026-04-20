@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import InteractiveCursor from "./components/InteractiveCursor";
 import Home from "./pages/Home";
 
 
@@ -27,17 +28,18 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <LanguageProvider>
-        <ThemeProvider
-          defaultTheme="dark"
-          // switchable
-        >
+      <ThemeProvider
+        defaultTheme="dark"
+        // switchable
+      >
+        <LanguageProvider>
           <TooltipProvider>
+            <InteractiveCursor />
             <Toaster />
             <Router />
           </TooltipProvider>
-        </ThemeProvider>
-      </LanguageProvider>
+        </LanguageProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
