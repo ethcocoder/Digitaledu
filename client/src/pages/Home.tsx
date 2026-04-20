@@ -1,348 +1,192 @@
-import { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { Globe, Zap, Users, BookOpen, Github, Linkedin, Mail, ChevronDown, ArrowRight, Play } from 'lucide-react';
-import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
+import { useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/**
- * DigitalEdu Premium Landing Page - Production Level
- * 
- * Features:
- * - Professional 3D visuals (teacher, student, technology)
- * - Creative morphing transitions between sections
- * - Smooth scroll animations
- * - Multi-language support (English & Amharic)
- * - Light & Dark mode
- * - Interactive elements
- * - Premium aesthetic
- */
-
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0);
-  const { t, theme } = useLanguage();
+  const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
+    // Hero section animations
+    if (heroRef.current) {
+      gsap.fromTo(
+        heroRef.current.querySelector('.hero-title'),
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+      );
 
-    // Animate elements on scroll
-    const animateOnScroll = () => {
-      const elements = document.querySelectorAll('[data-scroll-animate]');
-      elements.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-        
-        if (isVisible && !el.classList.contains('animated')) {
-          gsap.fromTo(
-            el,
-            { opacity: 0, y: 50 },
-            { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
-          );
-          el.classList.add('animated');
-        }
+      gsap.fromTo(
+        heroRef.current.querySelector('.hero-subtitle'),
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.3, ease: 'power3.out' }
+      );
+
+      gsap.fromTo(
+        heroRef.current.querySelector('.hero-buttons'),
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.6, ease: 'power3.out' }
+      );
+
+      // Floating animation for hero image
+      gsap.to(heroRef.current.querySelector('.hero-image'), {
+        y: -20,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
       });
-    };
+    }
 
-    window.addEventListener('scroll', animateOnScroll);
-    animateOnScroll();
+    // Scroll animations for sections
+    const sections = document.querySelectorAll('.scroll-section');
+    sections.forEach((section) => {
+      gsap.fromTo(
+        section.querySelectorAll('.fade-in-up'),
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            end: 'top 20%',
+            scrub: 1,
+          },
+        }
+      );
+    });
+
+    // Parallax effect on scroll
+    document.querySelectorAll('.parallax-bg').forEach((element) => {
+      gsap.to(element, {
+        y: 100,
+        scrollTrigger: {
+          trigger: element,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      });
+    });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('scroll', animateOnScroll);
+      ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill());
     };
   }, []);
 
   return (
-    <div className={`w-full overflow-hidden transition-colors duration-300 ${
-      theme === 'light' 
-        ? 'bg-slate-50 text-slate-900' 
-        : 'bg-slate-950 text-slate-100'
-    }`}>
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 backdrop-blur-xl transition-colors duration-300 ${
-        theme === 'light'
-          ? 'bg-white/30 border-b border-blue-200/20'
-          : 'bg-slate-900/30 border-b border-cyan-400/10'
-      }`}>
-        <div className="container flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-10 h-10 object-contain" />
-            <span className={`font-display text-lg font-bold ${
-              theme === 'light' ? 'text-blue-600' : ''
-            }`}>
-              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>Digital</span>
-              <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>Edu</span>
-            </span>
-          </div>
-          <div className="hidden md:flex gap-8">
-            <a href="#features" className={`text-sm transition-colors duration-300 ${
-              theme === 'light'
-                ? 'hover:text-blue-600'
-                : 'hover:text-cyan-400'
-            }`}>{t('nav.features')}</a>
-            <a href="#categories" className={`text-sm transition-colors duration-300 ${
-              theme === 'light'
-                ? 'hover:text-blue-600'
-                : 'hover:text-cyan-400'
-            }`}>{t('nav.categories')}</a>
-            <a href="#team" className={`text-sm transition-colors duration-300 ${
-              theme === 'light'
-                ? 'hover:text-blue-600'
-                : 'hover:text-cyan-400'
-            }`}>{t('nav.team')}</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <LanguageThemeSwitcher />
-            <Button className={`text-xs md:text-sm ${
-              theme === 'light'
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'btn-gradient'
-            }`}>{t('nav.getStarted')}</Button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section with 3D Teacher Visual */}
-      <section ref={heroRef} className={`relative min-h-screen flex items-center justify-center pt-20 overflow-hidden transition-colors duration-300 ${
-        theme === 'light' ? 'bg-gradient-to-b from-blue-50 to-slate-100' : 'bg-slate-950'
-      }`}>
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-teacher-7ih8TQoEaxdkPU6eUPz2LC.webp" 
-            alt="Teacher" 
-            className="w-full h-full object-cover"
-            style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+    <div className="min-h-screen bg-background text-foreground overflow-hidden">
+      {/* Hero Section */}
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      >
+        {/* Animated background */}
+        <div className="absolute inset-0 parallax-bg">
+          <div
+            className="absolute inset-0 opacity-40"
+            style={{
+              backgroundImage: `url('https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-abstract-tech-JmL8HhTUPZ999pg9KpQKNE.webp')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
         </div>
-        
-        <div className={`absolute inset-0 ${
-          theme === 'light'
-            ? 'bg-gradient-to-r from-white via-white/70 to-transparent'
-            : 'bg-gradient-to-r from-slate-950 via-slate-950/70 to-transparent'
-        } z-10`} />
 
-        <div className="relative z-20 container max-w-6xl mx-auto px-4">
-          <div className="max-w-2xl">
-            <div className="space-y-8 animate-fade-in-up">
+        {/* Animated particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-60"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
+                animationDelay: `${Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-12">
+          {/* Left content */}
+          <div className="flex-1 max-w-2xl">
+            <h1 className="hero-title text-5xl lg:text-7xl font-bold leading-tight mb-6">
+              <span className="text-cyan-400">{t('hero.connect')}</span>
+              <br />
+              <span className="text-white">{t('hero.theWorld')}</span>
+              <br />
+              <span className="text-yellow-400">{t('hero.education')}</span>
+            </h1>
+
+            <p className="hero-subtitle text-lg text-gray-300 mb-8 leading-relaxed max-w-xl">
+              {t('hero.description')}
+            </p>
+
+            <div className="hero-buttons flex flex-wrap gap-4">
+              <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105">
+                {t('hero.getStarted')}
+              </button>
+              <button className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10 transition-all duration-300">
+                {t('hero.watchDemo')}
+              </button>
+            </div>
+
+            {/* Stats */}
+            <div className="mt-12 grid grid-cols-3 gap-8">
               <div>
-                <h1 className={`font-display text-6xl md:text-7xl font-bold mb-6 leading-tight ${
-                  theme === 'light' ? 'text-slate-900' : ''
-                }`}>
-                  <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('hero.connect')}</span>
-                  <br />
-                  <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('hero.theWorld')}</span>
-                  <br />
-                  <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('hero.education')}</span>
-                </h1>
+                <p className="text-3xl font-bold text-yellow-400">150+</p>
+                <p className="text-gray-400">{t('hero.countries')}</p>
               </div>
-
-              <p className={`font-body text-lg md:text-xl max-w-lg leading-relaxed ${
-                theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-              }`}>
-                {t('hero.description')}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className={`text-base font-semibold group ${
-                  theme === 'light'
-                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                    : 'btn-gradient'
-                }`}>
-                  {t('hero.getStarted')}
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
-                <Button className={`text-base font-semibold flex items-center gap-2 ${
-                  theme === 'light'
-                    ? 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50'
-                    : 'btn-gradient-outline'
-                }`}>
-                  <Play className="w-4 h-4" />
-                  {t('hero.watchDemo')}
-                </Button>
+              <div>
+                <p className="text-3xl font-bold text-cyan-400">10K+</p>
+                <p className="text-gray-400">{t('hero.courses')}</p>
               </div>
-
-              {/* Stats */}
-              <div className={`grid grid-cols-3 gap-6 pt-8 transition-colors duration-300 ${
-                theme === 'light'
-                  ? 'border-t border-blue-200'
-                  : 'border-t border-cyan-400/20'
-              }`}>
-                <div>
-                  <p className={`text-2xl font-bold ${
-                    theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
-                  }`}>150+</p>
-                  <p className={`text-sm ${
-                    theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-                  }`}>{t('hero.countries')}</p>
-                </div>
-                <div>
-                  <p className={`text-2xl font-bold ${
-                    theme === 'light' ? 'text-orange-500' : 'text-yellow-400'
-                  }`}>10K+</p>
-                  <p className={`text-sm ${
-                    theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-                  }`}>{t('hero.courses')}</p>
-                </div>
-                <div>
-                  <p className={`text-2xl font-bold ${
-                    theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
-                  }`}>1M+</p>
-                  <p className={`text-sm ${
-                    theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-                  }`}>{t('hero.learners')}</p>
-                </div>
+              <div>
+                <p className="text-3xl font-bold text-yellow-400">1M+</p>
+                <p className="text-gray-400">{t('hero.learners')}</p>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center animate-bounce z-20">
-          <ChevronDown className={`w-8 h-8 ${
-            theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
-          }`} />
-        </div>
-      </section>
-
-      {/* Student Learning Section */}
-      <section className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light'
-          ? 'bg-white'
-          : 'bg-gradient-to-b from-slate-950 to-slate-900'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div data-scroll-animate className="space-y-8">
-              <h2 className={`font-display text-5xl md:text-6xl font-bold ${
-                theme === 'light' ? 'text-slate-900' : ''
-              }`}>
-                <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('student.learn')}</span>
-                <br />
-                <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('student.yourWay')}</span>
-              </h2>
-              <p className={`font-body text-lg leading-relaxed ${
-                theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-              }`}>
-                {t('student.description')}
-              </p>
-              <ul className="space-y-4">
-                {[t('student.interactive'), t('student.personalized'), t('student.experts')].map((item, idx) => (
-                  <li key={idx} className={`flex items-center gap-3 ${
-                    theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-                  }`}>
-                    <div className={`w-2 h-2 rounded-full ${
-                      theme === 'light' ? 'bg-blue-600' : 'bg-cyan-400'
-                    }`} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Button className={`text-base font-semibold ${
-                theme === 'light'
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'btn-gradient'
-              }`}>{t('student.explore')}</Button>
-            </div>
-            <div data-scroll-animate className="relative">
-              <img 
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-student-BdWgEwEakpiqU8L3NQxzKV.webp" 
-                alt="Student Learning" 
-                className={`rounded-2xl shadow-2xl ${
-                  theme === 'light'
-                    ? 'shadow-blue-500/20'
-                    : 'shadow-cyan-500/20'
-                }`}
-              />
-              <div className={`absolute inset-0 rounded-2xl ${
-                theme === 'light'
-                  ? 'bg-gradient-to-t from-white via-transparent to-transparent'
-                  : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
-              }`} />
-            </div>
+          {/* Right visual */}
+          <div className="flex-1 hero-image">
+            <div
+              className="w-full h-96 lg:h-full rounded-2xl overflow-hidden border-2 border-cyan-400/30 shadow-2xl shadow-cyan-400/20"
+              style={{
+                backgroundImage: `url('https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/morphing-shapes-J7tWxHzgZiJUXSfLAMrFRu.webp')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
           </div>
         </div>
-      </section>
 
-      {/* Technology Integration Section */}
-      <section className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div data-scroll-animate className="relative order-2 md:order-1">
-              <img 
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/hero-3d-technology-2d4YXVPmMSXLWuwxWDZR7z.webp" 
-                alt="Technology" 
-                className={`rounded-2xl shadow-2xl ${
-                  theme === 'light'
-                    ? 'shadow-orange-500/20'
-                    : 'shadow-yellow-500/20'
-                }`}
-              />
-              <div className={`absolute inset-0 rounded-2xl ${
-                theme === 'light'
-                  ? 'bg-gradient-to-t from-slate-100 via-transparent to-transparent'
-                  : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
-              }`} />
-            </div>
-            <div data-scroll-animate className="space-y-8 order-1 md:order-2">
-              <h2 className={`font-display text-5xl md:text-6xl font-bold ${
-                theme === 'light' ? 'text-slate-900' : ''
-              }`}>
-                <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('tech.connected')}</span>
-                <br />
-                <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('tech.everywhere')}</span>
-              </h2>
-              <p className={`font-body text-lg leading-relaxed ${
-                theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-              }`}>
-                {t('tech.description')}
-              </p>
-              <ul className="space-y-4">
-                {[t('tech.offline'), t('tech.sync'), t('tech.cloud')].map((item, idx) => (
-                  <li key={idx} className={`flex items-center gap-3 ${
-                    theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-                  }`}>
-                    <div className={`w-2 h-2 rounded-full ${
-                      theme === 'light' ? 'bg-orange-500' : 'bg-yellow-400'
-                    }`} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Button className={`text-base font-semibold ${
-                theme === 'light'
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'btn-gradient'
-              }`}>{t('tech.getStarted')}</Button>
-            </div>
-          </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown className="w-8 h-8 text-cyan-400" />
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-scroll-animate>
-            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
-              theme === 'light' ? 'text-slate-900' : ''
-            }`}>
-              <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('features.why')}</span>
-              <br />
-              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('features.digitaledu')}</span>
+      <section ref={featuresRef} className="scroll-section py-20 bg-gradient-to-b from-background to-slate-900/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 fade-in-up">
+            <h2 className="text-5xl font-bold mb-4">
+              {t('features.why')} <span className="text-cyan-400">DigitalEdu?</span>
             </h2>
-            <p className={`font-body text-lg max-w-2xl mx-auto ${
-              theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-            }`}>
-              {t('features.subtitle')}
-            </p>
+            <p className="text-xl text-gray-400">{t('features.subtitle')}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -350,126 +194,86 @@ export default function Home() {
               {
                 icon: Globe,
                 title: t('features.global'),
-                description: t('features.globalDesc'),
-                color: theme === 'light' ? 'from-blue-400 to-blue-500' : 'from-cyan-400 to-blue-500',
+                desc: t('features.globalDesc'),
               },
               {
                 icon: BookOpen,
                 title: t('features.levels'),
-                description: t('features.levelsDesc'),
-                color: theme === 'light' ? 'from-orange-400 to-orange-500' : 'from-yellow-400 to-orange-500',
+                desc: t('features.levelsDesc'),
               },
               {
                 icon: Zap,
                 title: t('features.smart'),
-                description: t('features.smartDesc'),
-                color: theme === 'light' ? 'from-purple-400 to-pink-500' : 'from-purple-400 to-pink-500',
+                desc: t('features.smartDesc'),
               },
               {
                 icon: Users,
                 title: t('features.community'),
-                description: t('features.communityDesc'),
-                color: theme === 'light' ? 'from-teal-400 to-teal-500' : 'from-cyan-400 to-teal-500',
+                desc: t('features.communityDesc'),
               },
-            ].map((feature, idx) => (
+            ].map((feature, i) => (
               <div
-                key={idx}
-                data-scroll-animate
-                className={`p-8 rounded-2xl transition-all duration-500 hover:shadow-lg group cursor-pointer ${
-                  theme === 'light'
-                    ? 'bg-slate-50 border border-slate-200 hover:border-blue-300 hover:shadow-blue-500/20'
-                    : 'glass-dark hover:border-cyan-400/50 hover:shadow-cyan-500/20'
-                }`}
+                key={i}
+                className="fade-in-up p-6 rounded-xl border border-cyan-400/20 bg-slate-900/50 backdrop-blur hover:border-cyan-400/50 hover:bg-slate-900/80 transition-all duration-300 group"
               >
-                <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <feature.icon className={`w-6 h-6 ${
-                    theme === 'light' ? 'text-white' : 'text-slate-900'
-                  }`} />
-                </div>
-                <h3 className={`font-heading text-xl font-bold mb-3 ${
-                  theme === 'light' ? 'text-slate-900' : 'text-white'
-                }`}>
-                  {feature.title}
-                </h3>
-                <p className={`font-body ${
-                  theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-                }`}>
-                  {feature.description}
-                </p>
+                <feature.icon className="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                <p className="text-gray-400">{feature.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Learning Journey Section */}
-      <section className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-scroll-animate>
-            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
-              theme === 'light' ? 'text-slate-900' : ''
-            }`}>
-              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('journey.your')}</span>
-              <br />
-              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('journey.starts')}</span>
-            </h2>
-          </div>
+      {/* Digital Landscape Section */}
+      <section className="scroll-section py-20 relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `url('https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/digital-landscape-bZppy9hYNWy9qgune3F8hw.webp')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background" />
 
-          <div data-scroll-animate className="relative">
-            <img 
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/learning-journey-Gmstv2eyV53SfXjyU7FTr9.webp" 
-              alt="Learning Journey" 
-              className={`rounded-2xl shadow-2xl w-full ${
-                theme === 'light'
-                  ? 'shadow-blue-500/20'
-                  : 'shadow-cyan-500/30'
-              }`}
-            />
-            <div className={`absolute inset-0 rounded-2xl ${
-              theme === 'light'
-                ? 'bg-gradient-to-t from-slate-100 via-transparent to-transparent'
-                : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
-            }`} />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl">
+            <h2 className="fade-in-up text-5xl font-bold mb-6">
+              {t('journey.your')} <span className="text-cyan-400">{t('journey.starts')}</span>
+            </h2>
+            <p className="fade-in-up text-xl text-gray-300 mb-8">
+              {t('about.mission')}
+            </p>
+            <button className="fade-in-up px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105">
+              {t('cta.start')}
+            </button>
           </div>
         </div>
       </section>
 
       {/* Categories Section */}
-      <section id="categories" className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-scroll-animate>
-            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
-              theme === 'light' ? 'text-slate-900' : ''
-            }`}>
-              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('categories.learning')}</span>
-              <br />
-              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('categories.categories')}</span>
+      <section ref={categoriesRef} className="scroll-section py-20 bg-slate-900/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 fade-in-up">
+            <h2 className="text-5xl font-bold mb-4">
+              {t('categories.learning')} <span className="text-cyan-400">{t('categories.categories')}</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: t('categories.kids'), subtitle: t('categories.kidsAge'), gradient: 'from-pink-500 via-purple-500 to-indigo-500' },
-              { title: t('categories.school'), subtitle: t('categories.schoolGrade'), gradient: 'from-cyan-500 via-blue-500 to-indigo-500' },
-              { title: t('categories.university'), subtitle: t('categories.universityYears'), gradient: 'from-yellow-500 via-orange-500 to-red-500' },
-              { title: t('categories.professional'), subtitle: t('categories.professionalGrowth'), gradient: 'from-teal-500 via-green-500 to-emerald-500' },
-            ].map((category, idx) => (
+              { title: t('categories.kids'), subtitle: t('categories.kidsAge'), color: 'from-pink-500' },
+              { title: t('categories.school'), subtitle: t('categories.schoolGrade'), color: 'from-blue-500' },
+              { title: t('categories.university'), subtitle: t('categories.universityYears'), color: 'from-purple-500' },
+              { title: t('categories.professional'), subtitle: t('categories.professionalGrowth'), color: 'from-green-500' },
+            ].map((cat, i) => (
               <div
-                key={idx}
-                data-scroll-animate
-                className="group relative overflow-hidden rounded-2xl h-64 cursor-pointer"
+                key={i}
+                className={`fade-in-up p-8 rounded-xl bg-gradient-to-br ${cat.color} to-transparent opacity-80 hover:opacity-100 transition-all duration-300 cursor-pointer transform hover:scale-105 border border-white/10`}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-80 group-hover:opacity-100 transition-opacity duration-500`} />
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <BookOpen className="w-12 h-12 text-white mb-4 group-hover:scale-110 transition-transform duration-300" />
-                  <h3 className="font-heading text-2xl font-bold text-white">{category.title}</h3>
-                  <p className="font-body text-sm text-slate-200 mt-2">{category.subtitle}</p>
-                </div>
-                <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/20 transition-colors duration-300" />
+                <h3 className="text-2xl font-bold text-white mb-2">{cat.title}</h3>
+                <p className="text-white/80">{cat.subtitle}</p>
               </div>
             ))}
           </div>
@@ -477,81 +281,50 @@ export default function Home() {
       </section>
 
       {/* Global Network Section */}
-      <section className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-scroll-animate>
-            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
-              theme === 'light' ? 'text-slate-900' : ''
-            }`}>
-              <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('network.global')}</span>
-              <br />
-              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('network.network')}</span>
-            </h2>
-            <p className={`font-body text-lg max-w-2xl mx-auto ${
-              theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-            }`}>
-              {t('network.subtitle')}
-            </p>
-          </div>
+      <section className="scroll-section py-20 relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `url('https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/tech-network-fci7FXp8fC67QushWDyyhG.webp')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/70 to-background" />
 
-          <div data-scroll-animate className="relative">
-            <img 
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/global-network-Mxzjz2XnCzok6xecRo4N8T.webp" 
-              alt="Global Network" 
-              className={`rounded-2xl shadow-2xl w-full ${
-                theme === 'light'
-                  ? 'shadow-blue-500/20'
-                  : 'shadow-cyan-500/30'
-              }`}
-            />
-            <div className={`absolute inset-0 rounded-2xl ${
-              theme === 'light'
-                ? 'bg-gradient-to-t from-slate-100 via-transparent to-transparent'
-                : 'bg-gradient-to-t from-slate-950 via-transparent to-transparent'
-            }`} />
-          </div>
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <h2 className="fade-in-up text-5xl font-bold mb-6">
+            {t('network.global')} <span className="text-cyan-400">{t('network.network')}</span>
+          </h2>
+          <p className="fade-in-up text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+            {t('network.subtitle')}
+          </p>
         </div>
       </section>
 
       {/* About Section */}
-      <section className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
-      }`}>
-        <div className="container max-w-4xl mx-auto px-4 text-center" data-scroll-animate>
-          <h2 className={`font-display text-5xl md:text-6xl font-bold mb-8 ${
-            theme === 'light' ? 'text-slate-900' : ''
-          }`}>
-            <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('about.about')}</span>
-            <br />
-            <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('about.digitaledu')}</span>
-          </h2>
-          <p className={`font-body text-lg leading-relaxed mb-8 ${
-            theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-          }`}>
-            {t('about.mission')}
-          </p>
-          <p className={`font-body text-lg leading-relaxed ${
-            theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-          }`}>
-            {t('about.vision')}
-          </p>
+      <section className="scroll-section py-20 bg-slate-900/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl">
+            <h2 className="fade-in-up text-5xl font-bold mb-6">
+              {t('about.about')} <span className="text-cyan-400">DigitalEdu</span>
+            </h2>
+            <p className="fade-in-up text-lg text-gray-300 mb-6 leading-relaxed">
+              {t('about.mission')}
+            </p>
+            <p className="fade-in-up text-lg text-gray-300 leading-relaxed">
+              {t('about.vision')}
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section id="team" className={`relative py-32 transition-colors duration-300 ${
-        theme === 'light' ? 'bg-slate-100' : 'bg-slate-950'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="text-center mb-20" data-scroll-animate>
-            <h2 className={`font-display text-5xl md:text-6xl font-bold mb-6 ${
-              theme === 'light' ? 'text-slate-900' : ''
-            }`}>
-              <span className={theme === 'light' ? 'text-orange-500' : 'text-yellow-400'}>{t('team.meet')}</span>
-              <br />
-              <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('team.paradox')}</span>
+      <section className="scroll-section py-20 bg-gradient-to-b from-slate-900/30 to-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16 fade-in-up">
+            <h2 className="text-5xl font-bold mb-4">
+              {t('team.meet')} <span className="text-cyan-400">{t('team.paradox')}</span>
             </h2>
           </div>
 
@@ -572,38 +345,15 @@ export default function Home() {
                 role: t('team.tadiosRole'),
                 bio: t('team.tadiosBio'),
               },
-            ].map((member, idx) => (
+            ].map((member, i) => (
               <div
-                key={idx}
-                data-scroll-animate
-                className={`p-8 rounded-2xl transition-all duration-500 hover:shadow-lg ${
-                  theme === 'light'
-                    ? 'bg-white border border-slate-200 hover:border-blue-300 hover:shadow-blue-500/20 text-center'
-                    : 'glass-dark text-center hover:border-cyan-400/50 hover:shadow-cyan-500/20'
-                }`}
+                key={i}
+                className="fade-in-up p-6 rounded-xl border border-cyan-400/20 bg-slate-900/50 backdrop-blur hover:border-cyan-400/50 transition-all duration-300"
               >
-                <div className={`w-20 h-20 rounded-full bg-gradient-to-br ${
-                  theme === 'light'
-                    ? 'from-blue-400 to-orange-400'
-                    : 'from-cyan-400 to-yellow-400'
-                } mx-auto mb-6 flex items-center justify-center`}>
-                  <span className={`font-display text-2xl font-bold ${
-                    theme === 'light' ? 'text-white' : 'text-slate-900'
-                  }`}>
-                    {member.name.charAt(0)}
-                  </span>
-                </div>
-                <h3 className={`font-heading text-xl font-bold mb-2 ${
-                  theme === 'light' ? 'text-slate-900' : 'text-white'
-                }`}>
-                  {member.name}
-                </h3>
-                <p className={`font-body text-sm mb-4 ${
-                  theme === 'light' ? 'text-blue-600' : 'text-cyan-400'
-                }`}>{member.role}</p>
-                <p className={`font-body text-sm ${
-                  theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-                }`}>{member.bio}</p>
+                <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-yellow-400 rounded-full mb-4" />
+                <h3 className="text-xl font-bold mb-1">{member.name}</h3>
+                <p className="text-cyan-400 font-semibold mb-3">{member.role}</p>
+                <p className="text-gray-400 text-sm">{member.bio}</p>
               </div>
             ))}
           </div>
@@ -611,154 +361,79 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className={`relative py-32 overflow-hidden transition-colors duration-300 ${
-        theme === 'light' ? 'bg-white' : 'bg-gradient-to-b from-slate-950 to-slate-900'
-      }`}>
-        <div className="absolute inset-0 z-0">
-          <div className={`absolute top-0 left-0 w-96 h-96 rounded-full blur-3xl ${
-            theme === 'light' ? 'bg-blue-500/10' : 'bg-cyan-500/10'
-          }`} />
-          <div className={`absolute bottom-0 right-0 w-96 h-96 rounded-full blur-3xl ${
-            theme === 'light' ? 'bg-orange-500/10' : 'bg-yellow-500/10'
-          }`} />
-        </div>
-
-        <div className={`relative z-10 container max-w-4xl mx-auto px-4 text-center`} data-scroll-animate>
-          <h2 className={`font-display text-5xl md:text-6xl font-bold mb-8 ${
-            theme === 'light' ? 'text-slate-900' : ''
-          }`}>
-            <span className={theme === 'light' ? 'text-blue-600' : 'text-cyan-400'}>{t('cta.ready')}</span>
-            <br />
-            <span className={theme === 'light' ? 'text-slate-700' : 'text-white'}>{t('cta.transform')}</span>
+      <section className="scroll-section py-20 bg-gradient-to-r from-cyan-500/20 to-yellow-500/20 border-t border-cyan-400/20">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="fade-in-up text-5xl font-bold mb-6">
+            {t('cta.ready')} <span className="text-cyan-400">{t('cta.transform')}</span>
           </h2>
-          <p className={`font-body text-lg mb-12 max-w-2xl mx-auto ${
-            theme === 'light' ? 'text-slate-700' : 'text-slate-300'
-          }`}>
+          <p className="fade-in-up text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             {t('cta.subtitle')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className={`text-base font-semibold ${
-              theme === 'light'
-                ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                : 'btn-gradient'
-            }`}>
+          <div className="fade-in-up flex flex-wrap justify-center gap-4">
+            <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105">
               {t('cta.start')}
-            </Button>
-            <Button className={`text-base font-semibold ${
-              theme === 'light'
-                ? 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50'
-                : 'btn-gradient-outline'
-            }`}>
+            </button>
+            <button className="px-8 py-4 border-2 border-yellow-400 text-yellow-400 font-bold rounded-lg hover:bg-yellow-400/10 transition-all duration-300">
               {t('cta.schedule')}
-            </Button>
+            </button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`relative py-16 transition-colors duration-300 ${
-        theme === 'light'
-          ? 'bg-slate-100 border-t border-slate-200'
-          : 'bg-gradient-to-b from-slate-900 to-slate-950 border-t border-cyan-400/10'
-      }`}>
-        <div className="container max-w-6xl mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 mb-12">
+      <footer className="bg-slate-950 border-t border-cyan-400/20 py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="/digitaledu-logo.png" alt="DigitalEdu" className="w-12 h-12 object-contain mb-4" />
-              <p className={`font-body text-sm ${
-                theme === 'light' ? 'text-slate-600' : 'text-slate-400'
-              }`}>
-                {t('footer.tagline')}
-              </p>
-            </div>
-
-            <div>
-              <h4 className={`font-heading font-bold mb-4 ${
-                theme === 'light' ? 'text-slate-900' : 'text-white'
-              }`}>{t('footer.quickLinks')}</h4>
-              <ul className="space-y-2">
-                <li><a href="#features" className={`text-sm transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>{t('nav.features')}</a></li>
-                <li><a href="#categories" className={`text-sm transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>{t('nav.categories')}</a></li>
-                <li><a href="#team" className={`text-sm transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>{t('nav.team')}</a></li>
+              <h4 className="font-bold text-white mb-4">{t('footer.quickLinks')}</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-cyan-400 transition">{t('nav.features')}</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition">{t('nav.categories')}</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition">{t('nav.team')}</a></li>
               </ul>
             </div>
-
             <div>
-              <h4 className={`font-heading font-bold mb-4 ${
-                theme === 'light' ? 'text-slate-900' : 'text-white'
-              }`}>{t('footer.resources')}</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className={`text-sm transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>{t('footer.blog')}</a></li>
-                <li><a href="#" className={`text-sm transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>{t('footer.documentation')}</a></li>
-                <li><a href="#" className={`text-sm transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>{t('footer.support')}</a></li>
+              <h4 className="font-bold text-white mb-4">{t('footer.resources')}</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-cyan-400 transition">{t('footer.blog')}</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition">{t('footer.documentation')}</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition">{t('footer.support')}</a></li>
               </ul>
             </div>
-
             <div>
-              <h4 className={`font-heading font-bold mb-4 ${
-                theme === 'light' ? 'text-slate-900' : 'text-white'
-              }`}>{t('footer.followUs')}</h4>
-              <div className="flex gap-4">
-                <a href="#" className={`transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="#" className={`transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a href="#" className={`transition-colors ${
-                  theme === 'light'
-                    ? 'text-slate-600 hover:text-blue-600'
-                    : 'text-slate-400 hover:text-cyan-400'
-                }`}>
-                  <Mail className="w-5 h-5" />
-                </a>
-              </div>
+              <h4 className="font-bold text-white mb-4">{t('footer.followUs')}</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-cyan-400 transition">Twitter</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition">LinkedIn</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition">GitHub</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-white mb-4">DigitalEdu</h4>
+              <p className="text-gray-400 text-sm">{t('footer.tagline')}</p>
             </div>
           </div>
-
-          <div className={`border-t transition-colors ${
-            theme === 'light' ? 'border-slate-200' : 'border-cyan-400/10'
-          } pt-8 text-center`}>
-            <p className={`font-body text-sm ${
-              theme === 'light' ? 'text-slate-600' : 'text-slate-500'
-            }`}>
-              {t('footer.copyright')}
-            </p>
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+            <p>{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>
+
+      <style>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px) translateX(0px);
+            opacity: 0;
+          }
+          50% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateY(-100px) translateX(50px);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 }
