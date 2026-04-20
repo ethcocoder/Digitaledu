@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket } from 'lucide-react';
+import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket, Sun, Moon } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,10 +84,91 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
+      {/* Navigation Bar */}
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur border-b border-cyan-400/20">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <img
+              src="/digitaledu-logo.png"
+              alt="DigitalEdu"
+              className="w-10 h-10"
+            />
+            <span className="text-xl font-bold text-cyan-400">DigitalEdu</span>
+          </div>
+
+          {/* Menu Items */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-gray-300 hover:text-cyan-400 transition">
+              {t('nav.features')}
+            </a>
+            <a href="#categories" className="text-gray-300 hover:text-cyan-400 transition">
+              {t('nav.categories')}
+            </a>
+            <a href="#team" className="text-gray-300 hover:text-cyan-400 transition">
+              {t('nav.team')}
+            </a>
+          </div>
+
+          {/* Right Controls */}
+          <div className="flex items-center gap-4">
+            {/* Language Switcher */}
+            <div className="flex items-center gap-2 border border-cyan-400/30 rounded-lg p-1">
+              <button
+                onClick={() => {
+                  const { setLanguage } = useLanguage();
+                  setLanguage('en');
+                }}
+                className={`px-3 py-1 rounded transition ${
+                  language === 'en'
+                    ? 'bg-cyan-400 text-black font-bold'
+                    : 'text-gray-400 hover:text-cyan-400'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => {
+                  const { setLanguage } = useLanguage();
+                  setLanguage('am');
+                }}
+                className={`px-3 py-1 rounded transition ${
+                  language === 'am'
+                    ? 'bg-cyan-400 text-black font-bold'
+                    : 'text-gray-400 hover:text-cyan-400'
+                }`}
+              >
+                ኦ
+              </button>
+            </div>
+
+            {/* Theme Switcher */}
+            <button
+              onClick={() => {
+                const { setTheme, theme } = useLanguage();
+                setTheme(theme === 'dark' ? 'light' : 'dark');
+              }}
+              className="p-2 rounded-lg border border-cyan-400/30 hover:bg-cyan-400/10 transition"
+            >
+              {useLanguage().theme === 'dark' ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-cyan-400" />
+              )}
+            </button>
+
+            {/* CTA Button */}
+            <button className="px-6 py-2 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition">
+              {t('nav.getStarted')}
+            </button>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32"
       >
         {/* Animated background */}
         <div className="absolute inset-0 parallax-bg">
@@ -119,7 +200,7 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="relative z-10 container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-12 mt-8">
           {/* Left content */}
           <div className="flex-1 max-w-2xl">
             <h1 className="hero-title text-5xl lg:text-7xl font-bold leading-tight mb-6">
@@ -135,10 +216,10 @@ export default function Home() {
             </p>
 
             <div className="hero-buttons flex flex-wrap gap-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105">
+              <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 interactive">
                 {t('hero.getStarted')}
               </button>
-              <button className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10 transition-all duration-300">
+              <button className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10 transition-all duration-300 interactive">
                 {t('hero.watchDemo')}
               </button>
             </div>
