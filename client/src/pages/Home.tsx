@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useUser } from '@/contexts/UserContext';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket, Sun, Moon } from 'lucide-react';
@@ -10,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const [, setLocation] = useLocation();
   const { t, language } = useLanguage();
+  const { user, logout } = useUser();
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -160,12 +162,21 @@ export default function Home() {
             </button>
 
             {/* CTA Button */}
+            {user ? (
+              <button
+                onClick={logout}
+                className="px-6 py-2 bg-gradient-to-r from-red-400 to-red-500 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-red-400/50 transition interactive"
+              >
+                Logout
+              </button>
+            ) : (
               <button
                 onClick={() => setLocation('/register')}
                 className="px-6 py-2 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition interactive"
               >
                 {t('nav.getStarted')}
               </button>
+            )}
           </div>
         </div>
       </nav>

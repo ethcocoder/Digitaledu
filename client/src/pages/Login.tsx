@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { authService } from '@/lib/firebase';
 import gsap from 'gsap';
-import { Eye, EyeOff, ArrowRight, Mail, Lock } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Mail, Lock, Loader } from 'lucide-react';
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -11,6 +12,8 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (containerRef.current) {
@@ -35,9 +38,41 @@ export default function Login() {
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
+    setError('');
+    setLoading(true);
+
+    const { user, error: authError } = await authService.login(email, password);
+    
+    if (authError) {
+      setError(authError);
+      setLoading(false);
+    } else if (user) {
+      setLocation('/');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError('');
+    setLoading(true);
+    const { user, error: authError } = await authService.loginWithGoogle();
+    if (authError) {
+      setError(authError);
+      setLoading(false);
+    } else if (user) {
+      setLocation('/');
+    }
+  };
+
+  const handleGithubLogin = async () => {
+    setError('');
+    setLoading(true);
+    const { user, error: authError } = await authService.loginWithGithub();
+    if (authError) {
+      setError(authError);
+      setLoading(false);
+    } else if (user) {
       setLocation('/');
     }
   };
@@ -147,13 +182,30 @@ export default function Login() {
             </a>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="form-element p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+              {error}
+            </div>
+          )}
+
           {/* Login Button */}
           <button
             type="submit"
-            className="form-element w-full py-3 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+            disabled={loading}
+            className="form-element w-full py-3 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {t('auth.login')}
-            <ArrowRight className="w-5 h-5" />
+            {loading ? (
+              <>
+                <Loader className="w-5 h-5 animate-spin" />
+                {t('auth.loading')}
+              </>
+            ) : (
+              <>
+                {t('auth.login')}
+                <ArrowRight className="w-5 h-5" />
+              </>
+            )}
           </button>
         </form>
 
@@ -166,10 +218,20 @@ export default function Login() {
 
         {/* Social Login */}
         <div className="form-element grid grid-cols-2 gap-4">
-          <button className="py-3 bg-slate-800/50 border border-cyan-400/20 rounded-lg hover:border-cyan-400/50 hover:bg-slate-800 transition text-gray-300">
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            className="py-3 bg-slate-800/50 border border-cyan-400/20 rounded-lg hover:border-cyan-400/50 hover:bg-slate-800 transition text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Google
           </button>
-          <button className="py-3 bg-slate-800/50 border border-cyan-400/20 rounded-lg hover:border-cyan-400/50 hover:bg-slate-800 transition text-gray-300">
+          <button
+            type="button"
+            onClick={handleGithubLogin}
+            disabled={loading}
+            className="py-3 bg-slate-800/50 border border-cyan-400/20 rounded-lg hover:border-cyan-400/50 hover:bg-slate-800 transition text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             GitHub
           </button>
         </div>

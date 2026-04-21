@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { authService } from '@/lib/firebase';
 import gsap from 'gsap';
-import { Eye, EyeOff, ArrowRight, Mail, Lock, User, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Mail, Lock, User, CheckCircle, Loader } from 'lucide-react';
 
 export default function Register() {
   const [, setLocation] = useLocation();
@@ -10,6 +11,8 @@ export default function Register() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -40,15 +43,54 @@ export default function Register() {
     }
   }, []);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      formData.fullName &&
-      formData.email &&
-      formData.password &&
-      formData.confirmPassword &&
-      formData.password === formData.confirmPassword
-    ) {
+    setError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    setLoading(true);
+    const { user, error: authError } = await authService.register(
+      formData.email,
+      formData.password
+    );
+
+    if (authError) {
+      setError(authError);
+      setLoading(false);
+    } else if (user) {
+      setLocation('/');
+    }
+  };
+
+  const handleGoogleRegister = async () => {
+    setError('');
+    setLoading(true);
+    const { user, error: authError } = await authService.loginWithGoogle();
+    if (authError) {
+      setError(authError);
+      setLoading(false);
+    } else if (user) {
+      setLocation('/');
+    }
+  };
+
+  const handleGithubRegister = async () => {
+    setError('');
+    setLoading(true);
+    const { user, error: authError } = await authService.loginWithGithub();
+    if (authError) {
+      setError(authError);
+      setLoading(false);
+    } else if (user) {
       setLocation('/');
     }
   };
@@ -211,13 +253,30 @@ export default function Register() {
             </label>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="form-element p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+              {error}
+            </div>
+          )}
+
           {/* Register Button */}
           <button
             type="submit"
-            className="form-element w-full py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+            disabled={loading}
+            className="form-element w-full py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {t('auth.createAccount')}
-            <ArrowRight className="w-5 h-5" />
+            {loading ? (
+              <>
+                <Loader className="w-5 h-5 animate-spin" />
+                {t('auth.loading')}
+              </>
+            ) : (
+              <>
+                {t('auth.createAccount')}
+                <ArrowRight className="w-5 h-5" />
+              </>
+            )}
           </button>
         </form>
 
@@ -230,10 +289,20 @@ export default function Register() {
 
         {/* Social Register */}
         <div className="form-element grid grid-cols-2 gap-4">
-          <button className="py-3 bg-slate-800/50 border border-yellow-400/20 rounded-lg hover:border-yellow-400/50 hover:bg-slate-800 transition text-gray-300">
+          <button
+            type="button"
+            onClick={handleGoogleRegister}
+            disabled={loading}
+            className="py-3 bg-slate-800/50 border border-yellow-400/20 rounded-lg hover:border-yellow-400/50 hover:bg-slate-800 transition text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             Google
           </button>
-          <button className="py-3 bg-slate-800/50 border border-yellow-400/20 rounded-lg hover:border-yellow-400/50 hover:bg-slate-800 transition text-gray-300">
+          <button
+            type="button"
+            onClick={handleGithubRegister}
+            disabled={loading}
+            className="py-3 bg-slate-800/50 border border-yellow-400/20 rounded-lg hover:border-yellow-400/50 hover:bg-slate-800 transition text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             GitHub
           </button>
         </div>

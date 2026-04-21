@@ -136,6 +136,7 @@ const translations = {
     'auth.agreeTerms': 'I agree to the',
     'auth.termsOfService': 'Terms of Service',
     'auth.haveAccount': 'Already have an account?',
+    'auth.loading': 'Loading...',
   },
   am: {
     // Navigation
@@ -260,9 +261,9 @@ const translations = {
     'auth.agreeTerms': 'ከ ተስማምቻለሁ',
     'auth.termsOfService': 'የአገልግሎት ውል',
     'auth.haveAccount': 'ቀድሞ ሂሳብ አለህ?',
-
+    'auth.loading': 'በመጫን ላይ...',
   },
-};
+};;
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
