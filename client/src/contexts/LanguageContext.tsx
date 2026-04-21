@@ -117,6 +117,25 @@ const translations = {
     'footer.documentation': 'Documentation',
     'footer.support': 'Support',
     'footer.copyright': '© 2026 DigitalEdu. All rights reserved. | Built by Paradox Team',
+
+    // Auth Pages
+    'auth.welcome': 'Welcome Back',
+    'auth.loginSubtitle': 'Sign in to continue your learning journey',
+    'auth.email': 'Email Address',
+    'auth.password': 'Password',
+    'auth.login': 'Sign In',
+    'auth.rememberMe': 'Remember me',
+    'auth.forgotPassword': 'Forgot password?',
+    'auth.or': 'Or continue with',
+    'auth.noAccount': 'Do not have an account?',
+    'auth.signUp': 'Sign up',
+    'auth.createAccount': 'Create Account',
+    'auth.registerSubtitle': 'Join millions of learners worldwide',
+    'auth.fullName': 'Full Name',
+    'auth.confirmPassword': 'Confirm Password',
+    'auth.agreeTerms': 'I agree to the',
+    'auth.termsOfService': 'Terms of Service',
+    'auth.haveAccount': 'Already have an account?',
   },
   am: {
     // Navigation
@@ -223,6 +242,25 @@ const translations = {
     'footer.documentation': 'ሰነዶች',
     'footer.support': 'ድጋፍ',
     'footer.copyright': '© 2026 DigitalEdu. ሁሉም መብቶች የተጠበቁ ናቸው | በ Paradox ቡድን ተገንብቷል',
+    // Auth Pages
+    'auth.welcome': 'እንደገና ደህና መጣህ',
+    'auth.loginSubtitle': 'ትምህርት ጉዞህን ለመቀጠል ይግቡ',
+    'auth.email': 'ኢሜይል አድራሻ',
+    'auth.password': 'ይለፍ ቃል',
+    'auth.login': 'ይግቡ',
+    'auth.rememberMe': 'አስታውስ',
+    'auth.forgotPassword': 'ይለፍ ቃል ረስተሃል?',
+    'auth.or': 'ወይም ከሚከተለው ጋር ቀጥል',
+    'auth.noAccount': 'ሂሳብ የሉትም?',
+    'auth.signUp': 'ተመዝገብ',
+    'auth.createAccount': 'ሂሳብ ፍጠር',
+    'auth.registerSubtitle': 'ከሚሊዮን ተማሪዎች ጋር ተገናኝተው',
+    'auth.fullName': 'ሙሉ ስም',
+    'auth.confirmPassword': 'ይለፍ ቃል ያረጋግጡ',
+    'auth.agreeTerms': 'ከ ተስማምቻለሁ',
+    'auth.termsOfService': 'የአገልግሎት ውል',
+    'auth.haveAccount': 'ቀድሞ ሂሳብ አለህ?',
+
   },
 };
 

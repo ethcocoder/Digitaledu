@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
@@ -7,6 +8,7 @@ import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket, Sun, Moon } from 'luc
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
+  const [, setLocation] = useLocation();
   const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
@@ -158,9 +160,12 @@ export default function Home() {
             </button>
 
             {/* CTA Button */}
-            <button className="px-6 py-2 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition">
-              {t('nav.getStarted')}
-            </button>
+              <button
+                onClick={() => setLocation('/register')}
+                className="px-6 py-2 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition interactive"
+              >
+                {t('nav.getStarted')}
+              </button>
           </div>
         </div>
       </nav>
@@ -216,10 +221,16 @@ export default function Home() {
             </p>
 
             <div className="hero-buttons flex flex-wrap gap-4">
-              <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 interactive">
+              <button
+                onClick={() => setLocation('/register')}
+                className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 interactive"
+              >
                 {t('hero.getStarted')}
               </button>
-              <button className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10 transition-all duration-300 interactive">
+              <button
+                onClick={() => setLocation('/login')}
+                className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10 transition-all duration-300 interactive"
+              >
                 {t('hero.watchDemo')}
               </button>
             </div>
@@ -451,10 +462,16 @@ export default function Home() {
             {t('cta.subtitle')}
           </p>
           <div className="fade-in-up flex flex-wrap justify-center gap-4">
-            <button className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105">
+            <button
+              onClick={() => setLocation('/register')}
+              className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105 border border-white/10 interactive"
+            >
               {t('cta.start')}
             </button>
-            <button className="px-8 py-4 border-2 border-yellow-400 text-yellow-400 font-bold rounded-lg hover:bg-yellow-400/10 transition-all duration-300">
+            <button
+              onClick={() => setLocation('/login')}
+              className="px-8 py-4 border-2 border-yellow-400 text-yellow-400 font-bold rounded-lg hover:bg-yellow-400/10 transition-all duration-300 interactive"
+            >
               {t('cta.schedule')}
             </button>
           </div>
