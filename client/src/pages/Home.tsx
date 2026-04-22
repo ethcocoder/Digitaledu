@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const [, setLocation] = useLocation();
-  const { t, language } = useLanguage();
+  const { t, language, theme } = useLanguage();
   const { user, logout } = useUser();
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
@@ -86,10 +86,16 @@ export default function Home() {
     };
   }, []);
 
+  const isDark = theme === 'dark';
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       {/* Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur border-b border-cyan-400/20">
+      <nav className={`fixed top-0 left-0 right-0 z-40 backdrop-blur border-b ${
+        isDark 
+          ? 'bg-background/80 border-cyan-400/20' 
+          : 'bg-white/80 border-blue-200/30'
+      }`}>
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
@@ -98,18 +104,18 @@ export default function Home() {
               alt="DigitalEdu"
               className="w-10 h-10"
             />
-            <span className="text-xl font-bold text-cyan-400">DigitalEdu</span>
+            <span className={`text-xl font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>DigitalEdu</span>
           </div>
 
           {/* Menu Items */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-gray-300 hover:text-cyan-400 transition">
+            <a href="#features" className={`transition ${isDark ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'}`}>
               {t('nav.features')}
             </a>
-            <a href="#categories" className="text-gray-300 hover:text-cyan-400 transition">
+            <a href="#categories" className={`transition ${isDark ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'}`}>
               {t('nav.categories')}
             </a>
-            <a href="#team" className="text-gray-300 hover:text-cyan-400 transition">
+            <a href="#team" className={`transition ${isDark ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'}`}>
               {t('nav.team')}
             </a>
           </div>
@@ -117,7 +123,11 @@ export default function Home() {
           {/* Right Controls */}
           <div className="flex items-center gap-4">
             {/* Language Switcher */}
-            <div className="flex items-center gap-2 border border-cyan-400/30 rounded-lg p-1">
+            <div className={`flex items-center gap-2 border rounded-lg p-1 ${
+              isDark 
+                ? 'border-cyan-400/30' 
+                : 'border-blue-200/50'
+            }`}>
               <button
                 onClick={() => {
                   const { setLanguage } = useLanguage();
@@ -125,8 +135,12 @@ export default function Home() {
                 }}
                 className={`px-3 py-1 rounded transition ${
                   language === 'en'
-                    ? 'bg-cyan-400 text-black font-bold'
-                    : 'text-gray-400 hover:text-cyan-400'
+                    ? isDark 
+                      ? 'bg-cyan-400 text-black font-bold' 
+                      : 'bg-blue-600 text-white font-bold'
+                    : isDark 
+                      ? 'text-gray-400 hover:text-cyan-400' 
+                      : 'text-gray-600 hover:text-blue-600'
                 }`}
               >
                 EN
@@ -138,8 +152,12 @@ export default function Home() {
                 }}
                 className={`px-3 py-1 rounded transition ${
                   language === 'am'
-                    ? 'bg-cyan-400 text-black font-bold'
-                    : 'text-gray-400 hover:text-cyan-400'
+                    ? isDark 
+                      ? 'bg-cyan-400 text-black font-bold' 
+                      : 'bg-blue-600 text-white font-bold'
+                    : isDark 
+                      ? 'text-gray-400 hover:text-cyan-400' 
+                      : 'text-gray-600 hover:text-blue-600'
                 }`}
               >
                 ኦ
@@ -152,12 +170,16 @@ export default function Home() {
                 const { setTheme, theme } = useLanguage();
                 setTheme(theme === 'dark' ? 'light' : 'dark');
               }}
-              className="p-2 rounded-lg border border-cyan-400/30 hover:bg-cyan-400/10 transition"
+              className={`p-2 rounded-lg border transition ${
+                isDark 
+                  ? 'border-cyan-400/30 hover:bg-cyan-400/10' 
+                  : 'border-blue-200/50 hover:bg-blue-100/30'
+              }`}
             >
               {useLanguage().theme === 'dark' ? (
                 <Sun className="w-5 h-5 text-yellow-400" />
               ) : (
-                <Moon className="w-5 h-5 text-cyan-400" />
+                <Moon className="w-5 h-5 text-blue-600" />
               )}
             </button>
 
@@ -172,7 +194,11 @@ export default function Home() {
             ) : (
               <button
                 onClick={() => setLocation('/register')}
-                className="px-6 py-2 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition interactive"
+                className={`px-6 py-2 font-bold rounded-lg transition interactive ${
+                  isDark 
+                    ? 'bg-gradient-to-r from-cyan-400 to-cyan-500 text-black hover:shadow-lg hover:shadow-cyan-400/50' 
+                    : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:shadow-blue-600/50'
+                }`}
               >
                 {t('nav.getStarted')}
               </button>
@@ -204,7 +230,9 @@ export default function Home() {
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-cyan-400 rounded-full opacity-60"
+              className={`absolute w-1 h-1 rounded-full opacity-60 ${
+                isDark ? 'bg-cyan-400' : 'bg-blue-500'
+              }`}
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -220,27 +248,37 @@ export default function Home() {
           {/* Left content */}
           <div className="flex-1 max-w-2xl">
             <h1 className="hero-title text-5xl lg:text-7xl font-bold leading-tight mb-6">
-              <span className="text-cyan-400">{t('hero.connect')}</span>
+              <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>{t('hero.connect')}</span>
               <br />
-              <span className="text-white">{t('hero.theWorld')}</span>
+              <span className={isDark ? 'text-white' : 'text-gray-900'}>{t('hero.theWorld')}</span>
               <br />
-              <span className="text-yellow-400">{t('hero.education')}</span>
+              <span className={isDark ? 'text-yellow-400' : 'text-yellow-500'}>{t('hero.education')}</span>
             </h1>
 
-            <p className="hero-subtitle text-lg text-gray-300 mb-8 leading-relaxed max-w-xl">
+            <p className={`hero-subtitle text-lg mb-8 leading-relaxed max-w-xl ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               {t('hero.description')}
             </p>
 
             <div className="hero-buttons flex flex-wrap gap-4">
               <button
                 onClick={() => setLocation('/register')}
-                className="px-8 py-4 bg-gradient-to-r from-cyan-400 to-cyan-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-400/50 transition-all duration-300 transform hover:scale-105 interactive"
+                className={`px-8 py-4 font-bold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 interactive ${
+                  isDark 
+                    ? 'bg-gradient-to-r from-cyan-400 to-cyan-500 text-black hover:shadow-cyan-400/50' 
+                    : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-blue-600/50'
+                }`}
               >
                 {t('hero.getStarted')}
               </button>
               <button
                 onClick={() => setLocation('/login')}
-                className="px-8 py-4 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400/10 transition-all duration-300 interactive"
+                className={`px-8 py-4 font-bold rounded-lg transition-all duration-300 interactive border-2 ${
+                  isDark 
+                    ? 'border-cyan-400 text-cyan-400 hover:bg-cyan-400/10' 
+                    : 'border-blue-600 text-blue-600 hover:bg-blue-600/10'
+                }`}
               >
                 {t('hero.watchDemo')}
               </button>
@@ -249,16 +287,16 @@ export default function Home() {
             {/* Stats */}
             <div className="mt-12 grid grid-cols-3 gap-8">
               <div>
-                <p className="text-3xl font-bold text-yellow-400">150+</p>
-                <p className="text-gray-400">{t('hero.countries')}</p>
+                <p className={`text-3xl font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-500'}`}>150+</p>
+                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{t('hero.countries')}</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-cyan-400">10K+</p>
-                <p className="text-gray-400">{t('hero.courses')}</p>
+                <p className={`text-3xl font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>10K+</p>
+                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{t('hero.courses')}</p>
               </div>
               <div>
-                <p className="text-3xl font-bold text-yellow-400">1M+</p>
-                <p className="text-gray-400">{t('hero.learners')}</p>
+                <p className={`text-3xl font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-500'}`}>1M+</p>
+                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{t('hero.learners')}</p>
               </div>
             </div>
           </div>
@@ -266,7 +304,11 @@ export default function Home() {
           {/* Right visual */}
           <div className="flex-1 hero-image">
             <div
-              className="w-full h-96 lg:h-full rounded-2xl overflow-hidden border-2 border-cyan-400/30 shadow-2xl shadow-cyan-400/20"
+              className={`w-full h-96 lg:h-full rounded-2xl overflow-hidden border-2 shadow-2xl ${
+                isDark 
+                  ? 'border-cyan-400/30 shadow-cyan-400/20' 
+                  : 'border-blue-300/50 shadow-blue-300/20'
+              }`}
               style={{
                 backgroundImage: `url('https://d2xsxph8kpxj0f.cloudfront.net/310519663323609224/C6xAWVSEFURVdsUoL9Z5we/morphing-shapes-J7tWxHzgZiJUXSfLAMrFRu.webp')`,
                 backgroundSize: 'cover',
@@ -278,18 +320,22 @@ export default function Home() {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown className="w-8 h-8 text-cyan-400" />
+          <ChevronDown className={`w-8 h-8 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
         </div>
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} className="scroll-section py-20 bg-gradient-to-b from-background to-slate-900/20">
+      <section ref={featuresRef} className={`scroll-section py-20 ${
+        isDark 
+          ? 'bg-gradient-to-b from-background to-slate-900/20' 
+          : 'bg-gradient-to-b from-white to-blue-50/30'
+      }`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 fade-in-up">
             <h2 className="text-5xl font-bold mb-4">
-              {t('features.why')} <span className="text-cyan-400">DigitalEdu?</span>
+              {t('features.why')} <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>DigitalEdu?</span>
             </h2>
-            <p className="text-xl text-gray-400">{t('features.subtitle')}</p>
+            <p className={`text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{t('features.subtitle')}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -317,11 +363,17 @@ export default function Home() {
             ].map((feature, i) => (
               <div
                 key={i}
-                className="fade-in-up p-6 rounded-xl border border-cyan-400/20 bg-slate-900/50 backdrop-blur hover:border-cyan-400/50 hover:bg-slate-900/80 transition-all duration-300 group"
+                className={`fade-in-up p-6 rounded-xl border transition-all duration-300 group ${
+                  isDark 
+                    ? 'border-cyan-400/20 bg-slate-900/50 backdrop-blur hover:border-cyan-400/50 hover:bg-slate-900/80' 
+                    : 'border-blue-200/50 bg-white/50 backdrop-blur hover:border-blue-400/50 hover:bg-white/80'
+                }`}
               >
-                <feature.icon className="w-12 h-12 text-cyan-400 mb-4 group-hover:scale-110 transition-transform" />
+                <feature.icon className={`w-12 h-12 mb-4 group-hover:scale-110 transition-transform ${
+                  isDark ? 'text-cyan-400' : 'text-blue-600'
+                }`} />
                 <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.desc}</p>
+                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -343,12 +395,16 @@ export default function Home() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl">
             <h2 className="fade-in-up text-5xl font-bold mb-6">
-              {t('journey.your')} <span className="text-cyan-400">{t('journey.starts')}</span>
+              {t('journey.your')} <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>{t('journey.starts')}</span>
             </h2>
-            <p className="fade-in-up text-xl text-gray-300 mb-8">
+            <p className={`fade-in-up text-xl mb-8 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {t('about.mission')}
             </p>
-            <button className="fade-in-up px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105">
+            <button className={`fade-in-up px-8 py-4 font-bold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 ${
+              isDark 
+                ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-black hover:shadow-yellow-400/50' 
+                : 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white hover:shadow-yellow-500/50'
+            }`}>
               {t('cta.start')}
             </button>
           </div>
@@ -356,11 +412,13 @@ export default function Home() {
       </section>
 
       {/* Categories Section */}
-      <section ref={categoriesRef} className="scroll-section py-20 bg-slate-900/30">
+      <section ref={categoriesRef} className={`scroll-section py-20 ${
+        isDark ? 'bg-slate-900/30' : 'bg-blue-50/30'
+      }`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 fade-in-up">
             <h2 className="text-5xl font-bold mb-4">
-              {t('categories.learning')} <span className="text-cyan-400">{t('categories.categories')}</span>
+              {t('categories.learning')} <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>{t('categories.categories')}</span>
             </h2>
           </div>
 
@@ -373,7 +431,9 @@ export default function Home() {
             ].map((cat, i) => (
               <div
                 key={i}
-                className={`fade-in-up p-8 rounded-xl bg-gradient-to-br ${cat.color} to-transparent opacity-80 hover:opacity-100 transition-all duration-300 cursor-pointer transform hover:scale-105 border border-white/10`}
+                className={`fade-in-up p-8 rounded-xl bg-gradient-to-br ${cat.color} to-transparent opacity-80 hover:opacity-100 transition-all duration-300 cursor-pointer transform hover:scale-105 border ${
+                  isDark ? 'border-white/10' : 'border-white/20'
+                }`}
               >
                 <h3 className="text-2xl font-bold text-white mb-2">{cat.title}</h3>
                 <p className="text-white/80">{cat.subtitle}</p>
@@ -397,25 +457,25 @@ export default function Home() {
 
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h2 className="fade-in-up text-5xl font-bold mb-6">
-            {t('network.global')} <span className="text-cyan-400">{t('network.network')}</span>
+            {t('network.global')} <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>{t('network.network')}</span>
           </h2>
-          <p className="fade-in-up text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+          <p className={`fade-in-up text-xl max-w-2xl mx-auto mb-12 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
             {t('network.subtitle')}
           </p>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="scroll-section py-20 bg-slate-900/50">
+      <section className={`scroll-section py-20 ${isDark ? 'bg-slate-900/50' : 'bg-white/50'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl">
             <h2 className="fade-in-up text-5xl font-bold mb-6">
-              {t('about.about')} <span className="text-cyan-400">DigitalEdu</span>
+              {t('about.about')} <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>DigitalEdu</span>
             </h2>
-            <p className="fade-in-up text-lg text-gray-300 mb-6 leading-relaxed">
+            <p className={`fade-in-up text-lg mb-6 leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {t('about.mission')}
             </p>
-            <p className="fade-in-up text-lg text-gray-300 leading-relaxed">
+            <p className={`fade-in-up text-lg leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {t('about.vision')}
             </p>
           </div>
@@ -423,11 +483,15 @@ export default function Home() {
       </section>
 
       {/* Team Section */}
-      <section className="scroll-section py-20 bg-gradient-to-b from-slate-900/30 to-background">
+      <section className={`scroll-section py-20 bg-gradient-to-b ${
+        isDark 
+          ? 'from-slate-900/30 to-background' 
+          : 'from-blue-50/30 to-white'
+      }`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 fade-in-up">
             <h2 className="text-5xl font-bold mb-4">
-              {t('team.meet')} <span className="text-cyan-400">{t('team.paradox')}</span>
+              {t('team.meet')} <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>{t('team.paradox')}</span>
             </h2>
           </div>
 
@@ -451,12 +515,20 @@ export default function Home() {
             ].map((member, i) => (
               <div
                 key={i}
-                className="fade-in-up p-6 rounded-xl border border-cyan-400/20 bg-slate-900/50 backdrop-blur hover:border-cyan-400/50 transition-all duration-300"
+                className={`fade-in-up p-6 rounded-xl border transition-all duration-300 ${
+                  isDark 
+                    ? 'border-cyan-400/20 bg-slate-900/50 backdrop-blur hover:border-cyan-400/50' 
+                    : 'border-blue-200/50 bg-white/50 backdrop-blur hover:border-blue-400/50'
+                }`}
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-yellow-400 rounded-full mb-4" />
+                <div className={`w-16 h-16 bg-gradient-to-br ${
+                  isDark 
+                    ? 'from-cyan-400 to-yellow-400' 
+                    : 'from-blue-600 to-yellow-500'
+                } rounded-full mb-4`} />
                 <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                <p className="text-cyan-400 font-semibold mb-3">{member.role}</p>
-                <p className="text-gray-400 text-sm">{member.bio}</p>
+                <p className={`font-semibold mb-3 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>{member.role}</p>
+                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{member.bio}</p>
               </div>
             ))}
           </div>
@@ -464,24 +536,36 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="scroll-section py-20 bg-gradient-to-r from-cyan-500/20 to-yellow-500/20 border-t border-cyan-400/20">
+      <section className={`scroll-section py-20 border-t ${
+        isDark 
+          ? 'bg-gradient-to-r from-cyan-500/20 to-yellow-500/20 border-cyan-400/20' 
+          : 'bg-gradient-to-r from-blue-500/10 to-yellow-500/10 border-blue-200/30'
+      }`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="fade-in-up text-5xl font-bold mb-6">
-            {t('cta.ready')} <span className="text-cyan-400">{t('cta.transform')}</span>
+            {t('cta.ready')} <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>{t('cta.transform')}</span>
           </h2>
-          <p className="fade-in-up text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+          <p className={`fade-in-up text-xl mb-8 max-w-2xl mx-auto ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
             {t('cta.subtitle')}
           </p>
           <div className="fade-in-up flex flex-wrap justify-center gap-4">
             <button
               onClick={() => setLocation('/register')}
-              className="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105 border border-white/10 interactive"
+              className={`px-8 py-4 font-bold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 border interactive ${
+                isDark 
+                  ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-black hover:shadow-yellow-400/50 border-white/10' 
+                  : 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white hover:shadow-yellow-500/50 border-white/20'
+              }`}
             >
               {t('cta.start')}
             </button>
             <button
               onClick={() => setLocation('/login')}
-              className="px-8 py-4 border-2 border-yellow-400 text-yellow-400 font-bold rounded-lg hover:bg-yellow-400/10 transition-all duration-300 interactive"
+              className={`px-8 py-4 font-bold rounded-lg transition-all duration-300 interactive border-2 ${
+                isDark 
+                  ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' 
+                  : 'border-yellow-500 text-yellow-600 hover:bg-yellow-500/10'
+              }`}
             >
               {t('cta.schedule')}
             </button>
@@ -490,39 +574,47 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-cyan-400/20 py-12">
+      <footer className={`border-t py-12 ${
+        isDark 
+          ? 'bg-slate-950 border-cyan-400/20' 
+          : 'bg-gray-100 border-blue-200/30'
+      }`}>
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h4 className="font-bold text-white mb-4">{t('footer.quickLinks')}</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-cyan-400 transition">{t('nav.features')}</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">{t('nav.categories')}</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">{t('nav.team')}</a></li>
+              <h4 className={`font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.quickLinks')}</h4>
+              <ul className={`space-y-2 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>{t('nav.features')}</a></li>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>{t('nav.categories')}</a></li>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>{t('nav.team')}</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-4">{t('footer.resources')}</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-cyan-400 transition">{t('footer.blog')}</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">{t('footer.documentation')}</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">{t('footer.support')}</a></li>
+              <h4 className={`font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.resources')}</h4>
+              <ul className={`space-y-2 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>{t('footer.blog')}</a></li>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>{t('footer.documentation')}</a></li>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>{t('footer.support')}</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-4">{t('footer.followUs')}</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-cyan-400 transition">Twitter</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">LinkedIn</a></li>
-                <li><a href="#" className="hover:text-cyan-400 transition">GitHub</a></li>
+              <h4 className={`font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('footer.followUs')}</h4>
+              <ul className={`space-y-2 text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>Twitter</a></li>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>LinkedIn</a></li>
+                <li><a href="#" className={`transition ${isDark ? 'hover:text-cyan-400' : 'hover:text-blue-600'}`}>GitHub</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-white mb-4">DigitalEdu</h4>
-              <p className="text-gray-400 text-sm">{t('footer.tagline')}</p>
+              <h4 className={`font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>DigitalEdu</h4>
+              <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{t('footer.tagline')}</p>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+          <div className={`border-t pt-8 text-center text-sm ${
+            isDark 
+              ? 'border-gray-800 text-gray-500' 
+              : 'border-gray-300 text-gray-600'
+          }`}>
             <p>{t('footer.copyright')}</p>
           </div>
         </div>

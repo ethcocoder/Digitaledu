@@ -7,7 +7,7 @@ import { Eye, EyeOff, ArrowRight, Mail, Lock, User, CheckCircle, Loader } from '
 
 export default function Register() {
   const [, setLocation] = useLocation();
-  const { t } = useLanguage();
+  const { t, theme } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -100,6 +100,10 @@ export default function Register() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const isDark = theme === 'dark';
+  const accentColor = isDark ? 'yellow' : 'yellow';
+  const primaryColor = isDark ? 'cyan' : 'blue';
+
   return (
     <div
       ref={containerRef}
@@ -107,18 +111,28 @@ export default function Register() {
     >
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800" />
+        <div className={`absolute inset-0 ${
+          isDark 
+            ? 'bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800' 
+            : 'bg-gradient-to-br from-white via-blue-50 to-blue-100'
+        }`} />
 
         <div
-          className="shape absolute top-20 left-10 w-72 h-72 bg-yellow-500/10 rounded-full blur-3xl"
+          className={`shape absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl ${
+            isDark ? 'bg-yellow-500/10' : 'bg-yellow-400/10'
+          }`}
           style={{ animation: 'float 6s ease-in-out infinite' }}
         />
         <div
-          className="shape absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"
+          className={`shape absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl ${
+            isDark ? 'bg-cyan-500/5' : 'bg-blue-400/10'
+          }`}
           style={{ animation: 'float 8s ease-in-out infinite 1s' }}
         />
         <div
-          className="shape absolute top-1/2 left-1/2 w-80 h-80 bg-yellow-400/5 rounded-full blur-3xl"
+          className={`shape absolute top-1/2 left-1/2 w-80 h-80 rounded-full blur-3xl ${
+            isDark ? 'bg-yellow-400/5' : 'bg-yellow-300/10'
+          }`}
           style={{ animation: 'float 7s ease-in-out infinite 2s' }}
         />
       </div>
@@ -128,7 +142,11 @@ export default function Register() {
         {/* Back button */}
         <button
           onClick={() => setLocation('/')}
-          className="form-element mb-8 flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition"
+          className={`form-element mb-8 flex items-center gap-2 transition ${
+            isDark 
+              ? 'text-gray-400 hover:text-cyan-400' 
+              : 'text-gray-600 hover:text-blue-600'
+          }`}
         >
           <ArrowRight className="w-4 h-4 rotate-180" />
           {t('nav.features')}
@@ -137,68 +155,96 @@ export default function Register() {
         {/* Header */}
         <div className="form-element mb-8">
           <h1 className="text-4xl font-bold mb-2">
-            <span className="text-yellow-400">{t('auth.createAccount')}</span>
+            <span className={isDark ? 'text-yellow-400' : 'text-yellow-500'}>{t('auth.createAccount')}</span>
           </h1>
-          <p className="text-gray-400">{t('auth.registerSubtitle')}</p>
+          <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{t('auth.registerSubtitle')}</p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleRegister} className="space-y-5">
           {/* Full Name Input */}
           <div className="form-element">
-            <label className="block text-sm font-medium mb-3 text-gray-300">
+            <label className={`block text-sm font-medium mb-3 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               {t('auth.fullName')}
             </label>
             <div className="relative">
-              <User className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-yellow-400" />
+              <User className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
+                isDark ? 'text-yellow-400' : 'text-yellow-500'
+              }`} />
               <input
                 type="text"
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="John Doe"
-                className="w-full pl-12 pr-4 py-3 bg-slate-800/50 border border-yellow-400/30 rounded-lg focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition text-white placeholder-gray-500"
+                className={`w-full pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
+                  isDark 
+                    ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
+                    : 'bg-white/50 border border-yellow-300/50 focus:border-yellow-500 focus:ring-yellow-500/20 text-gray-900 placeholder-gray-400'
+                }`}
               />
             </div>
           </div>
 
           {/* Email Input */}
           <div className="form-element">
-            <label className="block text-sm font-medium mb-3 text-gray-300">
+            <label className={`block text-sm font-medium mb-3 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               {t('auth.email')}
             </label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-yellow-400" />
+              <Mail className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
+                isDark ? 'text-yellow-400' : 'text-yellow-500'
+              }`} />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full pl-12 pr-4 py-3 bg-slate-800/50 border border-yellow-400/30 rounded-lg focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition text-white placeholder-gray-500"
+                className={`w-full pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
+                  isDark 
+                    ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
+                    : 'bg-white/50 border border-yellow-300/50 focus:border-yellow-500 focus:ring-yellow-500/20 text-gray-900 placeholder-gray-400'
+                }`}
               />
             </div>
           </div>
 
           {/* Password Input */}
           <div className="form-element">
-            <label className="block text-sm font-medium mb-3 text-gray-300">
+            <label className={`block text-sm font-medium mb-3 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               {t('auth.password')}
             </label>
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-yellow-400" />
+              <Lock className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
+                isDark ? 'text-yellow-400' : 'text-yellow-500'
+              }`} />
               <input
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full pl-12 pr-12 py-3 bg-slate-800/50 border border-yellow-400/30 rounded-lg focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition text-white placeholder-gray-500"
+                className={`w-full pl-12 pr-12 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
+                  isDark 
+                    ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
+                    : 'bg-white/50 border border-yellow-300/50 focus:border-yellow-500 focus:ring-yellow-500/20 text-gray-900 placeholder-gray-400'
+                }`}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-yellow-400 transition"
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition ${
+                  isDark 
+                    ? 'text-gray-400 hover:text-yellow-400' 
+                    : 'text-gray-600 hover:text-yellow-600'
+                }`}
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -211,23 +257,35 @@ export default function Register() {
 
           {/* Confirm Password Input */}
           <div className="form-element">
-            <label className="block text-sm font-medium mb-3 text-gray-300">
+            <label className={`block text-sm font-medium mb-3 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               {t('auth.confirmPassword')}
             </label>
             <div className="relative">
-              <CheckCircle className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-yellow-400" />
+              <CheckCircle className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 ${
+                isDark ? 'text-yellow-400' : 'text-yellow-500'
+              }`} />
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full pl-12 pr-12 py-3 bg-slate-800/50 border border-yellow-400/30 rounded-lg focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition text-white placeholder-gray-500"
+                className={`w-full pl-12 pr-12 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
+                  isDark 
+                    ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
+                    : 'bg-white/50 border border-yellow-300/50 focus:border-yellow-500 focus:ring-yellow-500/20 text-gray-900 placeholder-gray-400'
+                }`}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-yellow-400 transition"
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition ${
+                  isDark 
+                    ? 'text-gray-400 hover:text-yellow-400' 
+                    : 'text-gray-600 hover:text-yellow-600'
+                }`}
               >
                 {showConfirmPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -243,11 +301,19 @@ export default function Register() {
             <input
               type="checkbox"
               id="terms"
-              className="w-4 h-4 mt-1 bg-slate-800 border border-yellow-400/30 rounded cursor-pointer"
+              className={`w-4 h-4 mt-1 rounded cursor-pointer ${
+                isDark 
+                  ? 'bg-slate-800 border border-yellow-400/30' 
+                  : 'bg-white border border-yellow-300/50'
+              }`}
             />
-            <label htmlFor="terms" className="text-sm text-gray-400">
+            <label htmlFor="terms" className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               {t('auth.agreeTerms')}{' '}
-              <a href="#" className="text-yellow-400 hover:text-yellow-300 transition">
+              <a href="#" className={`transition ${
+                isDark 
+                  ? 'text-yellow-400 hover:text-yellow-300' 
+                  : 'text-yellow-600 hover:text-yellow-700'
+              }`}>
                 {t('auth.termsOfService')}
               </a>
             </label>
@@ -264,7 +330,11 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="form-element w-full py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-yellow-400/50 transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className={`form-element w-full py-3 font-bold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+              isDark 
+                ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-black hover:shadow-lg hover:shadow-yellow-400/50' 
+                : 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white hover:shadow-lg hover:shadow-yellow-500/50'
+            }`}
           >
             {loading ? (
               <>
@@ -282,9 +352,13 @@ export default function Register() {
 
         {/* Divider */}
         <div className="form-element my-8 flex items-center gap-4">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent to-yellow-400/30" />
-          <span className="text-gray-500 text-sm">{t('auth.or')}</span>
-          <div className="flex-1 h-px bg-gradient-to-l from-transparent to-yellow-400/30" />
+          <div className={`flex-1 h-px bg-gradient-to-r from-transparent ${
+            isDark ? 'to-yellow-400/30' : 'to-yellow-400/30'
+          }`} />
+          <span className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{t('auth.or')}</span>
+          <div className={`flex-1 h-px bg-gradient-to-l from-transparent ${
+            isDark ? 'to-yellow-400/30' : 'to-yellow-400/30'
+          }`} />
         </div>
 
         {/* Social Register */}
@@ -293,7 +367,11 @@ export default function Register() {
             type="button"
             onClick={handleGoogleRegister}
             disabled={loading}
-            className="py-3 bg-slate-800/50 border border-yellow-400/20 rounded-lg hover:border-yellow-400/50 hover:bg-slate-800 transition text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`py-3 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed ${
+              isDark 
+                ? 'bg-slate-800/50 border border-yellow-400/20 hover:border-yellow-400/50 hover:bg-slate-800 text-gray-300' 
+                : 'bg-white/50 border border-yellow-300/50 hover:border-yellow-500/50 hover:bg-white/80 text-gray-700'
+            }`}
           >
             Google
           </button>
@@ -301,7 +379,11 @@ export default function Register() {
             type="button"
             onClick={handleGithubRegister}
             disabled={loading}
-            className="py-3 bg-slate-800/50 border border-yellow-400/20 rounded-lg hover:border-yellow-400/50 hover:bg-slate-800 transition text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`py-3 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed ${
+              isDark 
+                ? 'bg-slate-800/50 border border-yellow-400/20 hover:border-yellow-400/50 hover:bg-slate-800 text-gray-300' 
+                : 'bg-white/50 border border-yellow-300/50 hover:border-yellow-500/50 hover:bg-white/80 text-gray-700'
+            }`}
           >
             GitHub
           </button>
@@ -309,11 +391,15 @@ export default function Register() {
 
         {/* Login Link */}
         <div className="form-element mt-8 text-center">
-          <p className="text-gray-400">
+          <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>
             {t('auth.haveAccount')}{' '}
             <button
               onClick={() => setLocation('/login')}
-              className="text-yellow-400 hover:text-yellow-300 font-semibold transition"
+              className={`font-semibold transition ${
+                isDark 
+                  ? 'text-yellow-400 hover:text-yellow-300' 
+                  : 'text-yellow-600 hover:text-yellow-700'
+              }`}
             >
               {t('auth.login')}
             </button>
