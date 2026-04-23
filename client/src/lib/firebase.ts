@@ -124,7 +124,7 @@ export const authService = {
         console.log('Google login successful:', result.user.email);
         
         // Check if profile exists, if not create it
-        const { profile } = await this.getUserProfile(result.user.uid);
+        const { profile } = await authService.getUserProfile(result.user.uid);
         if (!profile) {
           const userProfile: UserProfile = {
             uid: result.user.uid,
@@ -160,7 +160,7 @@ export const authService = {
         console.log('GitHub login successful:', result.user.email);
         
         // Check if profile exists, if not create it
-        const { profile } = await this.getUserProfile(result.user.uid);
+        const { profile } = await authService.getUserProfile(result.user.uid);
         if (!profile) {
           const userProfile: UserProfile = {
             uid: result.user.uid,
