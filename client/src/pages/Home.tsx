@@ -103,9 +103,9 @@ export default function Home() {
             <img
               src="/digitaledu-logo.png"
               alt="DigitalEdu"
-              className="w-10 h-10"
+              className="w-8 h-8 md:w-10 md:h-10"
             />
-            <span className={`text-xl font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>DigitalEdu</span>
+            <span className={`text-lg md:text-xl font-bold hidden sm:inline-block ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>DigitalEdu</span>
           </div>
 
           {/* Menu Items */}
@@ -122,21 +122,21 @@ export default function Home() {
           </div>
 
           {/* Right Controls */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <LanguageThemeSwitcher />
 
             {/* CTA Button */}
             {user ? (
               <button
                 onClick={logout}
-                className="px-6 py-2 bg-gradient-to-r from-red-400 to-red-500 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-red-400/50 transition interactive"
+                className="px-4 md:px-6 py-2 bg-gradient-to-r from-red-400 to-red-500 text-white text-sm md:text-base font-bold rounded-lg hover:shadow-lg hover:shadow-red-400/50 transition interactive whitespace-nowrap"
               >
                 {t('auth.logout')}
               </button>
             ) : (
               <button
                 onClick={() => setLocation('/register')}
-                className={`px-6 py-2 font-bold rounded-lg transition interactive ${
+                className={`px-4 md:px-6 py-2 text-sm md:text-base font-bold rounded-lg transition interactive whitespace-nowrap ${
                   isDark 
                     ? 'bg-gradient-to-r from-cyan-400 to-cyan-500 text-black hover:shadow-lg hover:shadow-cyan-400/50' 
                     : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:shadow-blue-600/50'
@@ -189,7 +189,7 @@ export default function Home() {
         <div className="relative z-10 container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-12 mt-8">
           {/* Left content */}
           <div className="flex-1 max-w-2xl">
-            <h1 className="hero-title text-5xl lg:text-7xl font-bold leading-tight mb-6">
+            <h1 className="hero-title text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6">
               <span className={isDark ? 'text-cyan-400' : 'text-blue-600'}>{t('hero.connect')}</span>
               <br />
               <span className={isDark ? 'text-white' : 'text-gray-900'}>{t('hero.theWorld')}</span>
@@ -203,10 +203,10 @@ export default function Home() {
               {t('hero.description')}
             </p>
 
-            <div className="hero-buttons flex flex-wrap gap-4">
+            <div className="hero-buttons flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => setLocation('/register')}
-                className={`px-8 py-4 font-bold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 interactive ${
+                className={`w-full sm:w-auto px-8 py-4 font-bold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105 interactive ${
                   isDark 
                     ? 'bg-gradient-to-r from-cyan-400 to-cyan-500 text-black hover:shadow-cyan-400/50' 
                     : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-blue-600/50'
@@ -216,7 +216,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setLocation('/login')}
-                className={`px-8 py-4 font-bold rounded-lg transition-all duration-300 interactive border-2 ${
+                className={`w-full sm:w-auto px-8 py-4 font-bold rounded-lg transition-all duration-300 interactive border-2 ${
                   isDark 
                     ? 'border-cyan-400 text-cyan-400 hover:bg-cyan-400/10' 
                     : 'border-blue-600 text-blue-600 hover:bg-blue-600/10'
@@ -227,18 +227,18 @@ export default function Home() {
             </div>
 
             {/* Stats */}
-            <div className="mt-12 grid grid-cols-3 gap-8">
+            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8">
               <div>
-                <p className={`text-3xl font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-500'}`}>150+</p>
-                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{t('hero.countries')}</p>
+                <p className={`text-2xl sm:text-3xl font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-500'}`}>150+</p>
+                <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{t('hero.countries')}</p>
               </div>
               <div>
-                <p className={`text-3xl font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>10K+</p>
-                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{t('hero.courses')}</p>
+                <p className={`text-2xl sm:text-3xl font-bold ${isDark ? 'text-cyan-400' : 'text-blue-600'}`}>10K+</p>
+                <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{t('hero.courses')}</p>
               </div>
-              <div>
-                <p className={`text-3xl font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-500'}`}>1M+</p>
-                <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>{t('hero.learners')}</p>
+              <div className="col-span-2 sm:col-span-1">
+                <p className={`text-2xl sm:text-3xl font-bold ${isDark ? 'text-yellow-400' : 'text-yellow-500'}`}>1M+</p>
+                <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{t('hero.learners')}</p>
               </div>
             </div>
           </div>
