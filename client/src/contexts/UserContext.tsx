@@ -23,6 +23,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = authService.onAuthStateChanged(async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
+        // Prevent race conditions where ProtectedRoute checks role before profile is loaded
+        setLoading(true);
         const { profile: userProfile } = await authService.getUserProfile(currentUser.uid);
         setProfile(userProfile);
       } else {

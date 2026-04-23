@@ -1,6 +1,6 @@
 import StudentLayout from '@/components/StudentLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { PlayCircle, Award, BookOpen, Clock } from 'lucide-react';
+import { PlayCircle, Award, BookOpen, Clock, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function StudentDashboard() {
