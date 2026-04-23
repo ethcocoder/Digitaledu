@@ -4,7 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useUser } from '@/contexts/UserContext';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket, Sun, Moon } from 'lucide-react';
+import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket, Sun, Moon, User } from 'lucide-react';
 import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const [, setLocation] = useLocation();
   const { t, language, theme } = useLanguage();
-  const { user, logout } = useUser();
+  const { user, logout, role } = useUser();
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
@@ -127,12 +127,38 @@ export default function Home() {
 
             {/* CTA Button */}
             {user ? (
-              <button
-                onClick={logout}
-                className="px-4 md:px-6 py-2 bg-gradient-to-r from-red-400 to-red-500 text-white text-sm md:text-base font-bold rounded-lg hover:shadow-lg hover:shadow-red-400/50 transition interactive whitespace-nowrap"
-              >
-                {t('auth.logout')}
-              </button>
+              <div className="relative group">
+                <button
+                  className={`px-4 md:px-6 py-2 text-sm md:text-base font-bold rounded-lg transition interactive whitespace-nowrap flex items-center gap-2 ${
+                    isDark 
+                      ? 'bg-slate-800 text-white hover:bg-slate-700' 
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                  }`}
+                >
+                  <User className="w-4 h-4" />
+                  <span className="hidden sm:inline">My Account</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-50">
+                  <div className={`p-2 rounded-xl ${isDark ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-gray-100'}`}>
+                    <button
+                      onClick={() => setLocation(role === 'superadmin' ? '/superadmin' : role === 'admin' ? '/admin' : role === 'instructor' ? '/instructor' : '/student')}
+                      className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        isDark ? 'text-gray-300 hover:bg-slate-700 hover:text-white' : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      Dashboard
+                    </button>
+                    <div className={`my-1 border-t ${isDark ? 'border-slate-700' : 'border-gray-100'}`} />
+                    <button
+                      onClick={logout}
+                      className="w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors text-red-500 hover:bg-red-500/10"
+                    >
+                      {t('auth.logout')}
+                    </button>
+                  </div>
+                </div>
+              </div>
             ) : (
               <button
                 onClick={() => setLocation('/register')}
