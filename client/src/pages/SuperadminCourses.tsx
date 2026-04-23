@@ -1,26 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AdminLayout from '@/components/AdminLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Search, Plus, Filter, PlayCircle, Clock, BookOpen, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-const MOCK_COURSES = [
-  { id: 1, title: 'Advanced React Patterns', category: 'Professional', instructor: 'Evan Wright', status: 'published', students: 1250, rating: 4.8 },
-  { id: 2, title: 'Grade 8 Mathematics', category: 'School', instructor: 'Alice Johnson', status: 'published', students: 3420, rating: 4.5 },
-  { id: 3, title: 'Introduction to Physics', category: 'University', instructor: 'Dr. Smith', status: 'draft', students: 0, rating: 0 },
-  { id: 4, title: 'Creative Storytelling', category: 'Kids', instructor: 'Sarah Lee', status: 'published', students: 890, rating: 4.9 },
-  { id: 5, title: 'Data Science Fundamentals', category: 'Professional', instructor: 'Alan Turing', status: 'archived', students: 5600, rating: 4.7 },
-];
+import { courseService } from '@/lib/courseService';
+import { Course } from '../../../shared/types';
 
 export default function SuperadminCourses() {
   const { theme } = useLanguage();
   const isDark = theme === 'dark';
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredCourses = MOCK_COURSES.filter(course => {
+  useEffect(() => {
+    const fetchCourses = async () => {
+      const { courses, error } = await courseService.getAllCourses();
+      if (!error) {
+        setCourses(courses);
+      }
+      setLoading(false);
+    };
+    fetchCourses();
+  }, []);
+
+  const filteredCourses = courses.filter(course => {
     const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+                          course.instructorName.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === 'all' || course.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
@@ -116,54 +123,62 @@ export default function SuperadminCourses() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-500/10">
-                {filteredCourses.map((course, index) => (
-                  <motion.tr 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    key={course.id} 
-                    className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-blue-50/50'}`}
-                  >
-                    <td className="px-6 py-4">
-                      <div className="font-bold">{course.title}</div>
-                      <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>By {course.instructor}</div>
+                {loading ? (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                      Loading courses from database...
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded-md text-xs font-bold uppercase ${
-                        isDark ? 'bg-slate-800 text-gray-300' : 'bg-gray-100 text-gray-700'
-                      }`}>
-                        {course.category}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded-md text-xs font-bold uppercase ${
-                        course.status === 'published' ? 'bg-green-500/10 text-green-500' :
-                        course.status === 'draft' ? 'bg-yellow-500/10 text-yellow-500' :
-                        'bg-gray-500/10 text-gray-500'
-                      }`}>
-                        {course.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 font-medium">{course.students.toLocaleString()}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                        <span className="font-bold">{course.rating > 0 ? course.rating : 'N/A'}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-right space-x-2">
-                      <button className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${
-                        isDark ? 'border-cyan-400/20 text-cyan-400 hover:bg-cyan-400/10' : 'border-blue-200 text-blue-600 hover:bg-blue-50'
-                      }`}>
-                        Manage
-                      </button>
-                    </td>
-                  </motion.tr>
-                ))}
+                  </tr>
+                ) : (
+                  filteredCourses.map((course, index) => (
+                    <motion.tr 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      key={course.id} 
+                      className={`transition-colors ${isDark ? 'hover:bg-white/5' : 'hover:bg-blue-50/50'}`}
+                    >
+                      <td className="px-6 py-4">
+                        <div className="font-bold">{course.title}</div>
+                        <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>By {course.instructorName}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2 py-1 rounded-md text-xs font-bold uppercase ${
+                          isDark ? 'bg-slate-800 text-gray-300' : 'bg-gray-100 text-gray-700'
+                        }`}>
+                          {course.category}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2 py-1 rounded-md text-xs font-bold uppercase ${
+                          course.status === 'published' ? 'bg-green-500/10 text-green-500' :
+                          course.status === 'draft' ? 'bg-yellow-500/10 text-yellow-500' :
+                          'bg-gray-500/10 text-gray-500'
+                        }`}>
+                          {course.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 font-medium">{course.studentsCount.toLocaleString()}</td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                          <span className="font-bold">{course.rating > 0 ? course.rating : 'N/A'}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-right space-x-2">
+                        <button className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-colors ${
+                          isDark ? 'border-cyan-400/20 text-cyan-400 hover:bg-cyan-400/10' : 'border-blue-200 text-blue-600 hover:bg-blue-50'
+                        }`}>
+                          Manage
+                        </button>
+                      </td>
+                    </motion.tr>
+                  ))
+                )}
               </tbody>
             </table>
             
-            {filteredCourses.length === 0 && (
+            {!loading && filteredCourses.length === 0 && (
               <div className="p-8 text-center text-gray-500">
                 No courses found matching your criteria.
               </div>
