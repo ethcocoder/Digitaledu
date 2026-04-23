@@ -31,9 +31,9 @@ export default function SuperadminHealth() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { title: "CPU Utilization", val: "32%", icon: Cpu, color: "text-blue-500", bg: "bg-blue-500/10" },
-            { title: "Memory Usage", val: "48%", icon: HardDrive, color: "text-purple-500", bg: "bg-purple-500/10" },
-            { title: "Network I/O", val: "842 MB/s", icon: Network, color: "text-cyan-500", bg: "bg-cyan-500/10" },
+            { title: "CPU Utilization", val: "0%", icon: Cpu, color: "text-blue-500", bg: "bg-blue-500/10" },
+            { title: "Memory Usage", val: "0%", icon: HardDrive, color: "text-purple-500", bg: "bg-purple-500/10" },
+            { title: "Network I/O", val: "0 MB/s", icon: Network, color: "text-cyan-500", bg: "bg-cyan-500/10" },
           ].map((stat, i) => (
              <div key={i} className={`p-6 rounded-2xl border ${
                isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'

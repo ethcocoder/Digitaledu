@@ -13,9 +13,9 @@ export default function SuperadminFinancials() {
         {/* Top Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { title: "Total Revenue (YTD)", val: "$2.4M", icon: DollarSign, color: "text-green-500", bg: "bg-green-500/10" },
-            { title: "Monthly Recurring", val: "$428K", icon: TrendingUp, color: "text-blue-500", bg: "bg-blue-500/10" },
-            { title: "Active Subscriptions", val: "84.2K", icon: CreditCard, color: "text-purple-500", bg: "bg-purple-500/10" },
+            { title: "Total Revenue (YTD)", val: "$0", icon: DollarSign, color: "text-green-500", bg: "bg-green-500/10" },
+            { title: "Monthly Recurring", val: "$0", icon: TrendingUp, color: "text-blue-500", bg: "bg-blue-500/10" },
+            { title: "Active Subscriptions", val: "0", icon: CreditCard, color: "text-purple-500", bg: "bg-purple-500/10" },
           ].map((stat, i) => (
              <div key={i} className={`p-6 rounded-2xl border ${
                isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'

@@ -6,15 +6,6 @@ import {
   BarChart, Bar, Cell, PieChart, Pie
 } from 'recharts';
 
-const data = [
-  { name: 'Jan', value: 400 },
-  { name: 'Feb', value: 300 },
-  { name: 'Mar', value: 600 },
-  { name: 'Apr', value: 800 },
-  { name: 'May', value: 500 },
-  { name: 'Jun', value: 900 },
-];
-
 export default function SuperadminAnalytics() {
   const { theme } = useLanguage();
   const isDark = theme === 'dark';
@@ -26,10 +17,10 @@ export default function SuperadminAnalytics() {
         {/* Top KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
-            { title: "Engagement Rate", val: "68.4%", icon: TrendingUp, color: "text-blue-500", bg: "bg-blue-500/10" },
-            { title: "Daily Active Users", val: "124K", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10" },
-            { title: "Avg. Session", val: "42m", icon: Clock, color: "text-yellow-500", bg: "bg-yellow-500/10" },
-            { title: "Completion Rate", val: "84%", icon: BarChart3, color: "text-green-500", bg: "bg-green-500/10" },
+            { title: "Engagement Rate", val: "0%", icon: TrendingUp, color: "text-blue-500", bg: "bg-blue-500/10" },
+            { title: "Daily Active Users", val: "0", icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10" },
+            { title: "Avg. Session", val: "0m", icon: Clock, color: "text-yellow-500", bg: "bg-yellow-500/10" },
+            { title: "Completion Rate", val: "0%", icon: BarChart3, color: "text-green-500", bg: "bg-green-500/10" },
           ].map((kpi, i) => (
              <div key={i} className={`p-6 rounded-2xl border transition-all ${
                isDark ? 'bg-slate-900/40 border-cyan-400/10 hover:border-cyan-400/30' : 'bg-white border-blue-100 hover:border-blue-300'
@@ -49,44 +40,15 @@ export default function SuperadminAnalytics() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'}`}>
             <h3 className="font-bold text-lg mb-6">Traffic Overview</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={data}>
-                  <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#1e293b' : '#f1f5f9'} />
-                  <XAxis dataKey="name" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip contentStyle={{ backgroundColor: isDark ? '#0f172a' : '#fff', borderRadius: '12px' }} />
-                  <Area type="monotone" dataKey="value" stroke="#0ea5e9" fill="#0ea5e9" fillOpacity={0.2} strokeWidth={3} />
-                </AreaChart>
-              </ResponsiveContainer>
+            <div className="h-64 flex items-center justify-center border-t border-dashed border-cyan-400/20 mt-4">
+              <p className={isDark ? 'text-gray-500' : 'text-gray-400'}>Insufficient data to generate growth projections.</p>
             </div>
           </div>
           
           <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'}`}>
             <h3 className="font-bold text-lg mb-6">Device Breakdown</h3>
-             <div className="h-64 flex items-center justify-center">
-               <ResponsiveContainer width="100%" height="100%">
-                 <PieChart>
-                   <Pie
-                     data={[
-                       { name: 'Mobile', value: 400 },
-                       { name: 'Desktop', value: 300 },
-                       { name: 'Tablet', value: 300 }
-                     ]}
-                     cx="50%"
-                     cy="50%"
-                     innerRadius={60}
-                     outerRadius={80}
-                     paddingAngle={5}
-                     dataKey="value"
-                   >
-                     <Cell fill="#0ea5e9" />
-                     <Cell fill="#8b5cf6" />
-                     <Cell fill="#eab308" />
-                   </Pie>
-                   <Tooltip contentStyle={{ backgroundColor: isDark ? '#0f172a' : '#fff', borderRadius: '12px' }} />
-                 </PieChart>
-               </ResponsiveContainer>
+             <div className="h-64 flex items-center justify-center border-t border-dashed border-cyan-400/20 mt-4">
+               <p className={isDark ? 'text-gray-500' : 'text-gray-400'}>No device analytics tracked yet.</p>
              </div>
           </div>
         </div>

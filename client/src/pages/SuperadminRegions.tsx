@@ -6,12 +6,7 @@ export default function SuperadminRegions() {
   const { theme } = useLanguage();
   const isDark = theme === 'dark';
 
-  const regions = [
-    { name: 'North America', users: '450K', status: 'Optimal', servers: 12 },
-    { name: 'Europe', users: '320K', status: 'Optimal', servers: 8 },
-    { name: 'Africa', users: '280K', status: 'High Load', servers: 5 },
-    { name: 'Asia Pacific', users: '150K', status: 'Optimal', servers: 6 },
-  ];
+  const regions: {name: string, users: string, status: string, servers: number}[] = [];
 
   return (
     <AdminLayout title="Regional Hubs">
@@ -28,7 +23,11 @@ export default function SuperadminRegions() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {regions.map((region, i) => (
+          {regions.length === 0 ? (
+            <div className="col-span-full p-8 text-center text-gray-500 border border-dashed rounded-2xl border-cyan-400/20">
+              No regional hubs configured yet.
+            </div>
+          ) : regions.map((region, i) => (
              <div key={i} className={`p-6 rounded-2xl border ${
                isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'
              }`}>
