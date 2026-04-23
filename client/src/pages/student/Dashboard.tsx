@@ -4,7 +4,7 @@ import { PlayCircle, Award, BookOpen, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function StudentDashboard() {
-  const { theme } = useLanguage();
+  const { theme, t } = useLanguage();
   const isDark = theme === 'dark';
 
   return (
@@ -16,12 +16,12 @@ export default function StudentDashboard() {
           isDark ? 'bg-slate-900/40 border-yellow-500/20' : 'bg-white border-yellow-200'
         }`}>
           <div className="relative z-10">
-            <h2 className="text-2xl font-bold mb-2">Welcome back!</h2>
+            <h2 className="text-2xl font-bold mb-2">{t('student.welcome')}</h2>
             <p className={`mb-6 max-w-lg ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              You've completed 4 hours of learning this week. Keep up the momentum! Your next lesson in "Advanced React Patterns" is waiting for you.
+              {t('student.learningMomentum')}
             </p>
             <button className="px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold rounded-xl shadow-lg shadow-yellow-500/30 hover:scale-105 transition-transform">
-              Resume Learning
+              {t('student.resume')}
             </button>
           </div>
           
@@ -33,10 +33,10 @@ export default function StudentDashboard() {
         {/* Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
-            { label: 'Courses in Progress', value: '2', icon: PlayCircle, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-            { label: 'Completed Courses', value: '5', icon: Award, color: 'text-green-500', bg: 'bg-green-500/10' },
-            { label: 'Certificates Earned', value: '3', icon: BookOpen, color: 'text-purple-500', bg: 'bg-purple-500/10' },
-            { label: 'Learning Hours', value: '42h', icon: Clock, color: 'text-yellow-500', bg: 'bg-yellow-500/10' },
+            { label: t('student.inProgress'), value: '2', icon: PlayCircle, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+            { label: t('student.completed'), value: '5', icon: Award, color: 'text-green-500', bg: 'bg-green-500/10' },
+            { label: t('dashboard.certificates'), value: '3', icon: BookOpen, color: 'text-purple-500', bg: 'bg-purple-500/10' },
+            { label: t('student.hours'), value: '42h', icon: Clock, color: 'text-yellow-500', bg: 'bg-yellow-500/10' },
           ].map((stat, i) => (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ export default function StudentDashboard() {
 
         {/* In Progress Courses */}
         <div>
-          <h3 className="text-xl font-bold mb-6">Continue Learning</h3>
+          <h3 className="text-xl font-bold mb-6">{t('student.continueLearning')}</h3>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className={`p-6 rounded-2xl border flex flex-col md:flex-row gap-6 ${
               isDark ? 'bg-slate-900/40 border-yellow-500/10 hover:border-yellow-500/30' : 'bg-white border-yellow-200 hover:border-yellow-400'
@@ -92,14 +92,14 @@ export default function StudentDashboard() {
               <div className={`p-4 rounded-full mb-4 ${isDark ? 'bg-slate-800' : 'bg-yellow-50'}`}>
                 <Search className={`w-6 h-6 ${isDark ? 'text-gray-500' : 'text-yellow-500'}`} />
               </div>
-              <h4 className="font-bold text-lg mb-2">Looking for more?</h4>
+              <h4 className="font-bold text-lg mb-2">{t('student.lookingForMore')}</h4>
               <p className={`text-sm mb-4 max-w-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                 Browse the course catalog to discover new skills and enroll in more classes.
               </p>
               <button className={`px-4 py-2 rounded-lg text-sm font-bold border transition-colors ${
                 isDark ? 'border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/10' : 'border-yellow-400 text-yellow-600 hover:bg-yellow-50'
               }`}>
-                Explore Catalog
+                {t('student.exploreCatalog')}
               </button>
             </div>
           </div>

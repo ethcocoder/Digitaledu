@@ -40,8 +40,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     setProfile(null);
   };
 
+  const role = profile?.role ? (profile.role.toLowerCase() as UserRole) : null;
+
   return (
-    <UserContext.Provider value={{ user, profile, role: profile?.role || null, loading, logout }}>
+    <UserContext.Provider value={{ user, profile, role, loading, logout }}>
       {children}
     </UserContext.Provider>
   );

@@ -146,6 +146,44 @@ const translations = {
     'auth.selectRole': 'Select Your Role',
     'auth.student': 'Student',
     'auth.instructor': 'Instructor',
+    
+    // Dashboard General
+    'dashboard.overview': 'Overview',
+    'dashboard.users': 'User Management',
+    'dashboard.courses': 'Course Lifecycle',
+    'dashboard.analytics': 'Analytics',
+    'dashboard.financials': 'Financials',
+    'dashboard.settings': 'Settings',
+    'dashboard.myLearning': 'My Learning',
+    'dashboard.catalog': 'Course Catalog',
+    'dashboard.achievements': 'Achievements',
+    'dashboard.certificates': 'Certificates',
+    'dashboard.logout': 'Sign Out',
+
+    // Superadmin Overview
+    'superadmin.title': 'Global Enterprise Overview',
+    'superadmin.totalUsers': 'Total Users',
+    'superadmin.totalCourses': 'Total Courses',
+    'superadmin.revenue': 'Global Revenue',
+    'superadmin.growth': 'Growth Projection',
+    'superadmin.recentActivity': 'Recent Activity',
+
+    // Admin Overview
+    'admin.title': 'Platform Administration',
+    'admin.pendingApprovals': 'Pending Approvals',
+    'admin.activeUsers': 'Total Active Users',
+    'admin.activeCourses': 'Active Courses',
+
+    // Student Dashboard
+    'student.welcome': 'Welcome back!',
+    'student.learningMomentum': 'Keep up the momentum!',
+    'student.resume': 'Resume Learning',
+    'student.inProgress': 'Courses in Progress',
+    'student.completed': 'Completed Courses',
+    'student.hours': 'Learning Hours',
+    'student.continueLearning': 'Continue Learning',
+    'student.lookingForMore': 'Looking for more?',
+    'student.exploreCatalog': 'Explore Catalog',
   },
   am: {
     // Navigation
@@ -280,6 +318,44 @@ const translations = {
     'auth.selectRole': 'ሚናዎን ይምረጡ',
     'auth.student': 'ተማሪ',
     'auth.instructor': 'መምህር',
+    
+    // Dashboard General
+    'dashboard.overview': 'አጠቃላይ እይታ',
+    'dashboard.users': 'የተጠቃሚ አስተዳደር',
+    'dashboard.courses': 'የኮርስ አስተዳደር',
+    'dashboard.analytics': 'ትንታኔ',
+    'dashboard.financials': 'ፋይናንስ',
+    'dashboard.settings': 'ቅንብሮች',
+    'dashboard.myLearning': 'የእኔ ትምህርት',
+    'dashboard.catalog': 'የኮርስ ዝርዝር',
+    'dashboard.achievements': 'ስኬቶች',
+    'dashboard.certificates': 'የምስክር ወረቀቶች',
+    'dashboard.logout': 'ውጣ',
+
+    // Superadmin Overview
+    'superadmin.title': 'ዓለምአቀፍ ኢንተርፕራይዝ አጠቃላይ እይታ',
+    'superadmin.totalUsers': 'ጠቅላላ ተጠቃሚዎች',
+    'superadmin.totalCourses': 'ጠቅላላ ኮርሶች',
+    'superadmin.revenue': 'ጠቅላላ ገቢ',
+    'superadmin.growth': 'የእድገት ትንበያ',
+    'superadmin.recentActivity': 'የቅርብ ጊዜ እንቅስቃሴዎች',
+
+    // Admin Overview
+    'admin.title': 'የፕላትፎርም አስተዳደር',
+    'admin.pendingApprovals': 'በመጠባበቅ ላይ ያሉ',
+    'admin.activeUsers': 'ጠቅላላ ንቁ ተጠቃሚዎች',
+    'admin.activeCourses': 'ንቁ ኮርሶች',
+
+    // Student Dashboard
+    'student.welcome': 'እንኳን ደህና መጣህ!',
+    'student.learningMomentum': 'ፍጥነትዎን ይቀጥሉ!',
+    'student.resume': 'ትምህርት ቀጥል',
+    'student.inProgress': 'በመከናወን ላይ ያሉ ኮርሶች',
+    'student.completed': 'የተጠናቀቁ ኮርሶች',
+    'student.hours': 'የጥናት ሰዓታት',
+    'student.continueLearning': 'ትምህርትዎን ይቀጥሉ',
+    'student.lookingForMore': 'ተጨማሪ ይፈልጋሉ?',
+    'student.exploreCatalog': 'ካታሎጉን ያስሱ',
   },
 };;
 

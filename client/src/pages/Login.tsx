@@ -54,13 +54,14 @@ export default function Login() {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
       
-      if (profile?.role === 'superadmin') {
+      const role = profile?.role?.toLowerCase();
+      if (role === 'superadmin') {
         setLocation('/superadmin');
-      } else if (profile?.role === 'admin') {
+      } else if (role === 'admin') {
         setLocation('/admin');
-      } else if (profile?.role === 'instructor') {
+      } else if (role === 'instructor') {
         setLocation('/instructor');
-      } else if (profile?.role === 'student') {
+      } else if (role === 'student') {
         setLocation('/student');
       } else {
         setLocation('/');
@@ -79,13 +80,14 @@ export default function Login() {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
       
-      if (profile?.role === 'superadmin') {
+      const role = profile?.role?.toLowerCase();
+      if (role === 'superadmin') {
         setLocation('/superadmin');
-      } else if (profile?.role === 'admin') {
+      } else if (role === 'admin') {
         setLocation('/admin');
-      } else if (profile?.role === 'instructor') {
+      } else if (role === 'instructor') {
         setLocation('/instructor');
-      } else if (profile?.role === 'student') {
+      } else if (role === 'student') {
         setLocation('/student');
       } else {
         setLocation('/');
@@ -104,13 +106,14 @@ export default function Login() {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
       
-      if (profile?.role === 'superadmin') {
+      const role = profile?.role?.toLowerCase();
+      if (role === 'superadmin') {
         setLocation('/superadmin');
-      } else if (profile?.role === 'admin') {
+      } else if (role === 'admin') {
         setLocation('/admin');
-      } else if (profile?.role === 'instructor') {
+      } else if (role === 'instructor') {
         setLocation('/instructor');
-      } else if (profile?.role === 'student') {
+      } else if (role === 'student') {
         setLocation('/student');
       } else {
         setLocation('/');

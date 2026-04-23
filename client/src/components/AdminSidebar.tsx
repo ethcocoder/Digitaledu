@@ -51,20 +51,20 @@ export default function AdminSidebar() {
   const [location, setLocation] = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const { logout, role } = useUser();
-  const { theme } = useLanguage();
+  const { theme, t } = useLanguage();
   const isDark = theme === 'dark';
 
   const isSuperadmin = role === 'superadmin';
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Overview', path: isSuperadmin ? '/superadmin' : '/admin' },
-    { icon: Users, label: 'User Management', path: isSuperadmin ? '/superadmin/users' : '/admin/users' },
-    { icon: BookOpen, label: 'Course Lifecycle', path: isSuperadmin ? '/superadmin/courses' : '/admin/courses' },
-    { icon: BarChart3, label: 'Analytics', path: isSuperadmin ? '/superadmin/analytics' : '/admin/analytics' },
-    { icon: CreditCard, label: 'Financials', path: isSuperadmin ? '/superadmin/financials' : '/admin/financials' },
+    { icon: LayoutDashboard, label: t('dashboard.overview'), path: isSuperadmin ? '/superadmin' : '/admin' },
+    { icon: Users, label: t('dashboard.users'), path: isSuperadmin ? '/superadmin/users' : '/admin/users' },
+    { icon: BookOpen, label: t('dashboard.courses'), path: isSuperadmin ? '/superadmin/courses' : '/admin/courses' },
+    { icon: BarChart3, label: t('dashboard.analytics'), path: isSuperadmin ? '/superadmin/analytics' : '/admin/analytics' },
+    { icon: CreditCard, label: t('dashboard.financials'), path: isSuperadmin ? '/superadmin/financials' : '/admin/financials' },
     { icon: Globe, label: 'Regional Hubs', path: '/superadmin/regions', hidden: !isSuperadmin },
     { icon: ShieldAlert, label: 'System Health', path: '/superadmin/health', hidden: !isSuperadmin },
-    { icon: Settings, label: 'Global Settings', path: '/superadmin/settings' },
+    { icon: Settings, label: t('dashboard.settings'), path: '/superadmin/settings' },
   ].filter(item => !item.hidden);
 
   return (
@@ -135,7 +135,7 @@ export default function AdminSidebar() {
           }`}
         >
           <LogOut className="w-5 h-5" />
-          {!collapsed && <span className="font-medium">Logout System</span>}
+          {!collapsed && <span className="font-medium">{t('dashboard.logout')}</span>}
         </button>
       </div>
 

@@ -47,15 +47,15 @@ export default function StudentSidebar() {
   const [location, setLocation] = useLocation();
   const [collapsed, setCollapsed] = useState(false);
   const { logout } = useUser();
-  const { theme } = useLanguage();
+  const { theme, t } = useLanguage();
   const isDark = theme === 'dark';
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'My Learning', path: '/student' },
-    { icon: Search, label: 'Course Catalog', path: '/student/catalog' },
-    { icon: Trophy, label: 'Achievements', path: '/student/achievements' },
-    { icon: BookOpen, label: 'Certificates', path: '/student/certificates' },
-    { icon: Settings, label: 'Preferences', path: '/student/settings' },
+    { icon: LayoutDashboard, label: t('dashboard.myLearning'), path: '/student' },
+    { icon: Search, label: t('dashboard.catalog'), path: '/student/catalog' },
+    { icon: Trophy, label: t('dashboard.achievements'), path: '/student/achievements' },
+    { icon: BookOpen, label: t('dashboard.certificates'), path: '/student/certificates' },
+    { icon: Settings, label: t('dashboard.settings'), path: '/student/settings' },
   ];
 
   return (
@@ -126,7 +126,7 @@ export default function StudentSidebar() {
           }`}
         >
           <LogOut className="w-5 h-5" />
-          {!collapsed && <span className="font-medium">Sign Out</span>}
+          {!collapsed && <span className="font-medium">{t('dashboard.logout')}</span>}
         </button>
       </div>
     </aside>

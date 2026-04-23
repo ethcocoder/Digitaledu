@@ -60,7 +60,7 @@ function StatCard({ title, value, change, trend, icon: Icon, color }: StatCardPr
 }
 
 export default function SuperadminOverview() {
-  const { theme } = useLanguage();
+  const { theme, t } = useLanguage();
   const isDark = theme === 'dark';
 
   const [stats, setStats] = useState({ users: 0, courses: 0, revenue: 0 });
@@ -84,25 +84,8 @@ export default function SuperadminOverview() {
   }, []);
 
   return (
-    <AdminLayout title="Global Enterprise Overview">
+    <AdminLayout title={t('superadmin.title')}>
       <div className="space-y-8">
-        {/* Top Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard 
-            title="Total Registered Users" 
-            value={loading ? "..." : stats.users.toLocaleString()} 
-            change={stats.users === 0 ? "0%" : "+100%"} 
-            trend="up" 
-            icon={Users} 
-            color="bg-cyan-500" 
-          />
-          <StatCard 
-            title="Total Active Courses" 
-            value={loading ? "..." : stats.courses.toLocaleString()} 
-            change={stats.courses === 0 ? "0%" : "+100%"} 
-            trend="up" 
-            icon={Activity} 
-            color="bg-purple-500" 
           />
           <StatCard 
             title="Global Revenue" 
