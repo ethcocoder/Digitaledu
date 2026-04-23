@@ -58,6 +58,10 @@ export default function Login() {
         setLocation('/superadmin');
       } else if (profile?.role === 'admin') {
         setLocation('/admin');
+      } else if (profile?.role === 'instructor') {
+        setLocation('/instructor');
+      } else if (profile?.role === 'student') {
+        setLocation('/student');
       } else {
         setLocation('/');
       }
@@ -79,6 +83,10 @@ export default function Login() {
         setLocation('/superadmin');
       } else if (profile?.role === 'admin') {
         setLocation('/admin');
+      } else if (profile?.role === 'instructor') {
+        setLocation('/instructor');
+      } else if (profile?.role === 'student') {
+        setLocation('/student');
       } else {
         setLocation('/');
       }
@@ -100,6 +108,10 @@ export default function Login() {
         setLocation('/superadmin');
       } else if (profile?.role === 'admin') {
         setLocation('/admin');
+      } else if (profile?.role === 'instructor') {
+        setLocation('/instructor');
+      } else if (profile?.role === 'student') {
+        setLocation('/student');
       } else {
         setLocation('/');
       }
