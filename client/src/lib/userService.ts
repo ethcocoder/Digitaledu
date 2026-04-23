@@ -37,5 +37,20 @@ export const userService = {
       console.error('Error updating user role:', error);
       return { error: error.message };
     }
+  },
+
+  // Update user status
+  updateUserStatus: async (uid: string, newStatus: string): Promise<{ error: string | null }> => {
+    try {
+      if (!db) throw new Error('Firestore not initialized');
+      const userRef = doc(db, 'users', uid);
+      await updateDoc(userRef, {
+        status: newStatus
+      });
+      return { error: null };
+    } catch (error: any) {
+      console.error('Error updating user status:', error);
+      return { error: error.message };
+    }
   }
 };

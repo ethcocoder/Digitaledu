@@ -21,6 +21,9 @@ import SuperadminFinancials from "./pages/SuperadminFinancials";
 import SuperadminRegions from "./pages/SuperadminRegions";
 import SuperadminHealth from "./pages/SuperadminHealth";
 
+import AdminOverview from "./pages/AdminOverview";
+import AdminUsers from "./pages/AdminUsers";
+
 import { useUser } from "./contexts/UserContext";
 
 function PlaceholderDashboard({ title }: { title: string }) {
@@ -90,7 +93,12 @@ function Router() {
       {/* Admin Routes */}
       <Route path="/admin">
         <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
-          <PlaceholderDashboard title="Admin Dashboard (Coming Soon)" />
+          <AdminOverview />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/users">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
+          <AdminUsers />
         </ProtectedRoute>
       </Route>
 
