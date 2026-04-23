@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light-mode *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

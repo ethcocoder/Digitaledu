@@ -3,7 +3,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { UserProvider } from "./contexts/UserContext";
 import InteractiveCursor from "./components/InteractiveCursor";
@@ -33,20 +32,15 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="dark"
-        // switchable
-      >
-        <LanguageProvider>
-          <UserProvider>
-            <TooltipProvider>
-              <InteractiveCursor />
-              <Toaster />
-              <Router />
-            </TooltipProvider>
-          </UserProvider>
-        </LanguageProvider>
-      </ThemeProvider>
+      <LanguageProvider>
+        <UserProvider>
+          <TooltipProvider>
+            <InteractiveCursor />
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </UserProvider>
+      </LanguageProvider>
     </ErrorBoundary>
   );
 }

@@ -5,6 +5,7 @@ import { useUser } from '@/contexts/UserContext';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket, Sun, Moon } from 'lucide-react';
+import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -122,66 +123,7 @@ export default function Home() {
 
           {/* Right Controls */}
           <div className="flex items-center gap-4">
-            {/* Language Switcher */}
-            <div className={`flex items-center gap-2 border rounded-lg p-1 ${
-              isDark 
-                ? 'border-cyan-400/30' 
-                : 'border-blue-200/50'
-            }`}>
-              <button
-                onClick={() => {
-                  const { setLanguage } = useLanguage();
-                  setLanguage('en');
-                }}
-                className={`px-3 py-1 rounded transition ${
-                  language === 'en'
-                    ? isDark 
-                      ? 'bg-cyan-400 text-black font-bold' 
-                      : 'bg-blue-600 text-white font-bold'
-                    : isDark 
-                      ? 'text-gray-400 hover:text-cyan-400' 
-                      : 'text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => {
-                  const { setLanguage } = useLanguage();
-                  setLanguage('am');
-                }}
-                className={`px-3 py-1 rounded transition ${
-                  language === 'am'
-                    ? isDark 
-                      ? 'bg-cyan-400 text-black font-bold' 
-                      : 'bg-blue-600 text-white font-bold'
-                    : isDark 
-                      ? 'text-gray-400 hover:text-cyan-400' 
-                      : 'text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                ኦ
-              </button>
-            </div>
-
-            {/* Theme Switcher */}
-            <button
-              onClick={() => {
-                const { setTheme, theme } = useLanguage();
-                setTheme(theme === 'dark' ? 'light' : 'dark');
-              }}
-              className={`p-2 rounded-lg border transition ${
-                isDark 
-                  ? 'border-cyan-400/30 hover:bg-cyan-400/10' 
-                  : 'border-blue-200/50 hover:bg-blue-100/30'
-              }`}
-            >
-              {useLanguage().theme === 'dark' ? (
-                <Sun className="w-5 h-5 text-yellow-400" />
-              ) : (
-                <Moon className="w-5 h-5 text-blue-600" />
-              )}
-            </button>
+            <LanguageThemeSwitcher />
 
             {/* CTA Button */}
             {user ? (
@@ -189,7 +131,7 @@ export default function Home() {
                 onClick={logout}
                 className="px-6 py-2 bg-gradient-to-r from-red-400 to-red-500 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-red-400/50 transition interactive"
               >
-                Logout
+                {t('auth.logout')}
               </button>
             ) : (
               <button

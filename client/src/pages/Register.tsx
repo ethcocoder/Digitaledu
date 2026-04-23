@@ -4,6 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { authService } from '@/lib/firebase';
 import gsap from 'gsap';
 import { Eye, EyeOff, ArrowRight, Mail, Lock, User, CheckCircle, Loader } from 'lucide-react';
+import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
 
 export default function Register() {
   const [, setLocation] = useLocation();
@@ -135,6 +136,11 @@ export default function Register() {
           }`}
           style={{ animation: 'float 7s ease-in-out infinite 2s' }}
         />
+      </div>
+
+      {/* Language/Theme Toggle */}
+      <div className="absolute top-6 right-6 z-20">
+        <LanguageThemeSwitcher />
       </div>
 
       {/* Content */}

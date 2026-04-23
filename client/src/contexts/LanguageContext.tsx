@@ -137,6 +137,10 @@ const translations = {
     'auth.termsOfService': 'Terms of Service',
     'auth.haveAccount': 'Already have an account?',
     'auth.loading': 'Loading...',
+    'auth.logout': 'Logout',
+    'auth.emailPlaceholder': 'you@example.com',
+    'auth.passwordPlaceholder': '••••••••',
+    'auth.namePlaceholder': 'John Doe',
   },
   am: {
     // Navigation
@@ -262,6 +266,10 @@ const translations = {
     'auth.termsOfService': 'የአገልግሎት ውል',
     'auth.haveAccount': 'ቀድሞ ሂሳብ አለህ?',
     'auth.loading': 'በመጫን ላይ...',
+    'auth.logout': 'ውጣ',
+    'auth.emailPlaceholder': 'you@example.com',
+    'auth.passwordPlaceholder': '••••••••',
+    'auth.namePlaceholder': 'ሙሉ ስም',
   },
 };;
 
