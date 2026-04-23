@@ -72,7 +72,17 @@ export default function Register() {
       setError(authError);
       setLoading(false);
     } else if (user) {
-      setLocation('/');
+      setVerifyingRole(true);
+      // For registration, we already know the role from formData
+      if (formData.role === 'superadmin' as any) {
+        setLocation('/superadmin');
+      } else if (formData.role === 'admin' as any) {
+        setLocation('/admin');
+      } else if (formData.role === 'instructor') {
+        setLocation('/instructor');
+      } else {
+        setLocation('/student');
+      }
     }
   };
 
@@ -84,7 +94,17 @@ export default function Register() {
       setError(authError);
       setLoading(false);
     } else if (user) {
-      setLocation('/');
+      setVerifyingRole(true);
+      const { profile } = await authService.getUserProfile(user.uid);
+      if (profile?.role === 'superadmin') {
+        setLocation('/superadmin');
+      } else if (profile?.role === 'admin') {
+        setLocation('/admin');
+      } else if (profile?.role === 'instructor') {
+        setLocation('/instructor');
+      } else {
+        setLocation('/student');
+      }
     }
   };
 
@@ -96,7 +116,17 @@ export default function Register() {
       setError(authError);
       setLoading(false);
     } else if (user) {
-      setLocation('/');
+      setVerifyingRole(true);
+      const { profile } = await authService.getUserProfile(user.uid);
+      if (profile?.role === 'superadmin') {
+        setLocation('/superadmin');
+      } else if (profile?.role === 'admin') {
+        setLocation('/admin');
+      } else if (profile?.role === 'instructor') {
+        setLocation('/instructor');
+      } else {
+        setLocation('/student');
+      }
     }
   };
 
