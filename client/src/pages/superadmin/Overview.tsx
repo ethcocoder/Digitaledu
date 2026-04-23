@@ -86,23 +86,27 @@ export default function SuperadminOverview() {
   return (
     <AdminLayout title={t('superadmin.title')}>
       <div className="space-y-8">
-          />
-          <StatCard 
-            title="Global Revenue" 
-            value={loading ? "..." : `$${stats.revenue.toLocaleString()}`} 
-            change="0%" 
-            trend="up" 
-            icon={TrendingUp} 
-            color="bg-green-500" 
-          />
-          <StatCard 
-            title="Platform Security Score" 
-            value="100%" 
-            change="Stable" 
-            trend="up" 
-            icon={ShieldCheck} 
-            color="bg-blue-500" 
-          />
+        
+        {/* Top KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[
+            { title: t('superadmin.totalUsers'), val: stats.users, icon: Users, color: "text-cyan-500", bg: "bg-cyan-500/10" },
+            { title: t('superadmin.totalCourses'), val: stats.courses, icon: BookOpen, color: "text-purple-500", bg: "bg-purple-500/10" },
+            { title: t('superadmin.revenue'), val: `$${stats.revenue.toLocaleString()}`, icon: TrendingUp, color: "text-green-500", bg: "bg-green-500/10" },
+            { title: t('superadmin.growth'), val: "+12.4%", icon: Activity, color: "text-yellow-500", bg: "bg-yellow-500/10" },
+          ].map((stat, i) => (
+            <div key={i} className={`p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.02] ${
+              isDark ? 'bg-slate-900/40 border-cyan-400/10 hover:border-cyan-400/30' : 'bg-white border-blue-100'
+            }`}>
+              <div className="flex justify-between items-start mb-4">
+                <div className={`p-3 rounded-xl ${stat.bg}`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+              </div>
+              <p className="text-sm text-gray-500 font-medium mb-1">{stat.title}</p>
+              <h3 className="text-2xl font-bold tracking-tight">{loading ? "..." : stat.val}</h3>
+            </div>
+          ))}
         </div>
 
         {/* Charts Section */}
