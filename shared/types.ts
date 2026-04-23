@@ -1,10 +1,12 @@
 export type UserRole = 'superadmin' | 'admin' | 'student' | 'instructor';
+export type UserStatus = 'pending' | 'active' | 'suspended';
 
 export interface UserProfile {
   uid: string;
   email: string;
   fullName: string;
   role: UserRole;
+  status: UserStatus;
   createdAt: number;
 }
 

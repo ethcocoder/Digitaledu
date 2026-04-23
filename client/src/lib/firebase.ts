@@ -73,6 +73,7 @@ export const authService = {
         email,
         fullName,
         role,
+        status: 'pending', // Requires admin approval
         createdAt: Date.now(),
       };
       
@@ -131,6 +132,7 @@ export const authService = {
             email: result.user.email || '',
             fullName: result.user.displayName || 'Google User',
             role: requestedRole || 'student',
+            status: 'pending', // Requires admin approval
             createdAt: Date.now(),
           };
           await setDoc(doc(db!, 'users', result.user.uid), userProfile);
@@ -167,6 +169,7 @@ export const authService = {
             email: result.user.email || '',
             fullName: result.user.displayName || 'GitHub User',
             role: requestedRole || 'student',
+            status: 'pending', // Requires admin approval
             createdAt: Date.now(),
           };
           await setDoc(doc(db!, 'users', result.user.uid), userProfile);
