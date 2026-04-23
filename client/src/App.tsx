@@ -28,6 +28,33 @@ function Router() {
         </ProtectedRoute>
       </Route>
 
+      {/* Admin Routes */}
+      <Route path="/admin">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
+          <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+            <h1 className="text-3xl font-bold">Admin Dashboard (Coming Soon)</h1>
+          </div>
+        </ProtectedRoute>
+      </Route>
+
+      {/* Instructor Routes */}
+      <Route path="/instructor">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
+          <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+            <h1 className="text-3xl font-bold">Instructor Dashboard (Coming Soon)</h1>
+          </div>
+        </ProtectedRoute>
+      </Route>
+
+      {/* Student Routes */}
+      <Route path="/student">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
+          <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+            <h1 className="text-3xl font-bold">Student Dashboard (Coming Soon)</h1>
+          </div>
+        </ProtectedRoute>
+      </Route>
+
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
