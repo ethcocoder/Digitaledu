@@ -115,7 +115,7 @@ export const authService = {
   },
 
   // Login with Google
-  loginWithGoogle: async () => {
+  loginWithGoogle: async (requestedRole?: UserRole) => {
     try {
       if (!auth) throw new Error('Firebase not initialized');
       const result = await signInWithPopup(auth, googleProvider);
@@ -130,7 +130,7 @@ export const authService = {
             uid: result.user.uid,
             email: result.user.email || '',
             fullName: result.user.displayName || 'Google User',
-            role: 'student',
+            role: requestedRole || 'student',
             createdAt: Date.now(),
           };
           await setDoc(doc(db!, 'users', result.user.uid), userProfile);
@@ -152,7 +152,7 @@ export const authService = {
   },
 
   // Login with GitHub
-  loginWithGithub: async () => {
+  loginWithGithub: async (requestedRole?: UserRole) => {
     try {
       if (!auth) throw new Error('Firebase not initialized');
       const result = await signInWithPopup(auth, githubProvider);
@@ -166,7 +166,7 @@ export const authService = {
             uid: result.user.uid,
             email: result.user.email || '',
             fullName: result.user.displayName || 'GitHub User',
-            role: 'student',
+            role: requestedRole || 'student',
             createdAt: Date.now(),
           };
           await setDoc(doc(db!, 'users', result.user.uid), userProfile);

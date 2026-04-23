@@ -89,7 +89,7 @@ export default function Register() {
   const handleGoogleRegister = async () => {
     setError('');
     setLoading(true);
-    const { user, error: authError } = await authService.loginWithGoogle();
+    const { user, error: authError } = await authService.loginWithGoogle(formData.role as any);
     if (authError) {
       setError(authError);
       setLoading(false);
@@ -111,7 +111,7 @@ export default function Register() {
   const handleGithubRegister = async () => {
     setError('');
     setLoading(true);
-    const { user, error: authError } = await authService.loginWithGithub();
+    const { user, error: authError } = await authService.loginWithGithub(formData.role as any);
     if (authError) {
       setError(authError);
       setLoading(false);
