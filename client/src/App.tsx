@@ -13,6 +13,13 @@ import Register from "./pages/Register";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import SuperadminOverview from "./pages/SuperadminOverview";
+import SuperadminUsers from "./pages/SuperadminUsers";
+import SuperadminCourses from "./pages/SuperadminCourses";
+import SuperadminSettings from "./pages/SuperadminSettings";
+import SuperadminAnalytics from "./pages/SuperadminAnalytics";
+import SuperadminFinancials from "./pages/SuperadminFinancials";
+import SuperadminRegions from "./pages/SuperadminRegions";
+import SuperadminHealth from "./pages/SuperadminHealth";
 
 function Router() {
   return (
@@ -25,6 +32,41 @@ function Router() {
       <Route path="/superadmin">
         <ProtectedRoute allowedRoles={['superadmin']}>
           <SuperadminOverview />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/superadmin/users">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminUsers />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/superadmin/courses">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminCourses />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/superadmin/settings">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminSettings />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/superadmin/analytics">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminAnalytics />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/superadmin/financials">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminFinancials />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/superadmin/regions">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminRegions />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/superadmin/health">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminHealth />
         </ProtectedRoute>
       </Route>
 
