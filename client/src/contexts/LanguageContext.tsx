@@ -141,6 +141,11 @@ const translations = {
     'auth.emailPlaceholder': 'you@example.com',
     'auth.passwordPlaceholder': '••••••••',
     'auth.namePlaceholder': 'John Doe',
+    'auth.verifyingIdentity': 'Verifying Identity...',
+    'auth.configuringDashboard': 'Configuring Dashboard...',
+    'auth.selectRole': 'Select Your Role',
+    'auth.student': 'Student',
+    'auth.instructor': 'Instructor',
   },
   am: {
     // Navigation
@@ -270,6 +275,11 @@ const translations = {
     'auth.emailPlaceholder': 'you@example.com',
     'auth.passwordPlaceholder': '••••••••',
     'auth.namePlaceholder': 'ሙሉ ስም',
+    'auth.verifyingIdentity': 'ማንነትን በማረጋገጥ ላይ...',
+    'auth.configuringDashboard': 'ዳሽቦርድ በማስተካከል ላይ...',
+    'auth.selectRole': 'ሚናዎን ይምረጡ',
+    'auth.student': 'ተማሪ',
+    'auth.instructor': 'መምህር',
   },
 };;
 

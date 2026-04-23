@@ -218,7 +218,7 @@ export default function Register() {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                placeholder="John Doe"
+                placeholder={t('auth.namePlaceholder')}
                 className={`w-full pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
                   isDark 
                     ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
@@ -244,7 +244,7 @@ export default function Register() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
                 className={`w-full pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
                   isDark 
                     ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
@@ -270,7 +270,7 @@ export default function Register() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
                 className={`w-full pl-12 pr-12 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
                   isDark 
                     ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
@@ -311,7 +311,7 @@ export default function Register() {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
                 className={`w-full pl-12 pr-12 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
                   isDark 
                     ? 'bg-slate-800/50 border border-yellow-400/30 focus:border-yellow-400 focus:ring-yellow-400/20 text-white placeholder-gray-500' 
@@ -341,12 +341,12 @@ export default function Register() {
             <label className={`block text-sm font-medium mb-3 ${
               isDark ? 'text-gray-300' : 'text-gray-700'
             }`}>
-              Select Your Role
+              {t('auth.selectRole')}
             </label>
             <div className="grid grid-cols-2 gap-3">
               {[
-                { id: 'student', label: 'Student' },
-                { id: 'instructor', label: 'Instructor' },
+                { id: 'student', label: t('auth.student') },
+                { id: 'instructor', label: t('auth.instructor') },
               ].map((role) => (
                 <button
                   key={role.id}
@@ -411,7 +411,7 @@ export default function Register() {
             {loading ? (
               <>
                 <Loader className="w-5 h-5 animate-spin" />
-                {verifyingRole ? 'Configuring Dashboard...' : t('auth.loading')}
+                {verifyingRole ? t('auth.configuringDashboard') : t('auth.loading')}
               </>
             ) : (
               <>

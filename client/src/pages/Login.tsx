@@ -188,7 +188,7 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder={t('auth.emailPlaceholder')}
                 className={`w-full pl-12 pr-4 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
                   isDark 
                     ? 'bg-slate-800/50 border border-cyan-400/30 focus:border-cyan-400 focus:ring-cyan-400/20 text-white placeholder-gray-500' 
@@ -213,7 +213,7 @@ export default function Login() {
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
                 className={`w-full pl-12 pr-12 py-3 rounded-lg focus:outline-none focus:ring-2 transition ${
                   isDark 
                     ? 'bg-slate-800/50 border border-cyan-400/30 focus:border-cyan-400 focus:ring-cyan-400/20 text-white placeholder-gray-500' 
@@ -280,7 +280,7 @@ export default function Login() {
             {loading ? (
               <>
                 <Loader className="w-5 h-5 animate-spin" />
-                {verifyingRole ? 'Verifying Identity...' : t('auth.loading')}
+                {verifyingRole ? t('auth.verifyingIdentity') : t('auth.loading')}
               </>
             ) : (
               <>
