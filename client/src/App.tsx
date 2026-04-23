@@ -21,6 +21,23 @@ import SuperadminFinancials from "./pages/SuperadminFinancials";
 import SuperadminRegions from "./pages/SuperadminRegions";
 import SuperadminHealth from "./pages/SuperadminHealth";
 
+import { useUser } from "./contexts/UserContext";
+
+function PlaceholderDashboard({ title }: { title: string }) {
+  const { logout } = useUser();
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground space-y-4">
+      <h1 className="text-3xl font-bold">{title}</h1>
+      <button 
+        onClick={logout}
+        className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors shadow-lg shadow-red-500/20"
+      >
+        Logout
+      </button>
+    </div>
+  );
+}
+
 function Router() {
   return (
     <Switch>
@@ -73,27 +90,21 @@ function Router() {
       {/* Admin Routes */}
       <Route path="/admin">
         <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
-          <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-            <h1 className="text-3xl font-bold">Admin Dashboard (Coming Soon)</h1>
-          </div>
+          <PlaceholderDashboard title="Admin Dashboard (Coming Soon)" />
         </ProtectedRoute>
       </Route>
 
       {/* Instructor Routes */}
       <Route path="/instructor">
         <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
-          <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-            <h1 className="text-3xl font-bold">Instructor Dashboard (Coming Soon)</h1>
-          </div>
+          <PlaceholderDashboard title="Instructor Dashboard (Coming Soon)" />
         </ProtectedRoute>
       </Route>
 
       {/* Student Routes */}
       <Route path="/student">
         <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
-          <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-            <h1 className="text-3xl font-bold">Student Dashboard (Coming Soon)</h1>
-          </div>
+          <PlaceholderDashboard title="Student Dashboard (Coming Soon)" />
         </ProtectedRoute>
       </Route>
 
