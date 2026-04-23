@@ -12,17 +12,20 @@ import Register from "./pages/Register";
 
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import SuperadminOverview from "./pages/SuperadminOverview";
-import SuperadminUsers from "./pages/SuperadminUsers";
-import SuperadminCourses from "./pages/SuperadminCourses";
-import SuperadminSettings from "./pages/SuperadminSettings";
-import SuperadminAnalytics from "./pages/SuperadminAnalytics";
-import SuperadminFinancials from "./pages/SuperadminFinancials";
-import SuperadminRegions from "./pages/SuperadminRegions";
-import SuperadminHealth from "./pages/SuperadminHealth";
+import SuperadminOverview from "./pages/superadmin/Overview";
+import SuperadminUsers from "./pages/superadmin/Users";
+import SuperadminCourses from "./pages/superadmin/Courses";
+import SuperadminSettings from "./pages/superadmin/Settings";
+import SuperadminAnalytics from "./pages/superadmin/Analytics";
+import SuperadminFinancials from "./pages/superadmin/Financials";
+import SuperadminRegions from "./pages/superadmin/Regions";
+import SuperadminHealth from "./pages/superadmin/Health";
 
-import AdminOverview from "./pages/AdminOverview";
-import AdminUsers from "./pages/AdminUsers";
+import AdminOverview from "./pages/admin/Overview";
+import AdminUsers from "./pages/admin/Users";
+
+import StudentDashboard from "./pages/student/Dashboard";
+import StudentCatalog from "./pages/student/Catalog";
 
 import { useUser } from "./contexts/UserContext";
 
@@ -112,7 +115,12 @@ function Router() {
       {/* Student Routes */}
       <Route path="/student">
         <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
-          <PlaceholderDashboard title="Student Dashboard (Coming Soon)" />
+          <StudentDashboard />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/student/catalog">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
+          <StudentCatalog />
         </ProtectedRoute>
       </Route>
 

@@ -31,8 +31,8 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
     return null;
   }
 
-  // Block access if user is pending or suspended
-  if (profile && profile.status === 'pending') {
+  // Block access if user is pending or suspended (except for superadmins and admins to prevent lockouts)
+  if (profile && profile.status === 'pending' && role !== 'superadmin' && role !== 'admin') {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground space-y-6">
         <div className="p-4 bg-yellow-500/10 rounded-full">
