@@ -13,12 +13,14 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verifyingRole, setVerifyingRole] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'student' as const,
   });
 
   useEffect(() => {
@@ -59,9 +61,11 @@ export default function Register() {
     }
 
     setLoading(true);
-    const { user, error: authError } = await authService.register(
+    const { user, profile, error: authError } = await authService.register(
       formData.email,
-      formData.password
+      formData.password,
+      formData.fullName,
+      formData.role
     );
 
     if (authError) {
@@ -302,6 +306,38 @@ export default function Register() {
             </div>
           </div>
 
+          {/* Role Selection */}
+          <div className="form-element">
+            <label className={`block text-sm font-medium mb-3 ${
+              isDark ? 'text-gray-300' : 'text-gray-700'
+            }`}>
+              Select Your Role
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { id: 'student', label: 'Student' },
+                { id: 'instructor', label: 'Instructor' },
+              ].map((role) => (
+                <button
+                  key={role.id}
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, role: role.id as any }))}
+                  className={`py-2 px-4 rounded-lg text-sm font-semibold border transition-all duration-300 ${
+                    formData.role === role.id
+                      ? isDark 
+                        ? 'bg-yellow-400 text-black border-yellow-400 shadow-lg shadow-yellow-400/20' 
+                        : 'bg-yellow-500 text-white border-yellow-500 shadow-lg shadow-yellow-500/20'
+                      : isDark
+                        ? 'bg-slate-800/50 border-yellow-400/20 text-gray-400 hover:border-yellow-400/50'
+                        : 'bg-white/50 border-yellow-300/50 text-gray-600 hover:border-yellow-500/50'
+                  }`}
+                >
+                  {role.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Terms & Conditions */}
           <div className="form-element flex items-start gap-3">
             <input
@@ -345,7 +381,7 @@ export default function Register() {
             {loading ? (
               <>
                 <Loader className="w-5 h-5 animate-spin" />
-                {t('auth.loading')}
+                {verifyingRole ? 'Configuring Dashboard...' : t('auth.loading')}
               </>
             ) : (
               <>

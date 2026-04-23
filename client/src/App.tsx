@@ -11,13 +11,24 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 
+import ProtectedRoute from "./components/ProtectedRoute";
+import SuperadminOverview from "./pages/SuperadminOverview";
+
 function Router() {
   return (
     <Switch>
-      <Route path={"\\"} component={Home} />
-      <Route path={"/login"} component={Login} />
-      <Route path={"/register"} component={Register} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path="/" component={Home} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      
+      {/* Superadmin Routes */}
+      <Route path="/superadmin">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <SuperadminOverview />
+        </ProtectedRoute>
+      </Route>
+
+      <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>

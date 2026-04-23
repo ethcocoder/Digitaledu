@@ -14,6 +14,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [verifyingRole, setVerifyingRole] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -50,7 +51,16 @@ export default function Login() {
       setError(authError);
       setLoading(false);
     } else if (user) {
-      setLocation('/');
+      setVerifyingRole(true);
+      const { profile } = await authService.getUserProfile(user.uid);
+      
+      if (profile?.role === 'superadmin') {
+        setLocation('/superadmin');
+      } else if (profile?.role === 'admin') {
+        setLocation('/admin');
+      } else {
+        setLocation('/');
+      }
     }
   };
 
@@ -62,7 +72,16 @@ export default function Login() {
       setError(authError);
       setLoading(false);
     } else if (user) {
-      setLocation('/');
+      setVerifyingRole(true);
+      const { profile } = await authService.getUserProfile(user.uid);
+      
+      if (profile?.role === 'superadmin') {
+        setLocation('/superadmin');
+      } else if (profile?.role === 'admin') {
+        setLocation('/admin');
+      } else {
+        setLocation('/');
+      }
     }
   };
 
@@ -74,7 +93,16 @@ export default function Login() {
       setError(authError);
       setLoading(false);
     } else if (user) {
-      setLocation('/');
+      setVerifyingRole(true);
+      const { profile } = await authService.getUserProfile(user.uid);
+      
+      if (profile?.role === 'superadmin') {
+        setLocation('/superadmin');
+      } else if (profile?.role === 'admin') {
+        setLocation('/admin');
+      } else {
+        setLocation('/');
+      }
     }
   };
 
@@ -252,7 +280,7 @@ export default function Login() {
             {loading ? (
               <>
                 <Loader className="w-5 h-5 animate-spin" />
-                {t('auth.loading')}
+                {verifyingRole ? 'Verifying Identity...' : t('auth.loading')}
               </>
             ) : (
               <>
