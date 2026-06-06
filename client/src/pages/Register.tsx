@@ -5,6 +5,8 @@ import { authService } from '@/lib/firebase';
 import gsap from 'gsap';
 import { Eye, EyeOff, ArrowRight, Mail, Lock, User, CheckCircle, Loader } from 'lucide-react';
 import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
+import { UserRole } from '../../../shared/types';
+import { getDashboardPathForRole } from '@/lib/roles';
 
 export default function Register() {
   const [, setLocation] = useLocation();
@@ -20,7 +22,7 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student' as const,
+    role: 'student' as UserRole,
   });
 
   useEffect(() => {
@@ -73,16 +75,8 @@ export default function Register() {
       setLoading(false);
     } else if (user) {
       setVerifyingRole(true);
-      // For registration, we already know the role from formData
-      if (formData.role === 'superadmin' as any) {
-        setLocation('/superadmin');
-      } else if (formData.role === 'admin' as any) {
-        setLocation('/admin');
-      } else if (formData.role === 'instructor') {
-        setLocation('/instructor');
-      } else {
-        setLocation('/student');
-      }
+      setLocation(getDashboardPathForRole(formData.role));
+      setLoading(false);
     }
   };
 
@@ -96,15 +90,8 @@ export default function Register() {
     } else if (user) {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
-      if (profile?.role === 'superadmin') {
-        setLocation('/superadmin');
-      } else if (profile?.role === 'admin') {
-        setLocation('/admin');
-      } else if (profile?.role === 'instructor') {
-        setLocation('/instructor');
-      } else {
-        setLocation('/student');
-      }
+      setLocation(getDashboardPathForRole(profile?.role ?? formData.role));
+      setLoading(false);
     }
   };
 
@@ -118,15 +105,8 @@ export default function Register() {
     } else if (user) {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
-      if (profile?.role === 'superadmin') {
-        setLocation('/superadmin');
-      } else if (profile?.role === 'admin') {
-        setLocation('/admin');
-      } else if (profile?.role === 'instructor') {
-        setLocation('/instructor');
-      } else {
-        setLocation('/student');
-      }
+      setLocation(getDashboardPathForRole(profile?.role ?? formData.role));
+      setLoading(false);
     }
   };
 

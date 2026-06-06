@@ -184,6 +184,17 @@ const translations = {
     'student.continueLearning': 'Continue Learning',
     'student.lookingForMore': 'Looking for more?',
     'student.exploreCatalog': 'Explore Catalog',
+
+    // Instructor Dashboard
+    'instructor.title': 'Instructor Dashboard',
+    'instructor.myCourses': 'My Courses',
+    'instructor.students': 'My Students',
+    'instructor.earnings': 'Earnings',
+    'instructor.createCourse': 'Create New Course',
+    'instructor.activeCourses': 'Active Courses',
+    'instructor.totalStudents': 'Total Enrollments',
+    'instructor.totalEarnings': 'Total Revenue',
+    'instructor.recentActivity': 'Recent Activity',
   },
   am: {
     // Navigation
@@ -356,6 +367,17 @@ const translations = {
     'student.continueLearning': 'ትምህርትዎን ይቀጥሉ',
     'student.lookingForMore': 'ተጨማሪ ይፈልጋሉ?',
     'student.exploreCatalog': 'ካታሎጉን ያስሱ',
+
+    // Instructor Dashboard
+    'instructor.title': 'የአስተማሪ ዳሽቦርድ',
+    'instructor.myCourses': 'የእኔ ኮርሶች',
+    'instructor.students': 'ተማሪዎቼ',
+    'instructor.earnings': 'ገቢዎች',
+    'instructor.createCourse': 'አዲስ ኮርስ ፍጠር',
+    'instructor.activeCourses': 'ንቁ ኮርሶች',
+    'instructor.totalStudents': 'ጠቅላላ ተመዝጋቢዎች',
+    'instructor.totalEarnings': 'ጠቅላላ ገቢ',
+    'instructor.recentActivity': 'የቅርብ ጊዜ እንቅስቃሴዎች',
   },
 };;
 

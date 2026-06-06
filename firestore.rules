@@ -1,48 +1,86 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Function to check if the user is authenticated
+
     function isAuthenticated() {
       return request.auth != null;
     }
-    
-    // Function to check if the user is accessing their own document
+
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    // Function to check if the user is a superadmin
-    function isSuperAdmin() {
-      return isAuthenticated() && 
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
     }
 
-    // Function to check if the user is an admin
+    function isSuperAdmin() {
+      return isAuthenticated() && userDoc().role == 'superadmin';
+    }
+
     function isAdmin() {
-      return isAuthenticated() && 
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' || isSuperAdmin());
+      return isAuthenticated() &&
+        (userDoc().role == 'admin' || isSuperAdmin());
+    }
+
+    function isInstructor() {
+      return isAuthenticated() && userDoc().role == 'instructor';
     }
 
     // ---------------------------------------------------------
-    // Users Collection Rules
+    // Users Collection
     // ---------------------------------------------------------
     match /users/{userId} {
-      // Anyone can create their profile when they first sign up (must match their auth UID)
       allow create: if isOwner(userId);
-      
-      // Users can read and update their own profile. Admins/Superadmins can read all.
       allow read: if isOwner(userId) || isAdmin();
-      
-      // Users can update their own profile (but shouldn't be able to change their role easily, 
-      // though we'll keep it simple for now). Admins can update all.
       allow update: if isOwner(userId) || isAdmin();
-      
-      // Only Superadmins can delete users
       allow delete: if isSuperAdmin();
     }
-    
-    // Default deny for any other collections we haven't defined yet
+
+    // ---------------------------------------------------------
+    // Courses Collection
+    // ---------------------------------------------------------
+    match /courses/{courseId} {
+      allow read: if isAuthenticated() && (
+        resource.data.status == 'published' ||
+        resource.data.instructorId == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAuthenticated() &&
+        request.resource.data.instructorId == request.auth.uid;
+      allow update: if isAuthenticated() && (
+        resource.data.instructorId == request.auth.uid ||
+        isAdmin()
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    // ---------------------------------------------------------
+    // Platform Settings (global config)
+    // ---------------------------------------------------------
+    match /platformSettings/{docId} {
+      allow read: if isAuthenticated();
+      allow write: if isSuperAdmin();
+    }
+
+    // ---------------------------------------------------------
+    // Enrollments Collection
+    // ---------------------------------------------------------
+    match /enrollments/{enrollmentId} {
+      allow read: if isAuthenticated() && (
+        resource.data.studentId == request.auth.uid ||
+        resource.data.instructorId == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAuthenticated() &&
+        request.resource.data.studentId == request.auth.uid;
+      allow update: if isAuthenticated() && (
+        resource.data.studentId == request.auth.uid ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

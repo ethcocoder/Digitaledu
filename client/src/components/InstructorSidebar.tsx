@@ -1,18 +1,14 @@
 import { useLocation } from 'wouter';
 import { 
   LayoutDashboard, 
-  Users, 
   BookOpen, 
-  Settings, 
-  ShieldAlert, 
-  BarChart3, 
-  Globe, 
-  CreditCard,
+  Users, 
+  DollarSign,
+  Settings,
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Database,
-  Cpu
+  MonitorPlay
 } from 'lucide-react';
 import { useState } from 'react';
 import { useUser } from '@/contexts/UserContext';
@@ -33,39 +29,34 @@ function SidebarItem({ icon: Icon, label, path, active, collapsed, onClick }: Si
       onClick={onClick}
       className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative ${
         active 
-          ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-400/20 shadow-[0_0_15px_rgba(0,217,255,0.1)]' 
-          : 'text-gray-400 hover:text-cyan-400 hover:bg-white/5'
+          ? 'bg-teal-500/10 text-teal-500 border border-teal-500/20 shadow-[0_0_15px_rgba(20,184,166,0.1)]' 
+          : 'text-gray-400 hover:text-teal-500 hover:bg-white/5'
       }`}
     >
       <Icon className={`w-5 h-5 transition-transform duration-300 ${active ? 'scale-110' : 'group-hover:scale-110'}`} />
       {!collapsed && <span className="font-medium whitespace-nowrap">{label}</span>}
       
       {active && (
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-cyan-400 rounded-r-full shadow-[0_0_10px_#00D9FF]" />
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-teal-500 rounded-r-full shadow-[0_0_10px_#14b8a6]" />
       )}
     </button>
   );
 }
 
-export default function AdminSidebar() {
+export default function InstructorSidebar() {
   const [location, setLocation] = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-  const { logout, role } = useUser();
+  const { logout } = useUser();
   const { theme, t } = useLanguage();
   const isDark = theme === 'dark';
 
-  const isSuperadmin = role === 'superadmin';
-
   const menuItems = [
-    { icon: LayoutDashboard, label: t('dashboard.overview'), path: isSuperadmin ? '/superadmin' : '/admin' },
-    { icon: Users, label: t('dashboard.users'), path: isSuperadmin ? '/superadmin/users' : '/admin/users' },
-    { icon: BookOpen, label: t('dashboard.courses'), path: isSuperadmin ? '/superadmin/courses' : '/admin/courses' },
-    { icon: BarChart3, label: t('dashboard.analytics'), path: isSuperadmin ? '/superadmin/analytics' : '/admin/analytics' },
-    { icon: CreditCard, label: t('dashboard.financials'), path: isSuperadmin ? '/superadmin/financials' : '/admin/financials' },
-    { icon: Globe, label: 'Regional Hubs', path: '/superadmin/regions', hidden: !isSuperadmin },
-    { icon: ShieldAlert, label: 'System Health', path: '/superadmin/health', hidden: !isSuperadmin },
-    { icon: Settings, label: t('dashboard.settings'), path: isSuperadmin ? '/superadmin/settings' : '/admin/settings' },
-  ].filter(item => !item.hidden);
+    { icon: LayoutDashboard, label: t('dashboard.overview'), path: '/instructor' },
+    { icon: BookOpen, label: t('instructor.myCourses'), path: '/instructor/courses' },
+    { icon: Users, label: t('instructor.students'), path: '/instructor/students' },
+    { icon: DollarSign, label: t('instructor.earnings'), path: '/instructor/earnings' },
+    { icon: Settings, label: t('dashboard.settings'), path: '/instructor/settings' },
+  ];
 
   return (
     <aside 
@@ -73,30 +64,30 @@ export default function AdminSidebar() {
         collapsed ? 'w-20' : 'w-72'
       } ${
         isDark 
-          ? 'bg-slate-950/80 backdrop-blur-xl border-cyan-400/10' 
-          : 'bg-white/90 backdrop-blur-xl border-blue-200/50'
+          ? 'bg-slate-950/80 backdrop-blur-xl border-teal-500/10' 
+          : 'bg-white/90 backdrop-blur-xl border-teal-200/50'
       }`}
     >
       {/* Header */}
       <div className="p-6 flex items-center justify-between overflow-hidden">
         {!collapsed && (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-              <Cpu className="text-white w-6 h-6" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/20">
+              <MonitorPlay className="text-white w-6 h-6" />
             </div>
             <div>
               <h2 className={`font-bold text-lg tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Digital<span className="text-cyan-400">Edu</span>
+                Digital<span className="text-teal-500">Edu</span>
               </h2>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-cyan-500/60">
-                {isSuperadmin ? 'Superadmin Node' : 'Admin Node'}
+              <p className="text-[10px] font-bold uppercase tracking-widest text-teal-500/80">
+                Instructor Portal
               </p>
             </div>
           </div>
         )}
         {collapsed && (
-           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 mx-auto">
-             <Cpu className="text-white w-6 h-6" />
+           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/20 mx-auto">
+             <MonitorPlay className="text-white w-6 h-6" />
            </div>
         )}
       </div>
@@ -106,8 +97,8 @@ export default function AdminSidebar() {
         onClick={() => setCollapsed(!collapsed)}
         className={`absolute -right-3 top-20 w-6 h-6 rounded-full border flex items-center justify-center transition-all ${
           isDark 
-            ? 'bg-slate-900 border-cyan-400/20 text-cyan-400 hover:border-cyan-400' 
-            : 'bg-white border-blue-200 text-blue-600 hover:border-blue-400'
+            ? 'bg-slate-900 border-teal-500/20 text-teal-500 hover:border-teal-400' 
+            : 'bg-white border-teal-200 text-teal-600 hover:border-teal-400'
         }`}
       >
         {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -127,7 +118,7 @@ export default function AdminSidebar() {
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-cyan-400/10">
+      <div className="p-4 border-t border-teal-500/10">
         <button
           onClick={logout}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-red-400 hover:bg-red-500/10 ${
@@ -138,19 +129,6 @@ export default function AdminSidebar() {
           {!collapsed && <span className="font-medium">{t('dashboard.logout')}</span>}
         </button>
       </div>
-
-      {/* System Status Decorative Element */}
-      {!collapsed && (
-        <div className="px-6 py-4 space-y-3">
-          <div className="flex items-center justify-between text-[10px] text-gray-500 font-bold uppercase">
-            <span>Core Sync</span>
-            <span className="text-green-500">Online</span>
-          </div>
-          <div className="h-1 w-full bg-slate-800 rounded-full overflow-hidden">
-            <div className="h-full w-2/3 bg-cyan-400 animate-pulse" />
-          </div>
-        </div>
-      )}
     </aside>
   );
 }

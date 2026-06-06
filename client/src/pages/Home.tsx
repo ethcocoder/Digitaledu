@@ -6,6 +6,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { ChevronDown, Zap, Globe, Users, BookOpen, Rocket, Sun, Moon, User } from 'lucide-react';
 import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
+import { getDashboardPathForRole } from '@/lib/roles';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -142,7 +143,7 @@ export default function Home() {
                 <div className="absolute right-0 mt-2 w-48 rounded-xl shadow-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right scale-95 group-hover:scale-100 z-50">
                   <div className={`p-2 rounded-xl ${isDark ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-gray-100'}`}>
                     <button
-                      onClick={() => setLocation(role === 'superadmin' ? '/superadmin' : role === 'admin' ? '/admin' : role === 'instructor' ? '/instructor' : '/student')}
+                      onClick={() => setLocation(getDashboardPathForRole(role))}
                       className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         isDark ? 'text-gray-300 hover:bg-slate-700 hover:text-white' : 'text-gray-700 hover:bg-gray-50'
                       }`}

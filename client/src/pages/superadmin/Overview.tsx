@@ -7,7 +7,8 @@ import {
   AlertTriangle, 
   Activity,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  BookOpen
 } from 'lucide-react';
 import { 
   AreaChart, 

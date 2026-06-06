@@ -5,6 +5,7 @@ import { authService } from '@/lib/firebase';
 import gsap from 'gsap';
 import { Eye, EyeOff, ArrowRight, Mail, Lock, Loader } from 'lucide-react';
 import { LanguageThemeSwitcher } from '@/components/LanguageThemeSwitcher';
+import { getDashboardPathForRole } from '@/lib/roles';
 
 export default function Login() {
   const [, setLocation] = useLocation();
@@ -54,18 +55,8 @@ export default function Login() {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
       
-      const role = profile?.role?.toLowerCase();
-      if (role === 'superadmin') {
-        setLocation('/superadmin');
-      } else if (role === 'admin') {
-        setLocation('/admin');
-      } else if (role === 'instructor') {
-        setLocation('/instructor');
-      } else if (role === 'student') {
-        setLocation('/student');
-      } else {
-        setLocation('/');
-      }
+      setLocation(getDashboardPathForRole(profile?.role));
+      setLoading(false);
     }
   };
 
@@ -80,18 +71,8 @@ export default function Login() {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
       
-      const role = profile?.role?.toLowerCase();
-      if (role === 'superadmin') {
-        setLocation('/superadmin');
-      } else if (role === 'admin') {
-        setLocation('/admin');
-      } else if (role === 'instructor') {
-        setLocation('/instructor');
-      } else if (role === 'student') {
-        setLocation('/student');
-      } else {
-        setLocation('/');
-      }
+      setLocation(getDashboardPathForRole(profile?.role));
+      setLoading(false);
     }
   };
 
@@ -106,18 +87,8 @@ export default function Login() {
       setVerifyingRole(true);
       const { profile } = await authService.getUserProfile(user.uid);
       
-      const role = profile?.role?.toLowerCase();
-      if (role === 'superadmin') {
-        setLocation('/superadmin');
-      } else if (role === 'admin') {
-        setLocation('/admin');
-      } else if (role === 'instructor') {
-        setLocation('/instructor');
-      } else if (role === 'student') {
-        setLocation('/student');
-      } else {
-        setLocation('/');
-      }
+      setLocation(getDashboardPathForRole(profile?.role));
+      setLoading(false);
     }
   };
 

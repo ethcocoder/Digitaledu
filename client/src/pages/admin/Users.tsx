@@ -4,7 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Search, Filter, CheckCircle, XCircle, Clock, ShieldAlert } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { userService } from '@/lib/userService';
-import { UserProfile } from '../../../shared/types';
+import { UserProfile } from '../../../../shared/types';
 import { toast } from 'sonner';
 
 export default function AdminUsers() {

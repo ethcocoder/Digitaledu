@@ -5,11 +5,11 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { UserProvider } from "./contexts/UserContext";
+import { PlatformSettingsProvider } from "./contexts/PlatformSettingsContext";
 import InteractiveCursor from "./components/InteractiveCursor";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import SuperadminOverview from "./pages/superadmin/Overview";
@@ -23,26 +23,21 @@ import SuperadminHealth from "./pages/superadmin/Health";
 
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
+import AdminSettings from "./pages/admin/Settings";
 
 import StudentDashboard from "./pages/student/Dashboard";
 import StudentCatalog from "./pages/student/Catalog";
+import StudentLearning from "./pages/student/Learning";
+import StudentAchievements from "./pages/student/Achievements";
+import StudentCertificates from "./pages/student/Certificates";
+import StudentSettings from "./pages/student/Settings";
 
-import { useUser } from "./contexts/UserContext";
-
-function PlaceholderDashboard({ title }: { title: string }) {
-  const { logout } = useUser();
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground space-y-4">
-      <h1 className="text-3xl font-bold">{title}</h1>
-      <button 
-        onClick={logout}
-        className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors shadow-lg shadow-red-500/20"
-      >
-        Logout
-      </button>
-    </div>
-  );
-}
+import InstructorDashboard from "./pages/instructor/Dashboard";
+import InstructorCourses from "./pages/instructor/Courses";
+import InstructorCourseStudio from "./pages/instructor/CourseStudio";
+import InstructorStudents from "./pages/instructor/Students";
+import InstructorEarnings from "./pages/instructor/Earnings";
+import InstructorSettings from "./pages/instructor/Settings";
 
 function Router() {
   return (
@@ -50,7 +45,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-      
+
       {/* Superadmin Routes */}
       <Route path="/superadmin">
         <ProtectedRoute allowedRoles={['superadmin']}>
@@ -104,11 +99,61 @@ function Router() {
           <AdminUsers />
         </ProtectedRoute>
       </Route>
+      <Route path="/admin/courses">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
+          <SuperadminCourses />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/analytics">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
+          <SuperadminAnalytics />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/financials">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
+          <SuperadminFinancials />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/settings">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
+          <AdminSettings />
+        </ProtectedRoute>
+      </Route>
 
       {/* Instructor Routes */}
       <Route path="/instructor">
         <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
-          <PlaceholderDashboard title="Instructor Dashboard (Coming Soon)" />
+          <InstructorDashboard />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/instructor/courses">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
+          <InstructorCourses />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/instructor/courses/new">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
+          <InstructorCourseStudio />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/instructor/courses/:courseId/edit">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
+          <InstructorCourseStudio />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/instructor/students">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
+          <InstructorStudents />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/instructor/earnings">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
+          <InstructorEarnings />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/instructor/settings">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor']}>
+          <InstructorSettings />
         </ProtectedRoute>
       </Route>
 
@@ -123,29 +168,45 @@ function Router() {
           <StudentCatalog />
         </ProtectedRoute>
       </Route>
+      <Route path="/student/learn/:courseId">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
+          <StudentLearning />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/student/achievements">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
+          <StudentAchievements />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/student/certificates">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
+          <StudentCertificates />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/student/settings">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
+          <StudentSettings />
+        </ProtectedRoute>
+      </Route>
 
       <Route path="/404" component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
-
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
 function App() {
   return (
     <ErrorBoundary>
       <LanguageProvider>
         <UserProvider>
-          <TooltipProvider>
-            <InteractiveCursor />
-            <Toaster />
-            <Router />
-          </TooltipProvider>
+          <PlatformSettingsProvider>
+            <TooltipProvider>
+              <InteractiveCursor />
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </PlatformSettingsProvider>
         </UserProvider>
       </LanguageProvider>
     </ErrorBoundary>

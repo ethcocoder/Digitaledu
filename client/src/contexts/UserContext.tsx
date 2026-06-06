@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
 import { authService } from '@/lib/firebase';
 import { UserProfile, UserRole } from '../../../shared/types';
+import { normalizeRole } from '@/lib/roles';
 
 interface UserContextType {
   user: User | null;
@@ -19,17 +20,18 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listen to auth state changes
     const unsubscribe = authService.onAuthStateChanged(async (currentUser) => {
-      setUser(currentUser);
+      setLoading(true);
+
       if (currentUser) {
-        // Prevent race conditions where ProtectedRoute checks role before profile is loaded
-        setLoading(true);
+        setUser(currentUser);
         const { profile: userProfile } = await authService.getUserProfile(currentUser.uid);
         setProfile(userProfile);
       } else {
+        setUser(null);
         setProfile(null);
       }
+
       setLoading(false);
     });
 
@@ -42,7 +44,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     setProfile(null);
   };
 
-  const role = profile?.role ? (profile.role.toLowerCase() as UserRole) : null;
+  const role = normalizeRole(profile?.role ?? null);
 
   return (
     <UserContext.Provider value={{ user, profile, role, loading, logout }}>
