@@ -23,13 +23,13 @@ import { UserRole, UserProfile } from '../../../shared/types';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCHN5ZHaDSnYsNc4OYEUtV_7RCVlYfWdGU",
-  authDomain: "digital-edu-b93df.firebaseapp.com",
-  projectId: "digital-edu-b93df",
-  storageBucket: "digital-edu-b93df.firebasestorage.app",
-  messagingSenderId: "661264024077",
-  appId: "1:661264024077:web:ba8c4e73895524ac64cb44",
-  measurementId: "G-TW7L4K2RN0"
+  apiKey: "AIzaSyAyNaKbdMGZ4E_Ecz_d0_-_2nrKD1H0aDM",
+  authDomain: "digital-edu-d37ca.firebaseapp.com",
+  projectId: "digital-edu-d37ca",
+  storageBucket: "digital-edu-d37ca.firebasestorage.app",
+  messagingSenderId: "698318888972",
+  appId: "1:698318888972:web:b01f159f4ea2e5f6b00e29",
+  measurementId: "G-4CYF8RSGZW"
 };
 
 // Initialize Firebase with error handling
