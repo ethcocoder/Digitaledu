@@ -35,7 +35,7 @@ export default function StudentDashboard() {
       setEnrollments(withCourses);
       
       // Fetch recommended courses
-      const { courses } = await courseService.getAllPublishedCourses();
+      const { courses } = await courseService.getPublishedCourses();
       const enrolledIds = new Set(data.map(e => e.courseId));
       const recommended = courses
         .filter(c => !enrolledIds.has(c.id))
