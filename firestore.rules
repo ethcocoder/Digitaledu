@@ -15,12 +15,12 @@ service cloud.firestore {
     }
 
     function isSuperAdmin() {
-      return isAuthenticated() && userDoc().role == 'superadmin';
+      return isAuthenticated() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
     }
 
     function isAdmin() {
       return isAuthenticated() &&
-        (userDoc().role == 'admin' || isSuperAdmin());
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
     }
 
     function isInstructor() {
@@ -31,8 +31,9 @@ service cloud.firestore {
     // Users Collection
     // ---------------------------------------------------------
     match /users/{userId} {
-      allow create: if isOwner(userId);
+      allow create: if isAuthenticated();
       allow read: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
       allow update: if isOwner(userId) || isAdmin();
       allow delete: if isSuperAdmin();
     }
