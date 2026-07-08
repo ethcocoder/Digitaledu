@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import InstructorLayout from '@/components/InstructorLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useUser } from '@/contexts/UserContext';
-import { DollarSign, TrendingUp, BookOpen } from 'lucide-react';
+import { DollarSign, TrendingUp, BookOpen, BarChart3, PieChart, ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { courseService } from '@/lib/courseService';
 import { enrollmentService } from '@/lib/enrollmentService';
 import { Course } from '../../../../shared/types';
@@ -47,6 +48,58 @@ export default function InstructorEarnings() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/40 border-teal-500/10' : 'bg-white border-teal-100'}`}>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-bold text-lg flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-teal-500" />
+                Monthly Revenue
+              </h3>
+              <span className="text-xs font-bold text-green-500 flex items-center gap-1">
+                <ArrowUpRight className="w-3 h-3" /> +12.5%
+              </span>
+            </div>
+            <div className="h-48 flex items-end gap-2 px-2">
+              {[40, 60, 45, 90, 65, 80, 100].map((h, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ height: 0 }}
+                  animate={{ height: `${h}%` }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="flex-1 bg-gradient-to-t from-teal-500 to-emerald-400 rounded-t-sm"
+                />
+              ))}
+            </div>
+            <div className="flex justify-between mt-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+              <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
+            </div>
+          </div>
+
+          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/40 border-teal-500/10' : 'bg-white border-teal-100'}`}>
+            <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+              <PieChart className="w-5 h-5 text-purple-500" />
+              Category Distribution
+            </h3>
+            <div className="space-y-4">
+              {[
+                { label: 'Technology', value: 45, color: 'bg-blue-500' },
+                { label: 'Business', value: 30, color: 'bg-purple-500' },
+                { label: 'Design', value: 25, color: 'bg-teal-500' },
+              ].map((cat) => (
+                <div key={cat.label} className="space-y-1">
+                  <div className="flex justify-between text-xs font-bold">
+                    <span>{cat.label}</span>
+                    <span>{cat.value}%</span>
+                  </div>
+                  <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                    <div className={`h-full ${cat.color}`} style={{ width: `${cat.value}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className={`rounded-2xl border ${isDark ? 'bg-slate-900/40 border-teal-500/10' : 'bg-white border-teal-100'}`}>

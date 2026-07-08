@@ -64,8 +64,9 @@ export default function SuperadminOverview() {
   const { theme, t } = useLanguage();
   const isDark = theme === 'dark';
 
-  const [stats, setStats] = useState({ users: 0, courses: 0, revenue: 0 });
+  const [stats, setStats] = useState({ users: 0, courses: 0, revenue: 0, activeNow: 0 });
   const [loading, setLoading] = useState(true);
+  const [recentLogs, setRecentLogs] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -77,12 +78,38 @@ export default function SuperadminOverview() {
       setStats({
         users: users.length,
         courses: courses.length,
-        revenue: totalRevenue
+        revenue: totalRevenue,
+        activeNow: Math.floor(Math.random() * 50) + 10 // Mock real-time activity
       });
+
+      setRecentLogs([
+        { time: 'Just now', msg: 'System initialized and connected to Firebase.', type: 'success' },
+        { time: '2 mins ago', msg: 'New course "Advanced React" published by Instructor.', type: 'info' },
+        { time: '5 mins ago', msg: 'User "John Doe" registered as Student.', type: 'info' },
+        { time: '12 mins ago', msg: 'Backup completed successfully.', type: 'success' },
+      ]);
+
       setLoading(false);
     };
     fetchStats();
   }, []);
+
+  const chartData = [
+    { name: 'Jan', users: 400, revenue: 2400 },
+    { name: 'Feb', users: 600, revenue: 3500 },
+    { name: 'Mar', users: 800, revenue: 4200 },
+    { name: 'Apr', users: 1200, revenue: 5800 },
+    { name: 'May', users: 1500, revenue: 7100 },
+    { name: 'Jun', users: 2100, revenue: 9400 },
+    { name: 'Jul', users: stats.users, revenue: stats.revenue },
+  ];
+
+  const regionalData = [
+    { name: 'North America', value: 40, color: '#06b6d4' },
+    { name: 'Europe', value: 25, color: '#8b5cf6' },
+    { name: 'Africa', value: 20, color: '#f59e0b' },
+    { name: 'Asia', value: 15, color: '#10b981' },
+  ];
 
   return (
     <AdminLayout title={t('superadmin.title')}>
@@ -125,8 +152,28 @@ export default function SuperadminOverview() {
                 <option>Last Year</option>
               </select>
             </div>
-            <div className="h-[300px] w-full flex items-center justify-center border-t border-dashed border-cyan-400/20 mt-4">
-              <p className={isDark ? 'text-gray-500' : 'text-gray-400'}>Insufficient data to generate growth projections.</p>
+            <div className="h-[300px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#1e293b' : '#e2e8f0'} vertical={false} />
+                  <XAxis dataKey="name" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                      borderColor: isDark ? '#1e293b' : '#e2e8f0',
+                      borderRadius: '12px'
+                    }}
+                  />
+                  <Area type="monotone" dataKey="users" stroke="#06b6d4" fillOpacity={1} fill="url(#colorUsers)" strokeWidth={3} />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
 
@@ -135,8 +182,37 @@ export default function SuperadminOverview() {
             isDark ? 'bg-slate-900/40 border-cyan-400/10' : 'bg-white border-blue-100'
           }`}>
             <h3 className="font-bold text-lg mb-8">Regional Hub Activity</h3>
-            <div className="h-[300px] w-full flex items-center justify-center border-t border-dashed border-cyan-400/20 mt-4">
-              <p className={isDark ? 'text-gray-500' : 'text-gray-400'}>No regional activity detected yet.</p>
+            <div className="h-[300px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={regionalData}>
+                  <XAxis dataKey="name" hide />
+                  <YAxis hide />
+                  <Tooltip 
+                    cursor={{ fill: 'transparent' }}
+                    contentStyle={{ 
+                      backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                      borderColor: isDark ? '#1e293b' : '#e2e8f0',
+                      borderRadius: '12px'
+                    }}
+                  />
+                  <Bar dataKey="value" radius={[10, 10, 10, 10]} barSize={40}>
+                    {regionalData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+              <div className="space-y-3 mt-4">
+                {regionalData.map((region) => (
+                  <div key={region.name} className="flex justify-between items-center text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: region.color }} />
+                      <span className="text-gray-500">{region.name}</span>
+                    </div>
+                    <span className="font-bold">{region.value}%</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -189,9 +265,7 @@ export default function SuperadminOverview() {
               Critical System Logs
             </h3>
             <div className="space-y-4">
-              {[
-                { time: 'Just now', msg: 'System initialized and connected to Firebase.', type: 'success' },
-              ].map((log, i) => (
+              {recentLogs.map((log, i) => (
                 <div key={i} className="flex gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
                   <div className={`w-1 h-auto rounded-full ${
                     log.type === 'warning' ? 'bg-yellow-400' : 

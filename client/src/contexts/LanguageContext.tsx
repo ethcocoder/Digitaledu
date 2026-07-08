@@ -183,8 +183,8 @@ const translations = {
     'student.hours': 'Learning Hours',
     'student.continueLearning': 'Continue Learning',
     'student.lookingForMore': 'Looking for more?',
-    'student.exploreCatalog': 'Explore Catalog',
-
+        'student.exploreCatalog': 'Explore Catalog',
+    'student.recommendedForYou': 'Recommended for You',
     // Instructor Dashboard
     'instructor.title': 'Instructor Dashboard',
     'instructor.myCourses': 'My Courses',
@@ -366,8 +366,8 @@ const translations = {
     'student.hours': 'የጥናት ሰዓታት',
     'student.continueLearning': 'ትምህርትዎን ይቀጥሉ',
     'student.lookingForMore': 'ተጨማሪ ይፈልጋሉ?',
-    'student.exploreCatalog': 'ካታሎጉን ያስሱ',
-
+        'student.exploreCatalog': 'ካታሎጉን ያስሱ',
+    'student.recommendedForYou': 'ለእርስዎ የሚመከሩ',
     // Instructor Dashboard
     'instructor.title': 'የአስተማሪ ዳሽቦርድ',
     'instructor.myCourses': 'የእኔ ኮርሶች',

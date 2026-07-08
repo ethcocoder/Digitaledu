@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import StudentLayout from '@/components/StudentLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useUser } from '@/contexts/UserContext';
-import { PlayCircle, Award, BookOpen, Clock, Search } from 'lucide-react';
+import { PlayCircle, Award, BookOpen, Clock, Search, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLocation } from 'wouter';
 import { enrollmentService } from '@/lib/enrollmentService';
@@ -19,6 +19,7 @@ export default function StudentDashboard() {
   const [, setLocation] = useLocation();
   const isDark = theme === 'dark';
   const [enrollments, setEnrollments] = useState<EnrolledCourse[]>([]);
+  const [recommendedCourses, setRecommendedCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,6 +33,15 @@ export default function StudentDashboard() {
         })
       );
       setEnrollments(withCourses);
+      
+      // Fetch recommended courses
+      const { courses } = await courseService.getAllPublishedCourses();
+      const enrolledIds = new Set(data.map(e => e.courseId));
+      const recommended = courses
+        .filter(c => !enrolledIds.has(c.id))
+        .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+        .slice(0, 3);
+      setRecommendedCourses(recommended);
       setLoading(false);
     });
 
@@ -102,8 +112,9 @@ export default function StudentDashboard() {
           ))}
         </div>
 
-        <div>
-          <h3 className="text-xl font-bold mb-6">{t('student.continueLearning')}</h3>
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <div className="xl:col-span-2">
+            <h3 className="text-xl font-bold mb-6">{t('student.continueLearning')}</h3>
           {loading ? (
             <div className="flex justify-center py-12">
               <div className="w-10 h-10 border-4 border-yellow-500/20 border-t-yellow-500 rounded-full animate-spin" />
@@ -163,6 +174,53 @@ export default function StudentDashboard() {
               ))}
             </div>
           )}
+          </div>
+
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold">{t('student.recommendedForYou')}</h3>
+            <div className="space-y-4">
+              {loading ? (
+                [1, 2].map(i => (
+                  <div key={i} className={`h-32 rounded-2xl animate-pulse ${isDark ? 'bg-slate-800' : 'bg-gray-100'}`} />
+                ))
+              ) : recommendedCourses.length === 0 ? (
+                <p className="text-sm text-gray-500 italic">No new recommendations right now.</p>
+              ) : (
+                recommendedCourses.map((course) => (
+                  <div
+                    key={course.id}
+                    onClick={() => setLocation('/student/catalog')}
+                    className={`p-4 rounded-2xl border flex gap-4 cursor-pointer transition-all group ${
+                      isDark ? 'bg-slate-900/40 border-yellow-500/10 hover:border-yellow-500/30' : 'bg-white border-yellow-100 hover:border-yellow-300'
+                    }`}
+                  >
+                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex-shrink-0 flex items-center justify-center">
+                      <Star className="w-8 h-8 text-white/30" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-sm mb-1 truncate group-hover:text-yellow-500 transition-colors">{course.title}</h4>
+                      <p className="text-xs text-gray-500 mb-2 line-clamp-1">{course.category}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-bold text-yellow-500">${course.price}</span>
+                        <div className="flex items-center gap-1 text-[10px] font-bold text-gray-500">
+                          <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                          {course.rating || 'New'}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+              <button 
+                onClick={() => setLocation('/student/catalog')}
+                className={`w-full py-3 rounded-xl text-xs font-bold border border-dashed transition-colors ${
+                  isDark ? 'border-yellow-500/20 text-yellow-500/60 hover:bg-yellow-500/5' : 'border-yellow-200 text-yellow-600/60 hover:bg-yellow-50'
+                }`}
+              >
+                View Full Catalog
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </StudentLayout>
