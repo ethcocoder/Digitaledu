@@ -25,7 +25,7 @@ export const enrollmentService = {
 
       const { course, error: courseError } = await courseService.getCourseById(courseId);
       if (courseError || !course) throw new Error(courseError || 'Course not found');
-      if (course.status !== 'published') throw new Error('Course is not available for enrollment');
+      if (course.status !== 'approved') throw new Error('Course is not available for enrollment');
 
       const existing = await enrollmentService.getEnrollment(studentId, courseId);
       if (existing.enrollment) throw new Error('Already enrolled in this course');
@@ -125,6 +125,22 @@ export const enrollmentService = {
       return { enrollments, error: null };
     } catch (error: any) {
       return { enrollments: [], error: error.message };
+    }
+  },
+
+  updateEnrollment: async (
+    enrollmentId: string,
+    updates: Partial<Pick<Enrollment, 'progress' | 'completedModules' | 'assessmentResults' | 'goal'>>
+  ): Promise<{ error: string | null }> => {
+    try {
+      if (!db) throw new Error('Firestore not initialized');
+      await updateDoc(doc(db, 'enrollments', enrollmentId), {
+        ...updates,
+        lastAccessedAt: Date.now(),
+      });
+      return { error: null };
+    } catch (error: any) {
+      return { error: error.message };
     }
   },
 

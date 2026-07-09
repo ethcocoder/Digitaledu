@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import InstructorLayout from '@/components/InstructorLayout';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useUser } from '@/contexts/UserContext';
-import { PlusCircle, BookOpen, Users, Star } from 'lucide-react';
+import { PlusCircle, BookOpen, Users, Star, Send, RefreshCw, MessageSquare } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { courseService } from '@/lib/courseService';
 import { Course } from '../../../../shared/types';
@@ -25,16 +25,63 @@ export default function InstructorCourses() {
 
   useEffect(() => { fetchCourses(); }, [user?.uid]);
 
-  const handlePublish = async (courseId: string) => {
-    const { error } = await courseService.updateCourseStatus(courseId, 'published');
+  const handleSubmitForReview = async (courseId: string) => {
+    const { error } = await courseService.submitForReview(courseId);
     if (error) toast.error(error);
-    else { toast.success('Course published!'); fetchCourses(); }
+    else { toast.success('Submitted for admin review!'); fetchCourses(); }
   };
 
   const handleArchive = async (courseId: string) => {
     const { error } = await courseService.updateCourseStatus(courseId, 'archived');
     if (error) toast.error(error);
     else { toast.success('Course archived.'); fetchCourses(); }
+  };
+
+  const statusBadge = (course: Course) => {
+    const status = course.status;
+    const base = 'px-2 py-1 rounded-md text-xs font-bold uppercase';
+    if (status === 'approved') return <span className={`${base} bg-green-500/10 text-green-500`}>Approved</span>;
+    if (status === 'pending_review') return <span className={`${base} bg-blue-500/10 text-blue-500`}>Under Review</span>;
+    if (status === 'rejected') return <span className={`${base} bg-red-500/10 text-red-500`}>Rejected</span>;
+    if (status === 'draft') return <span className={`${base} bg-yellow-500/10 text-yellow-500`}>Draft</span>;
+    if (status === 'archived') return <span className={`${base} bg-gray-500/10 text-gray-500`}>Archived</span>;
+    return <span className={`${base} bg-gray-500/10 text-gray-500`}>{status}</span>;
+  };
+
+  const actionButtons = (course: Course) => {
+    const btns: { label: string; onClick: () => void; className: string }[] = [];
+
+    btns.push({
+      label: 'Edit',
+      onClick: () => setLocation(`/instructor/courses/${course.id}/edit`),
+      className: `border ${isDark ? 'border-teal-500/30 text-teal-400 hover:bg-teal-500/10' : 'border-teal-300 text-teal-600 hover:bg-teal-50'}`,
+    });
+
+    if (course.status === 'draft') {
+      btns.push({
+        label: 'Submit for Review',
+        onClick: () => handleSubmitForReview(course.id),
+        className: 'bg-blue-500/10 text-blue-500 hover:bg-blue-500/20',
+      });
+    }
+
+    if (course.status === 'rejected') {
+      btns.push({
+        label: 'Resubmit',
+        onClick: () => handleSubmitForReview(course.id),
+        className: 'bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20',
+      });
+    }
+
+    if (course.status === 'approved') {
+      btns.push({
+        label: 'Archive',
+        onClick: () => handleArchive(course.id),
+        className: 'bg-gray-500/10 text-gray-500 hover:bg-gray-500/20',
+      });
+    }
+
+    return btns;
   };
 
   return (
@@ -71,35 +118,42 @@ export default function InstructorCourses() {
                     <span className="text-xs font-bold text-teal-500 uppercase">{course.category}</span>
                     <h3 className="font-bold text-lg mt-1">{course.title}</h3>
                   </div>
-                  <span className={`px-2 py-1 rounded-md text-xs font-bold uppercase ${
-                    course.status === 'published' ? 'bg-green-500/10 text-green-500' :
-                    course.status === 'draft' ? 'bg-yellow-500/10 text-yellow-500' :
-                    'bg-gray-500/10 text-gray-500'
-                  }`}>{course.status}</span>
+                  {statusBadge(course)}
                 </div>
                 <p className={`text-sm mb-4 line-clamp-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{course.description}</p>
+
+                {/* Review feedback */}
+                {course.status === 'rejected' && course.review && (
+                  <div className={`mb-4 p-3 rounded-lg border border-red-500/20 bg-red-500/5`}>
+                    <div className="flex items-start gap-2">
+                      <MessageSquare className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-xs font-bold text-red-400">
+                          Review from {course.review.reviewerName}
+                        </p>
+                        <p className="text-sm mt-1">{course.review.comment}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center gap-4 text-sm mb-4">
                   <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {course.studentsCount}</span>
                   <span className="flex items-center gap-1"><Star className="w-4 h-4 text-yellow-500" /> {course.rating || 'N/A'}</span>
                   <span className="font-bold text-teal-500">${course.price}</span>
                 </div>
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => setLocation(`/instructor/courses/${course.id}/edit`)}
-                    className={`flex-1 py-2 rounded-lg text-sm font-bold border ${isDark ? 'border-teal-500/30 text-teal-400 hover:bg-teal-500/10' : 'border-teal-300 text-teal-600 hover:bg-teal-50'}`}
-                  >
-                    Edit
-                  </button>
-                  {course.status === 'draft' && (
-                    <button onClick={() => handlePublish(course.id)} className="flex-1 py-2 rounded-lg text-sm font-bold bg-green-500/10 text-green-500 hover:bg-green-500/20">
-                      Publish
+                  {actionButtons(course).map((btn) => (
+                    <button
+                      key={btn.label}
+                      onClick={btn.onClick}
+                      className={`flex-1 py-2 rounded-lg text-sm font-bold ${btn.className}`}
+                    >
+                      {btn.label === 'Submit for Review' && <Send className="w-4 h-4 inline mr-1" />}
+                      {btn.label === 'Resubmit' && <RefreshCw className="w-4 h-4 inline mr-1" />}
+                      {btn.label}
                     </button>
-                  )}
-                  {course.status === 'published' && (
-                    <button onClick={() => handleArchive(course.id)} className="flex-1 py-2 rounded-lg text-sm font-bold bg-gray-500/10 text-gray-500 hover:bg-gray-500/20">
-                      Archive
-                    </button>
-                  )}
+                  ))}
                 </div>
               </div>
             ))}

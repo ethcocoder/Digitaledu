@@ -203,7 +203,52 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+/**
+ * Vite plugin that mounts API routes directly on the Vite dev server
+ * (no separate process needed)
+ */
+function vitePluginApiRoutes(): Plugin {
+  return {
+    name: 'api-routes',
+    configureServer(server: ViteDevServer) {
+      const handleApi = async (req: any, res: any) => {
+        try {
+          if (req.method !== 'POST') {
+            res.writeHead(405); res.end('Method not allowed');
+            return;
+          }
+          let body = '';
+          req.on('data', (chunk: string) => body += chunk);
+          req.on('end', async () => {
+            const data = JSON.parse(body);
+            const path = req.url?.split('?')[0];
+
+            // Dynamic import so it doesn't break the build
+            const { handleCreateUser, handleDeleteUser, handleFixUserClaims } = await import('./server/api-routes');
+            
+            if (path === '/api/create-user') {
+              await handleCreateUser(data, res);
+            } else if (path === '/api/delete-user') {
+              await handleDeleteUser(data, res);
+            } else if (path === '/api/fix-user-claims') {
+              await handleFixUserClaims(data, res);
+            } else {
+              res.writeHead(404); res.end('Not found');
+            }
+          });
+        } catch (err: any) {
+          res.writeHead(500); res.end(err.message);
+        }
+      };
+
+      server.middlewares.use('/api/create-user', (req, res) => handleApi(req, res));
+      server.middlewares.use('/api/delete-user', (req, res) => handleApi(req, res));
+      server.middlewares.use('/api/fix-user-claims', (req, res) => handleApi(req, res));
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy(), vitePluginApiRoutes()];
 
 export default defineConfig({
   plugins,
@@ -222,8 +267,9 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    strictPort: false, // Will find next available port if 3000 is busy
+    strictPort: false,
     host: true,
+    proxy: undefined,
     allowedHosts: [
       ".manuspre.computer",
       ".manus.computer",

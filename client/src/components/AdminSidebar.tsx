@@ -12,7 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Database,
-  Cpu
+  Cpu,
+  ClipboardCheck
 } from 'lucide-react';
 import { useState } from 'react';
 import { useUser } from '@/contexts/UserContext';
@@ -60,6 +61,7 @@ export default function AdminSidebar() {
     { icon: LayoutDashboard, label: t('dashboard.overview'), path: isSuperadmin ? '/superadmin' : '/admin' },
     { icon: Users, label: t('dashboard.users'), path: isSuperadmin ? '/superadmin/users' : '/admin/users' },
     { icon: BookOpen, label: t('dashboard.courses'), path: isSuperadmin ? '/superadmin/courses' : '/admin/courses' },
+    { icon: ClipboardCheck, label: 'Course Review', path: isSuperadmin ? '/superadmin/course-review' : '/admin/course-review' },
     { icon: BarChart3, label: t('dashboard.analytics'), path: isSuperadmin ? '/superadmin/analytics' : '/admin/analytics' },
     { icon: CreditCard, label: t('dashboard.financials'), path: isSuperadmin ? '/superadmin/financials' : '/admin/financials' },
     { icon: Globe, label: 'Regional Hubs', path: '/superadmin/regions', hidden: !isSuperadmin },

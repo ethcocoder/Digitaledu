@@ -65,7 +65,63 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   updatedBy: '',
 };
 
-export type CourseStatus = 'draft' | 'published' | 'archived';
+export type CourseStatus = 'draft' | 'pending_review' | 'approved' | 'rejected' | 'archived';
+
+export interface CourseReview {
+  reviewedBy: string;
+  reviewerName: string;
+  reviewedAt: number;
+  decision: 'approved' | 'rejected';
+  comment: string;
+}
+
+// ── Content Blocks ──────────────────────────────────────────────
+export type ContentBlockType = 'concept' | 'example' | 'audio' | 'quiz';
+
+export interface BilingualContent {
+  en: string;
+  am: string;
+}
+
+export interface ConceptBlock {
+  type: 'concept';
+  id: string;
+  title: BilingualContent;
+  content: BilingualContent;
+}
+
+export interface ExampleBlock {
+  type: 'example';
+  id: string;
+  source: BilingualContent;
+  translation: BilingualContent;
+  notes?: BilingualContent;
+}
+
+export interface AudioBlock {
+  type: 'audio';
+  id: string;
+  term: BilingualContent;
+  audioUrl: string;
+  transcript: BilingualContent;
+}
+
+export interface QuizOption {
+  id: string;
+  content: BilingualContent;
+  isCorrect: boolean;
+}
+
+export interface QuizBlock {
+  type: 'quiz';
+  id: string;
+  question: BilingualContent;
+  options: QuizOption[];
+  explanation: BilingualContent;
+  questionType: 'mcq' | 'fill-blank';
+}
+
+export type ContentBlock = ConceptBlock | ExampleBlock | AudioBlock | QuizBlock;
 
 export interface CourseModule {
   id: string;
@@ -73,6 +129,7 @@ export interface CourseModule {
   videoUrl: string;
   durationMinutes: number;
   order: number;
+  blocks: ContentBlock[];
 }
 
 export interface Course {
@@ -87,6 +144,10 @@ export interface Course {
   studentsCount: number;
   rating: number;
   modules: CourseModule[];
+  isBilingual?: boolean;
+  targetLanguage?: string;
+  supportLanguage?: string;
+  review?: CourseReview;
   createdAt: number;
   updatedAt: number;
 }
@@ -102,4 +163,43 @@ export interface Enrollment {
   completedModules: string[];
   enrolledAt: number;
   lastAccessedAt: number;
+  assessmentResults?: AssessmentResult;
+  goal?: LearningGoal;
+}
+
+// ── Advanced: Assessment & Placement ────────────────────────────
+export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
+export type LearningGoal = 'travel' | 'work' | 'school';
+
+export interface AssessmentResult {
+  level: Difficulty;
+  score: number;
+  completedAt: number;
+}
+
+export interface PlacementQuestion {
+  id: string;
+  question: BilingualContent;
+  options: QuizOption[];
+  difficulty: Difficulty;
+}
+
+// ── Gamification ────────────────────────────────────────────────
+export interface Badge {
+  id: string;
+  name: BilingualContent;
+  description: BilingualContent;
+  icon: string;
+  earnedAt: number;
+}
+
+export interface UserProgress {
+  uid: string;
+  totalXP: number;
+  streakCount: number;
+  lastActiveDate: number;
+  badges: Badge[];
+  completedCourses: number;
+  totalQuizzesTaken: number;
+  quizzesCorrect: number;
 }

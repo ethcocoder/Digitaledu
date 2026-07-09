@@ -11,7 +11,7 @@ import {
   increment,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { Course, CourseStatus, CourseModule } from '../../../shared/types';
+import { Course, CourseStatus, CourseModule, CourseReview } from '../../../shared/types';
 
 export const courseService = {
   getAllCourses: async (): Promise<{ courses: Course[]; error: string | null }> => {
@@ -35,7 +35,7 @@ export const courseService = {
       if (!db) throw new Error('Firestore not initialized');
       const q = query(
         collection(db, 'courses'),
-        where('status', '==', 'published'),
+        where('status', '==', 'approved'),
         orderBy('createdAt', 'desc')
       );
       const querySnapshot = await getDocs(q);
@@ -138,6 +138,64 @@ export const courseService = {
     }
   },
 
+  submitForReview: async (courseId: string): Promise<{ error: string | null }> => {
+    try {
+      if (!db) throw new Error('Firestore not initialized');
+      await updateDoc(doc(db, 'courses', courseId), {
+        status: 'pending_review',
+        review: null,
+        updatedAt: Date.now(),
+      });
+      return { error: null };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  },
+
+  reviewCourse: async (
+    courseId: string,
+    decision: 'approved' | 'rejected',
+    reviewerName: string,
+    comment: string,
+    reviewerUid: string
+  ): Promise<{ error: string | null }> => {
+    try {
+      if (!db) throw new Error('Firestore not initialized');
+      const review: CourseReview = {
+        reviewedBy: reviewerUid,
+        reviewerName,
+        reviewedAt: Date.now(),
+        decision,
+        comment,
+      };
+      await updateDoc(doc(db, 'courses', courseId), {
+        status: decision,
+        review,
+        updatedAt: Date.now(),
+      });
+      return { error: null };
+    } catch (error: any) {
+      return { error: error.message };
+    }
+  },
+
+  getPendingCourses: async (): Promise<{ courses: Course[]; error: string | null }> => {
+    try {
+      if (!db) throw new Error('Firestore not initialized');
+      const q = query(
+        collection(db, 'courses'),
+        where('status', '==', 'pending_review'),
+        orderBy('updatedAt', 'desc')
+      );
+      const querySnapshot = await getDocs(q);
+      const courses: Course[] = [];
+      querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
+      return { courses, error: null };
+    } catch (error: any) {
+      return { courses: [], error: error.message };
+    }
+  },
+
   incrementStudentsCount: async (courseId: string): Promise<{ error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
@@ -165,6 +223,7 @@ function normalizeCourse(id: string, data: Record<string, unknown>): Course {
     studentsCount: (data.studentsCount as number) || 0,
     rating: (data.rating as number) || 0,
     modules: (data.modules as CourseModule[]) || [],
+    review: (data.review as CourseReview) || undefined,
     createdAt: (data.createdAt as number) || 0,
     updatedAt: (data.updatedAt as number) || 0,
   };

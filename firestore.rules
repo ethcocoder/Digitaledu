@@ -2,84 +2,111 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    function isAuthenticated() {
+    // ─── Helpers ────────────────────────────────────────────
+
+    function isAuth() {
       return request.auth != null;
     }
 
-    function isOwner(userId) {
-      return isAuthenticated() && request.auth.uid == userId;
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
     }
 
-    function userDoc() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
-    }
-
-    function isSuperAdmin() {
-      return isAuthenticated() && userDoc().role == 'superadmin';
+    function role() {
+      let doc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      return doc.exists ? doc.data.role : null;
     }
 
     function isAdmin() {
-      return isAuthenticated() &&
-        (userDoc().role == 'admin' || isSuperAdmin());
+      let r = role();
+      return r == 'admin' || r == 'superadmin';
     }
 
-    function isInstructor() {
-      return isAuthenticated() && userDoc().role == 'instructor';
+    function isSuperAdmin() {
+      return role() == 'superadmin';
     }
 
-    // ---------------------------------------------------------
-    // Users Collection
-    // ---------------------------------------------------------
-    match /users/{userId} {
-      allow create: if isOwner(userId);
-      allow read: if isOwner(userId) || isAdmin();
-      allow update: if isOwner(userId) || isAdmin();
+    // ─── Users ──────────────────────────────────────────────
+
+    match /users/{uid} {
+      // Anyone can create their own account (signup)
+      allow create: if isOwner(uid);
+
+      // Owner can read/update; admin can read/update anyone
+      allow read: if isOwner(uid) || isAdmin();
+      allow update: if isOwner(uid) || isAdmin();
       allow delete: if isSuperAdmin();
+
+      // Explicit list for admin overview
+      allow list: if isAdmin();
     }
 
-    // ---------------------------------------------------------
-    // Courses Collection
-    // ---------------------------------------------------------
+    // ─── Courses ────────────────────────────────────────────
+
     match /courses/{courseId} {
-      allow read: if isAuthenticated() && (
+      // Unauthenticated users can see approved courses (landing page)
+      // Authenticated users can see approved or their own
+      // Admins can see everything
+      allow read: if
+        resource.data.status == 'approved' ||
         resource.data.status == 'published' ||
-        resource.data.instructorId == request.auth.uid ||
-        isAdmin()
-      );
-      allow create: if isAuthenticated() &&
+        (isAuth() && resource.data.instructorId == request.auth.uid) ||
+        isAdmin();
+
+      // List is same rules but only for authenticated (public landing uses get)
+      allow list: if isAuth();
+
+      // Instructors create courses as draft
+      allow create: if isAuth() &&
         request.resource.data.instructorId == request.auth.uid;
-      allow update: if isAuthenticated() && (
+
+      // Owner or admin can update
+      allow update: if isAuth() && (
         resource.data.instructorId == request.auth.uid ||
         isAdmin()
       );
+
       allow delete: if isSuperAdmin();
     }
 
-    // ---------------------------------------------------------
-    // Platform Settings (global config)
-    // ---------------------------------------------------------
+    // ─── Enrollments ────────────────────────────────────────
+
+    match /enrollments/{eid} {
+      allow read, list: if isAuth() && (
+        resource.data.studentId == request.auth.uid ||
+        resource.data.instructorId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow create: if isAuth() &&
+        request.resource.data.studentId == request.auth.uid;
+
+      allow update: if isAuth() && (
+        resource.data.studentId == request.auth.uid ||
+        isAdmin()
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    // ─── User Progress (gamification) ───────────────────────
+
+    match /userProgress/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow create, update: if isOwner(uid);
+      allow delete: if isSuperAdmin();
+    }
+
+    // ─── Platform Settings ──────────────────────────────────
+
     match /platformSettings/{docId} {
-      allow read: if isAuthenticated();
+      allow read: if true;  // public read
+      allow list: if isAdmin();
       allow write: if isSuperAdmin();
     }
 
-    // ---------------------------------------------------------
-    // Enrollments Collection
-    // ---------------------------------------------------------
-    match /enrollments/{enrollmentId} {
-      allow read: if isAuthenticated() && (
-        resource.data.studentId == request.auth.uid ||
-        resource.data.instructorId == request.auth.uid ||
-        isAdmin()
-      );
-      allow create: if isAuthenticated() &&
-        request.resource.data.studentId == request.auth.uid;
-      allow update: if isAuthenticated() && (
-        resource.data.studentId == request.auth.uid ||
-        isAdmin()
-      );
-      allow delete: if isAdmin();
-    }
+    // ─── Catch-all ──────────────────────────────────────────
 
     match /{document=**} {
       allow read, write: if false;

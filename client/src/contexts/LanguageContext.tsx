@@ -173,6 +173,10 @@ const translations = {
     'admin.pendingApprovals': 'Pending Approvals',
     'admin.activeUsers': 'Total Active Users',
     'admin.activeCourses': 'Active Courses',
+    'admin.pendingCourseReviews': 'Pending Course Reviews',
+    'admin.newUsers': 'New Users (30d)',
+    'admin.totalRevenue': 'Total Revenue',
+    'admin.recentActivity': 'Recent Platform Activity',
 
     // Student Dashboard
     'student.welcome': 'Welcome back!',
@@ -192,9 +196,12 @@ const translations = {
     'instructor.earnings': 'Earnings',
     'instructor.createCourse': 'Create New Course',
     'instructor.activeCourses': 'Active Courses',
+    'instructor.draftCourses': 'Drafts',
+    'instructor.pendingReviews': 'Under Review',
     'instructor.totalStudents': 'Total Enrollments',
     'instructor.totalEarnings': 'Total Revenue',
     'instructor.recentActivity': 'Recent Activity',
+    'instructor.welcomeBack': 'Ready to share your knowledge? Manage your courses or create a new one.',
   },
   am: {
     // Navigation
@@ -356,6 +363,10 @@ const translations = {
     'admin.pendingApprovals': 'በመጠባበቅ ላይ ያሉ',
     'admin.activeUsers': 'ጠቅላላ ንቁ ተጠቃሚዎች',
     'admin.activeCourses': 'ንቁ ኮርሶች',
+    'admin.pendingCourseReviews': 'በግምገማ ላይ ያሉ ኮርሶች',
+    'admin.newUsers': 'አዳዲስ ተጠቃሚዎች (30 ቀን)',
+    'admin.totalRevenue': 'ጠቅላላ ገቢ',
+    'admin.recentActivity': 'የቅርብ ጊዜ እንቅስቃሴ',
 
     // Student Dashboard
     'student.welcome': 'እንኳን ደህና መጣህ!',
@@ -375,9 +386,12 @@ const translations = {
     'instructor.earnings': 'ገቢዎች',
     'instructor.createCourse': 'አዲስ ኮርስ ፍጠር',
     'instructor.activeCourses': 'ንቁ ኮርሶች',
+    'instructor.draftCourses': 'ረቂቆች',
+    'instructor.pendingReviews': 'በግምገማ ላይ',
     'instructor.totalStudents': 'ጠቅላላ ተመዝጋቢዎች',
     'instructor.totalEarnings': 'ጠቅላላ ገቢ',
     'instructor.recentActivity': 'የቅርብ ጊዜ እንቅስቃሴዎች',
+    'instructor.welcomeBack': 'እውቀትዎን ለማካፈል ዝግጁ ነዎት? ኮርሶችዎን ያስተዳድሩ ወይም አዲስ ይፍጠሩ።',
   },
 };;
 

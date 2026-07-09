@@ -20,14 +20,17 @@ import SuperadminAnalytics from "./pages/superadmin/Analytics";
 import SuperadminFinancials from "./pages/superadmin/Financials";
 import SuperadminRegions from "./pages/superadmin/Regions";
 import SuperadminHealth from "./pages/superadmin/Health";
+import AdminCourseReview from "./pages/admin/CourseReview";
 
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
 import AdminSettings from "./pages/admin/Settings";
+import AdminLayout from "./components/AdminLayout";
 
 import StudentDashboard from "./pages/student/Dashboard";
 import StudentCatalog from "./pages/student/Catalog";
 import StudentLearning from "./pages/student/Learning";
+import StudentCourseIntro from "./pages/student/CourseIntro";
 import StudentAchievements from "./pages/student/Achievements";
 import StudentCertificates from "./pages/student/Certificates";
 import StudentSettings from "./pages/student/Settings";
@@ -87,6 +90,11 @@ function Router() {
           <SuperadminHealth />
         </ProtectedRoute>
       </Route>
+      <Route path="/superadmin/course-review">
+        <ProtectedRoute allowedRoles={['superadmin']}>
+          <AdminCourseReview layout={AdminLayout} />
+        </ProtectedRoute>
+      </Route>
 
       {/* Admin Routes */}
       <Route path="/admin">
@@ -117,6 +125,11 @@ function Router() {
       <Route path="/admin/settings">
         <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
           <AdminSettings />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/course-review">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin']}>
+          <AdminCourseReview layout={AdminLayout} />
         </ProtectedRoute>
       </Route>
 
@@ -166,6 +179,11 @@ function Router() {
       <Route path="/student/catalog">
         <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
           <StudentCatalog />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/student/course-intro/:courseId">
+        <ProtectedRoute allowedRoles={['superadmin', 'admin', 'instructor', 'student']}>
+          <StudentCourseIntro />
         </ProtectedRoute>
       </Route>
       <Route path="/student/learn/:courseId">

@@ -68,7 +68,7 @@ export default function StudentCatalog() {
 
     toast.success(`Enrolled in ${course.title}!`);
     setEnrolledIds((prev) => new Set([...Array.from(prev), course.id]));
-    setLocation(`/student/learn/${course.id}`);
+    setLocation(`/student/course-intro/${course.id}`);
   };
 
   const getDuration = (course: Course) => {

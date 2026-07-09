@@ -10,6 +10,9 @@ node_modules
 /dist
 /build
 
+# Firebase Admin service account key (KEEP SECRET)
+service-account-key.json
+
 # Misc
 .DS_Store
 .env
