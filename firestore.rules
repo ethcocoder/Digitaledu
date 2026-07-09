@@ -2,81 +2,41 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ──────── Core helpers ────────
+    function isAuth()  { return request.auth != null; }
 
-    function isAuth() {
-      return request.auth != null;
-    }
-
-    function isOwner(uid) {
-      return isAuth() && request.auth.uid == uid;
-    }
-
-    function getUserRole() {
-      let doc = get(/databases/$(database)/documents/users/$(request.auth.uid));
-      return doc.exists ? doc.data.role : null;
-    }
-
-    function hasRole(role) {
-      let r = getUserRole();
-      return r != null && r in [role];
-    }
-
-    function isAdmin() {
-      let r = getUserRole();
-      return r != null && r in ['admin', 'superadmin'];
-    }
-
-    // ──────── Users ────────
-
-    match /users/{uid} {
-      allow create: if isOwner(uid);
-      allow read: if isAuth();
-      allow list: if isAuth();
-      allow update: if isOwner(uid) || isAdmin();
-      allow delete: if hasRole('superadmin');
-    }
-
-    // ──────── Courses ────────
+    // ────── PUBLIC access for landing/catalog ──────
 
     match /courses/{courseId} {
-      allow read: if isAuth();
+      allow read: if true;
       allow create: if isAuth();
-      allow update: if isAuth() && (
-        resource.data.instructorId == request.auth.uid ||
-        isAdmin()
-      );
-      allow delete: if hasRole('superadmin');
+      allow update: if isAuth();
+      allow delete: if isAuth() && request.auth.uid == resource.data.instructorId;
     }
-
-    // ──────── Enrollments ────────
-
-    match /enrollments/{eid} {
-      allow read, list: if isAuth();
-      allow create: if isAuth() && request.resource.data.studentId == request.auth.uid;
-      allow update: if isAuth() && (
-        resource.data.studentId == request.auth.uid ||
-        resource.data.instructorId == request.auth.uid ||
-        isAdmin()
-      );
-      allow delete: if isAdmin();
-    }
-
-    // ──────── User Progress (gamification) ────────
-
-    match /userProgress/{uid} {
-      allow read: if isAuth();
-      allow list: if isAuth();
-      allow create: if isOwner(uid);
-      allow update: if isOwner(uid);
-      allow delete: if hasRole('superadmin');
-    }
-
-    // ──────── Platform Settings ────────
 
     match /platformSettings/{docId} {
-      allow read: if isAuth();
-      allow write: if hasRole('superadmin');
+      allow read: if true;
+      allow write: if isAuth();
+    }
+
+    match /users/{uid} {
+      allow read: if true;
+      allow create: if request.auth.uid == uid;
+      allow update: if isAuth();
+      allow delete: if isAuth() && request.auth.uid == uid;
+    }
+
+    match /enrollments/{eid} {
+      allow read, list: if true;
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+    }
+
+    match /userProgress/{uid} {
+      allow read: if true;
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth() && request.auth.uid == uid;
     }
   }
 }
