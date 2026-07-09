@@ -2,126 +2,109 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ─── Helpers ────────────────────────────────────────────
-
-    function isAuthenticated() {
+    function isAuth() {
       return request.auth != null;
     }
 
     function isOwner(userId) {
-      return isAuthenticated() && request.auth.uid == userId;
+      return isAuth() && request.auth.uid == userId;
     }
 
     function userDoc() {
-      let doc = get(/databases/$(database)/documents/users/$(request.auth.uid));
-      return doc.exists ? doc.data : null;
-    }
-
-    function role() {
-      let data = userDoc();
-      return data != null ? data.role : null;
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
     }
 
     function isSuperAdmin() {
-      return role() == 'superadmin';
+      return isAuth() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
     }
 
     function isAdmin() {
-      let r = role();
-      return r == 'admin' || r == 'superadmin';
+      return isAuth() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
     }
 
-    function isInstructor() {
-      return role() == 'instructor';
+    // Instructor can only transition to these statuses (no self-approval)
+    function instructorAllowedStatus(newStatus) {
+      return newStatus == 'draft' || newStatus == 'pending_review' || newStatus == 'archived';
     }
 
-    function isCourseOwner(course) {
-      return isAuthenticated() && course.instructorId == request.auth.uid;
-    }
-
-    // Allowed status transitions for course owners
-    function ownerCanSetStatus(newStatus, oldStatus) {
-      return newStatus == oldStatus ||
-             newStatus == 'pending_review' ||
-             newStatus == 'archived';
-    }
-
-    // Allowed statuses for students to see
-    function isPublished(data) {
-      return data.status == 'approved' || data.status == 'published';
-    }
-
-    // ─── Users ──────────────────────────────────────────────
-
+    // ---------------------------------------------------------
+    // Users Collection
+    // ---------------------------------------------------------
     match /users/{userId} {
-      allow create: if isAuthenticated();
+      allow create: if isOwner(userId);
       allow read: if isOwner(userId) || isAdmin();
       allow list: if isAdmin();
       allow update: if isOwner(userId) || isAdmin();
       allow delete: if isSuperAdmin();
     }
 
-    // ─── Courses ────────────────────────────────────────────
-
+    // ---------------------------------------------------------
+    // Courses Collection
+    // ---------------------------------------------------------
     match /courses/{courseId} {
-      // Read: published (public), course owner, or admin
-      allow read: if isPublished(resource.data) ||
-        isCourseOwner(resource.data) ||
-        isAdmin();
+      // Read: approved/published are public-ish; owner/admin see all
+      allow read: if isAuth() && (
+        resource.data.status == 'approved' ||
+        resource.data.status == 'published' ||
+        resource.data.instructorId == request.auth.uid ||
+        isAdmin()
+      );
 
-      allow list: if isAuthenticated();
-
-      // Create: instructor, must start as draft
-      allow create: if isAuthenticated() &&
+      // Create: instructor must own it, must start as draft
+      allow create: if isAuth() &&
         request.resource.data.instructorId == request.auth.uid &&
         request.resource.data.status == 'draft';
 
       // Update:
-      //   Admin/superadmin → full access (approve/reject/anything)
-      //   Course owner → content editing + allowed status transitions
-      allow update: if isAuthenticated() && (
-        isAdmin() ||
-        (isCourseOwner(resource.data) &&
-         ownerCanSetStatus(request.resource.data.status, resource.data.status))
+      //   - Owner (instructor): can update any field except status cannot be 'approved'/'rejected'
+      //   - Admin/superadmin: full access
+      allow update: if isAuth() && (
+        (
+          resource.data.instructorId == request.auth.uid &&
+          instructorAllowedStatus(request.resource.data.status)
+        ) ||
+        isAdmin()
       );
 
       allow delete: if isSuperAdmin();
     }
 
-    // ─── Platform Settings ──────────────────────────────────
-
+    // ---------------------------------------------------------
+    // Platform Settings (global config)
+    // ---------------------------------------------------------
     match /platformSettings/{docId} {
-      allow read: if isAuthenticated();
+      allow read: if isAuth();
       allow write: if isSuperAdmin();
     }
 
-    // ─── Enrollments ────────────────────────────────────────
-
+    // ---------------------------------------------------------
+    // Enrollments Collection
+    // ---------------------------------------------------------
     match /enrollments/{enrollmentId} {
-      allow read, list: if isAuthenticated() && (
+      allow read: if isAuth() && (
         resource.data.studentId == request.auth.uid ||
         resource.data.instructorId == request.auth.uid ||
         isAdmin()
       );
-      allow create: if isAuthenticated() &&
+      allow create: if isAuth() &&
         request.resource.data.studentId == request.auth.uid;
-      allow update: if isAuthenticated() && (
+      allow update: if isAuth() && (
         resource.data.studentId == request.auth.uid ||
         isAdmin()
       );
       allow delete: if isAdmin();
     }
 
-    // ─── User Progress (gamification) ───────────────────────
-
+    // ---------------------------------------------------------
+    // User Progress (gamification)
+    // ---------------------------------------------------------
     match /userProgress/{userId} {
       allow read: if isOwner(userId) || isAdmin();
-      allow list: if isAdmin();
-      allow create, update: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
       allow delete: if isSuperAdmin();
     }
-
-    // ─── Catch-all ──────────────────────────────────────────
 
     match /{document=**} {
       allow read, write: if false;
