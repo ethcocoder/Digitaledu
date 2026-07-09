@@ -214,18 +214,18 @@ function vitePluginApiRoutes(): Plugin {
       const handleApi = async (req: any, res: any) => {
         try {
           if (req.method !== 'POST') {
-            res.writeHead(405); res.end('Method not allowed');
+            res.writeHead(405, { 'Content-Type': 'text/plain' }); res.end('Method not allowed');
             return;
           }
           let body = '';
           req.on('data', (chunk: string) => body += chunk);
           req.on('end', async () => {
             const data = JSON.parse(body);
-            const path = req.url?.split('?')[0];
+            // Use originalUrl to get the full path (middleware mount strips req.url)
+            const path = (req.originalUrl || req.url)?.split('?')[0];
 
-            // Dynamic import so it doesn't break the build
             const { handleCreateUser, handleDeleteUser, handleFixUserClaims } = await import('./server/api-routes');
-            
+
             if (path === '/api/create-user') {
               await handleCreateUser(data, res);
             } else if (path === '/api/delete-user') {
@@ -233,17 +233,23 @@ function vitePluginApiRoutes(): Plugin {
             } else if (path === '/api/fix-user-claims') {
               await handleFixUserClaims(data, res);
             } else {
-              res.writeHead(404); res.end('Not found');
+              res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('Not found');
             }
           });
         } catch (err: any) {
-          res.writeHead(500); res.end(err.message);
+          res.writeHead(500, { 'Content-Type': 'text/plain' }); res.end(err.message);
         }
       };
 
-      server.middlewares.use('/api/create-user', (req, res) => handleApi(req, res));
-      server.middlewares.use('/api/delete-user', (req, res) => handleApi(req, res));
-      server.middlewares.use('/api/fix-user-claims', (req, res) => handleApi(req, res));
+      // Mount a single catch-all for /api/* to avoid stripped-path issue
+      server.middlewares.use('/api', (req, res, next) => {
+        const path = (req.originalUrl || req.url)?.split('?')[0];
+        if (path === '/api/create-user' || path === '/api/delete-user' || path === '/api/fix-user-claims') {
+          handleApi(req, res);
+        } else {
+          next();
+        }
+      });
     },
   };
 }
