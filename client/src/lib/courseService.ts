@@ -6,7 +6,6 @@ import {
   setDoc,
   updateDoc,
   query,
-  where,
   orderBy,
   increment,
 } from 'firebase/firestore';
@@ -35,12 +34,14 @@ export const courseService = {
   getPublishedCourses: async (): Promise<{ courses: Course[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(collection(db, 'courses'), where('status', '==', 'approved'));
+      const q = query(collection(db, 'courses'));
       const querySnapshot = await getDocs(q);
       const courses: Course[] = [];
       querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
-      courses.sort((a, b) => sortDesc(a, b, 'createdAt'));
-      return { courses, error: null };
+      // Show approved + published courses to students
+      const filtered = courses.filter((c) => c.status === 'approved' || c.status === 'published');
+      filtered.sort((a, b) => sortDesc(a, b, 'createdAt'));
+      return { courses: filtered, error: null };
     } catch (error: any) {
       console.error('Error fetching published courses:', error);
       return { courses: [], error: error.message };
@@ -61,12 +62,13 @@ export const courseService = {
   getInstructorCourses: async (instructorId: string): Promise<{ courses: Course[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(collection(db, 'courses'), where('instructorId', '==', instructorId));
+      const q = query(collection(db, 'courses'));
       const querySnapshot = await getDocs(q);
       const courses: Course[] = [];
       querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
-      courses.sort((a, b) => sortDesc(a, b, 'createdAt'));
-      return { courses, error: null };
+      const filtered = courses.filter((c) => c.instructorId === instructorId);
+      filtered.sort((a, b) => sortDesc(a, b, 'createdAt'));
+      return { courses: filtered, error: null };
     } catch (error: any) {
       return { courses: [], error: error.message };
     }
@@ -163,12 +165,13 @@ export const courseService = {
   getPendingCourses: async (): Promise<{ courses: Course[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(collection(db, 'courses'), where('status', '==', 'pending_review'));
+      const q = query(collection(db, 'courses'));
       const querySnapshot = await getDocs(q);
       const courses: Course[] = [];
       querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
-      courses.sort((a, b) => sortDesc(a, b, 'updatedAt'));
-      return { courses, error: null };
+      const filtered = courses.filter((c) => c.status === 'pending_review');
+      filtered.sort((a, b) => sortDesc(a, b, 'updatedAt'));
+      return { courses: filtered, error: null };
     } catch (error: any) {
       return { courses: [], error: error.message };
     }
