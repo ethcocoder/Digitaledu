@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { UserProvider } from "./contexts/UserContext";
 import { PlatformSettingsProvider } from "./contexts/PlatformSettingsContext";
+import { SidebarProvider } from "./contexts/SidebarContext";
 import InteractiveCursor from "./components/InteractiveCursor";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -219,11 +220,13 @@ function App() {
       <LanguageProvider>
         <UserProvider>
           <PlatformSettingsProvider>
+            <SidebarProvider>
             <TooltipProvider>
               <InteractiveCursor />
               <Toaster />
               <Router />
             </TooltipProvider>
+            </SidebarProvider>
           </PlatformSettingsProvider>
         </UserProvider>
       </LanguageProvider>

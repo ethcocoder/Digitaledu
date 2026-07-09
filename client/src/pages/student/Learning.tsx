@@ -14,6 +14,7 @@ import { progressService } from '@/lib/progressService';
 import { Course, Enrollment, ContentBlock, Badge } from '../../../../shared/types';
 import RichContentRenderer from '@/components/RichContentRenderer';
 import BilingualToggle from '@/components/BilingualToggle';
+import { getYoutubeEmbedUrl } from '@/lib/youtube';
 
 interface Step {
   type: 'video' | 'block';
@@ -315,7 +316,7 @@ export default function StudentLearning() {
                     {currentStepData?.videoUrl ? (
                       <div className="aspect-video bg-black">
                         <iframe
-                          src={currentStepData.videoUrl}
+                          src={getYoutubeEmbedUrl(currentStepData.videoUrl)}
                           className="w-full h-full"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                           allowFullScreen

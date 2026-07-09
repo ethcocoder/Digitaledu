@@ -123,3 +123,298 @@
 [2026-06-06T12:57:40.576Z] {"timestamp":1780750659052,"level":"LOG","args":["Google login successful:","ethcodecoders@gmail.com"],"stack":null}
 [2026-06-06T12:57:40.576Z] {"timestamp":1780750660366,"level":"ERROR","args":["[2026-06-06T12:57:40.366Z]  @firebase/firestore:","Firestore (12.12.0): Uncaught Error in snapshot listener:","FirebaseError: [code=failed-precondition]: The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/digital-edu-b93df/firestore/indexes?create_composite=ClVwcm9qZWN0cy9kaWdpdGFsLWVkdS1iOTNkZi9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvZW5yb2xsbWVudHMvaW5kZXhlcy9fEAEaDQoJc3R1ZGVudElkEAEaEgoObGFzdEFjY2Vzc2VkQXQQAhoMCghfX25hbWVfXxAC"],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Logger.defaultLogHandler [as _logHandler] (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/chunk-AKMSXHOC.js?v=5df17179:1072:20)\n    at Logger.error (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/chunk-AKMSXHOC.js?v=5df17179:1140:10)\n    at __PRIVATE_logError (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:2563:7)\n    at __PRIVATE_AsyncObserver.error (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:15029:76)\n    at __PRIVATE_QueryListener.onError (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:13859:13)\n    at __PRIVATE_eventManagerOnWatchError (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:13812:36)\n    at __PRIVATE_removeAndCleanupTarget (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:14531:58)\n    at http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:14468:17\n    at async __PRIVATE_syncEngineRejectListen (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:14463:10)"}
 [2026-06-06T12:57:52.572Z] {"timestamp":1780750672529,"level":"ERROR","args":["[2026-06-06T12:57:52.529Z]  @firebase/firestore:","Firestore (12.12.0): Uncaught Error in snapshot listener:","FirebaseError: [code=failed-precondition]: The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/digital-edu-b93df/firestore/indexes?create_composite=ClVwcm9qZWN0cy9kaWdpdGFsLWVkdS1iOTNkZi9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvZW5yb2xsbWVudHMvaW5kZXhlcy9fEAEaDQoJc3R1ZGVudElkEAEaEgoObGFzdEFjY2Vzc2VkQXQQAhoMCghfX25hbWVfXxAC"],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Logger.defaultLogHandler [as _logHandler] (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/chunk-AKMSXHOC.js?v=5df17179:1072:20)\n    at Logger.error (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/chunk-AKMSXHOC.js?v=5df17179:1140:10)\n    at __PRIVATE_logError (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:2563:7)\n    at __PRIVATE_AsyncObserver.error (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:15029:76)\n    at __PRIVATE_QueryListener.onError (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:13859:13)\n    at __PRIVATE_eventManagerOnWatchError (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:13812:36)\n    at __PRIVATE_removeAndCleanupTarget (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:14531:58)\n    at http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:14468:17\n    at async __PRIVATE_syncEngineRejectListen (http://localhost:3000/@fs/D:/download2/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=5df17179:14463:10)"}
+[2026-07-09T09:41:30.974Z] {"timestamp":1783590090917,"level":"LOG","args":["[vite] server connection lost. Polling for restart..."],"stack":null}
+[2026-07-09T09:41:33.314Z] {"timestamp":1783590091306,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T09:41:33.314Z] {"timestamp":1783590091477,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T09:41:33.314Z] {"timestamp":1783590092206,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T09:41:33.314Z] {"timestamp":1783590092256,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T09:41:39.360Z] {"timestamp":1783590098795,"level":"WARN","args":["[2026-07-09T09:41:38.795Z]  @firebase/firestore:","Firestore (12.12.0): WebChannelConnection","RPC 'Listen' stream 0x694b8ffc transport errored. Name:","undefined","Message:","undefined"],"stack":null}
+[2026-07-09T09:41:39.360Z] {"timestamp":1783590098797,"level":"ERROR","args":["[2026-07-09T09:41:38.797Z]  @firebase/firestore:","Firestore (12.12.0): Could not reach Cloud Firestore backend. Connection failed 1 times. Most recent error: FirebaseError: [code=unavailable]: The operation could not be completed\nThis typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend."],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Logger.defaultLogHandler [as _logHandler] (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/chunk-GP7ZNLAD.js?v=8bb10a76:1072:20)\n    at Logger.error (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/chunk-GP7ZNLAD.js?v=8bb10a76:1140:10)\n    at __PRIVATE_logError (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=8bb10a76:2563:7)\n    at __PRIVATE_OnlineStateTracker.la (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=8bb10a76:13155:16)\n    at __PRIVATE_OnlineStateTracker.ha (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=8bb10a76:13132:54)\n    at __PRIVATE_onWatchStreamClose (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=8bb10a76:13289:47)\n    at __PRIVATE_PersistentListenStream.close (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=8bb10a76:12894:25)\n    at __PRIVATE_PersistentListenStream.z_ (http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=8bb10a76:12936:87)\n    at http://localhost:3000/@fs/E:/digital-edu/node_modules/.vite/deps/firebase_firestore.js?v=8bb10a76:12924:21"}
+[2026-07-09T09:41:39.361Z] {"timestamp":1783590098819,"level":"ERROR","args":["Get profile error:",{"type":"Error","message":"Failed to get document because the client is offline.","stack":"FirebaseError: Failed to get document because the client is offline."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getUserProfile (http://localhost:3000/src/lib/firebase.ts:80:15)\n    at async http://localhost:3000/src/contexts/UserContext.tsx:17:42"}
+[2026-07-09T11:39:02.775Z] {"timestamp":1783597136511,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T11:39:02.775Z] {"timestamp":1783597136533,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T11:39:04.526Z] {"timestamp":1783597143431,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T11:39:04.526Z] {"timestamp":1783597143481,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T11:41:59.201Z] {"timestamp":1783597318117,"level":"LOG","args":["[vite] server connection lost. Polling for restart..."],"stack":null}
+[2026-07-09T11:42:06.015Z] {"timestamp":1783597320164,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T11:42:06.015Z] {"timestamp":1783597320461,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T11:42:08.863Z] {"timestamp":1783597328604,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T11:42:08.863Z] {"timestamp":1783597328706,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T11:43:40.048Z] {"timestamp":1783597418041,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T11:43:40.048Z] {"timestamp":1783597418062,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T11:43:40.048Z] {"timestamp":1783597419042,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T11:43:40.048Z] {"timestamp":1783597419073,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T11:44:14.582Z] {"timestamp":1783597449159,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T11:44:14.582Z] {"timestamp":1783597449190,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T11:44:17.168Z] {"timestamp":1783597455196,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T11:44:17.168Z] {"timestamp":1783597455257,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T11:56:15.186Z] {"timestamp":1783598175095,"level":"ERROR","args":["Error fetching users:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllUsers (http://localhost:3000/src/lib/userService.ts:17:15)\n    at async fetchStats (http://localhost:3000/src/pages/superadmin/Overview.tsx:182:25)"}
+[2026-07-09T11:56:17.165Z] {"timestamp":1783598175579,"level":"ERROR","args":["Error fetching all courses:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllCourses (http://localhost:3000/src/lib/courseService.ts:26:15)\n    at async fetchStats (http://localhost:3000/src/pages/superadmin/Overview.tsx:183:27)"}
+[2026-07-09T11:56:21.170Z] {"timestamp":1783598180013,"level":"ERROR","args":["Error fetching users:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllUsers (http://localhost:3000/src/lib/userService.ts:17:15)\n    at async fetchUsers (http://localhost:3000/src/pages/superadmin/Users.tsx:85:38)"}
+[2026-07-09T11:58:21.317Z] {"timestamp":1783598299275,"level":"ERROR","args":["Error fetching all courses:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllCourses (http://localhost:3000/src/lib/courseService.ts:26:15)\n    at async fetchStats (http://localhost:3000/src/pages/admin/Overview.tsx:69:27)"}
+[2026-07-09T11:58:31.170Z] {"timestamp":1783598309835,"level":"ERROR","args":["Error fetching all courses:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllCourses (http://localhost:3000/src/lib/courseService.ts:26:15)\n    at async fetchCourses (http://localhost:3000/src/pages/superadmin/Courses.tsx:19:42)"}
+[2026-07-09T11:58:47.934Z] {"timestamp":1783598325623,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T11:58:47.934Z] {"timestamp":1783598325762,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T11:58:47.934Z] {"timestamp":1783598326748,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T11:58:47.934Z] {"timestamp":1783598326855,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T11:58:51.631Z] {"timestamp":1783598330902,"level":"ERROR","args":["Error fetching all courses:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllCourses (http://localhost:3000/src/lib/courseService.ts:26:15)\n    at async fetchCourses (http://localhost:3000/src/pages/superadmin/Courses.tsx:19:42)"}
+[2026-07-09T17:16:46.460Z] {"timestamp":1783600780600,"level":"LOG","args":["[vite] server connection lost. Polling for restart..."],"stack":null}
+[2026-07-09T17:16:49.341Z] {"timestamp":1783617407329,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:16:49.341Z] {"timestamp":1783617407603,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:16:49.341Z] {"timestamp":1783617407969,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:16:49.341Z] {"timestamp":1783617408018,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:16:55.359Z] {"timestamp":1783617415276,"level":"ERROR","args":["Error fetching all courses:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllCourses (http://localhost:3000/src/lib/courseService.ts?t=1783617397535:26:15)\n    at async fetchCourses (http://localhost:3000/src/pages/superadmin/Courses.tsx?t=1783617397535:19:42)"}
+[2026-07-09T17:18:11.333Z] {"timestamp":1783617489380,"level":"ERROR","args":["Error fetching all courses:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllCourses (http://localhost:3000/src/lib/courseService.ts?t=1783617397535:26:15)\n    at async fetchStats (http://localhost:3000/src/pages/admin/Overview.tsx?t=1783617397535:69:27)"}
+[2026-07-09T17:18:31.335Z] {"timestamp":1783617510264,"level":"ERROR","args":["Error fetching users:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllUsers (http://localhost:3000/src/lib/userService.ts:17:15)\n    at async fetchStats (http://localhost:3000/src/pages/superadmin/Overview.tsx?t=1783617397535:182:25)"}
+[2026-07-09T17:18:31.335Z] {"timestamp":1783617510778,"level":"ERROR","args":["Error fetching all courses:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllCourses (http://localhost:3000/src/lib/courseService.ts?t=1783617397535:26:15)\n    at async fetchStats (http://localhost:3000/src/pages/superadmin/Overview.tsx?t=1783617397535:183:27)"}
+[2026-07-09T17:18:33.331Z] {"timestamp":1783617511784,"level":"ERROR","args":["Error fetching users:",{"type":"Error","message":"Missing or insufficient permissions.","stack":"FirebaseError: Missing or insufficient permissions."}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.getAllUsers (http://localhost:3000/src/lib/userService.ts:17:15)\n    at async fetchUsers (http://localhost:3000/src/pages/superadmin/Users.tsx:85:38)"}
+[2026-07-09T17:23:19.349Z] {"timestamp":1783617797325,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:23:19.349Z] {"timestamp":1783617797488,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:23:19.349Z] {"timestamp":1783617798199,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:23:19.349Z] {"timestamp":1783617798265,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:24:23.701Z] {"timestamp":1783617849678,"level":"LOG","args":["[vite] server connection lost. Polling for restart..."],"stack":null}
+[2026-07-09T17:24:31.881Z] {"timestamp":1783617869248,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:24:31.881Z] {"timestamp":1783617869313,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:24:33.253Z] {"timestamp":1783617872099,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:24:33.253Z] {"timestamp":1783617872119,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:28:01.817Z] {"timestamp":1783618079744,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:28:01.817Z] {"timestamp":1783618079967,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:28:01.817Z] {"timestamp":1783618080762,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:28:01.817Z] {"timestamp":1783618080806,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:28:57.791Z] {"timestamp":1783618135777,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:28:57.791Z] {"timestamp":1783618135848,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:28:57.791Z] {"timestamp":1783618136194,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:28:57.791Z] {"timestamp":1783618136225,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:30:36.813Z] {"timestamp":1783618234794,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:30:36.813Z] {"timestamp":1783618234808,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:30:36.813Z] {"timestamp":1783618235215,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:30:36.813Z] {"timestamp":1783618235241,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485357,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485358,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485358,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/Overview.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485358,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/CourseReview.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485358,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Courses.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485359,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485359,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485359,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Courses.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485359,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485359,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485359,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485360,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485360,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/CourseStudio.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485360,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485360,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Overview.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485360,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485361,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:34:46.834Z] {"timestamp":1783618485361,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500506,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500507,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500507,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500507,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500507,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500508,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500508,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500508,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500509,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500509,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500510,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:00.852Z] {"timestamp":1783618500510,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510570,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510570,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510571,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510571,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510572,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510572,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510575,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510576,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510576,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510577,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510577,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:10.851Z] {"timestamp":1783618510578,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518370,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518370,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518370,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518371,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518371,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518371,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518371,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518372,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518372,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518372,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518372,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:18.850Z] {"timestamp":1783618518372,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526504,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526505,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526505,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526505,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526505,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526506,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526506,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526506,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526507,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526507,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526507,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:26.840Z] {"timestamp":1783618526508,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535741,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535742,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535742,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535742,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535749,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535749,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535749,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535749,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535750,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535750,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535750,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:36.880Z] {"timestamp":1783618535751,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542188,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542189,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542189,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542190,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542190,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542190,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542191,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542191,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542191,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542191,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542192,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:35:42.861Z] {"timestamp":1783618542192,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:36:34.708Z] {"timestamp":1783618592702,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:36:34.708Z] {"timestamp":1783618592775,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:36:34.708Z] {"timestamp":1783618593144,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:36:34.708Z] {"timestamp":1783618593183,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982530,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982531,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982531,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982531,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/CourseReview.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982532,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982532,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982532,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982532,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982533,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982533,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982533,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982533,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982534,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/CourseStudio.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982534,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982534,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982534,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982535,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:43:02.844Z] {"timestamp":1783618982538,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994014,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994014,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994015,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994015,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/CourseReview.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994015,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994015,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994016,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994016,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994016,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994017,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994017,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994017,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994017,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/CourseStudio.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994017,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994018,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994018,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994019,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:43:14.839Z] {"timestamp":1783618994019,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002607,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002607,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002608,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002608,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/CourseReview.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002608,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002609,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002609,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002609,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002609,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002610,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002610,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002610,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002610,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/CourseStudio.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002610,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002611,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002611,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002611,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:43:22.862Z] {"timestamp":1783619002611,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009736,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009737,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009737,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009738,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/admin/CourseReview.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009739,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009742,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009742,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009743,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Courses.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009743,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009744,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009744,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009747,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009749,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/CourseStudio.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009749,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009750,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Overview.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009750,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009750,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:43:30.834Z] {"timestamp":1783619009750,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:44:16.709Z] {"timestamp":1783619056522,"level":"ERROR","args":["Error enrolling student:",{"type":"Error","message":"Course is not available for enrollment","stack":"Error: Course is not available for enrollment\n    at Object.enrollStudent (http://localhost:3000/src/lib/enrollmentService.ts?t=1783619008770:19:47)\n    at async handleEnroll (http://localhost:3000/src/pages/student/Catalog.tsx?t=1783619008770:50:37)"}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.enrollStudent (http://localhost:3000/src/lib/enrollmentService.ts?t=1783619008770:41:15)\n    at async handleEnroll (http://localhost:3000/src/pages/student/Catalog.tsx?t=1783619008770:50:37)"}
+[2026-07-09T17:44:22.706Z] {"timestamp":1783619061251,"level":"ERROR","args":["Error enrolling student:",{"type":"Error","message":"Course is not available for enrollment","stack":"Error: Course is not available for enrollment\n    at Object.enrollStudent (http://localhost:3000/src/lib/enrollmentService.ts?t=1783619008770:19:47)\n    at async handleEnroll (http://localhost:3000/src/pages/student/Catalog.tsx?t=1783619008770:50:37)"}],"stack":"Error\n    at console.<computed> [as error] (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.enrollStudent (http://localhost:3000/src/lib/enrollmentService.ts?t=1783619008770:41:15)\n    at async handleEnroll (http://localhost:3000/src/pages/student/Catalog.tsx?t=1783619008770:50:37)"}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137722,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Financials.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/CourseIntro.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Catalog.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Certificates.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/superadmin/Analytics.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Earnings.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137723,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137724,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Achievements.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137724,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:45:38.831Z] {"timestamp":1783619137724,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/Students.tsx"],"stack":null}
+[2026-07-09T17:46:22.960Z] {"timestamp":1783619180950,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:46:22.960Z] {"timestamp":1783619181009,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:46:22.960Z] {"timestamp":1783619181352,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:46:22.960Z] {"timestamp":1783619181387,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:47:08.130Z] {"timestamp":1783619226115,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:47:08.130Z] {"timestamp":1783619226138,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:47:08.130Z] {"timestamp":1783619226525,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:47:39.288Z] {"timestamp":1783619257270,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:47:39.288Z] {"timestamp":1783619257350,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:47:39.288Z] {"timestamp":1783619257675,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:52:45.832Z] {"timestamp":1783619563883,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:52:45.832Z] {"timestamp":1783619563883,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:52:53.838Z] {"timestamp":1783619572727,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Learning.tsx"],"stack":null}
+[2026-07-09T17:52:53.838Z] {"timestamp":1783619572728,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:53:28.962Z] {"timestamp":1783619607994,"level":"DEBUG","args":["[vite]","hot updated: /src/App.tsx"],"stack":null}
+[2026-07-09T17:53:28.962Z] {"timestamp":1783619607994,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:53:38.957Z] {"timestamp":1783619617400,"level":"ERROR","args":["[vite]","Failed to reload /src/App.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)"],"stack":"Error\n    at console.error (http://localhost:3000/__manus__/debug-collector.js:391:37)\n    at Object.error (http://localhost:3000/@vite/client:809:26)\n    at HMRClient.warnFailedUpdate (http://localhost:3000/@vite/client:181:15)\n    at HMRClient.fetchUpdate (http://localhost:3000/@vite/client:212:10)\n    at async Promise.all (index 0)\n    at async HMRClient.queueUpdate (http://localhost:3000/@vite/client:196:5)\n    at async Promise.all (index 0)\n    at async handleMessage (http://localhost:3000/@vite/client:838:4)"}
+[2026-07-09T17:53:38.957Z] {"timestamp":1783619617851,"level":"DEBUG","args":["[vite]","hot updated: /src/App.tsx"],"stack":null}
+[2026-07-09T17:53:38.957Z] {"timestamp":1783619617851,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:53:46.958Z] {"timestamp":1783619626856,"level":"DEBUG","args":["[vite]","hot updated: /src/App.tsx"],"stack":null}
+[2026-07-09T17:53:46.958Z] {"timestamp":1783619626856,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:54:02.953Z] {"timestamp":1783619642612,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:54:02.953Z] {"timestamp":1783619642612,"level":"DEBUG","args":["[vite]","hot updated: /src/components/AdminSidebar.tsx"],"stack":null}
+[2026-07-09T17:54:14.951Z] {"timestamp":1783619653372,"level":"DEBUG","args":["[vite]","hot updated: /src/components/AdminLayout.tsx"],"stack":null}
+[2026-07-09T17:54:14.951Z] {"timestamp":1783619653372,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:54:28.166Z] {"timestamp":1783619666739,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:54:28.166Z] {"timestamp":1783619666770,"level":"DEBUG","args":["[vite]","hot updated: /src/components/StudentSidebar.tsx"],"stack":null}
+[2026-07-09T17:54:31.725Z] {"timestamp":1783619669718,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:54:31.725Z] {"timestamp":1783619669737,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:54:31.725Z] {"timestamp":1783619670206,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:54:31.725Z] {"timestamp":1783619670247,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:54:41.721Z] {"timestamp":1783619680210,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:54:41.721Z] {"timestamp":1783619680210,"level":"DEBUG","args":["[vite]","hot updated: /src/components/StudentLayout.tsx"],"stack":null}
+[2026-07-09T17:54:58.039Z] {"timestamp":1783619696290,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:54:58.039Z] {"timestamp":1783619696290,"level":"DEBUG","args":["[vite]","hot updated: /src/components/InstructorSidebar.tsx"],"stack":null}
+[2026-07-09T17:55:09.728Z] {"timestamp":1783619709021,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:55:09.728Z] {"timestamp":1783619709021,"level":"DEBUG","args":["[vite]","hot updated: /src/components/InstructorLayout.tsx"],"stack":null}
+[2026-07-09T17:55:16.377Z] {"timestamp":1783619714371,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:55:16.377Z] {"timestamp":1783619714464,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:55:16.377Z] {"timestamp":1783619714788,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:55:16.377Z] {"timestamp":1783619714809,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}
+[2026-07-09T17:56:06.379Z] {"timestamp":1783619765228,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/student/Dashboard.tsx"],"stack":null}
+[2026-07-09T17:56:06.379Z] {"timestamp":1783619765228,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:56:28.387Z] {"timestamp":1783619788168,"level":"DEBUG","args":["[vite]","hot updated: /src/pages/instructor/CourseStudio.tsx"],"stack":null}
+[2026-07-09T17:56:28.388Z] {"timestamp":1783619788168,"level":"DEBUG","args":["[vite]","hot updated: /src/index.css"],"stack":null}
+[2026-07-09T17:56:39.250Z] {"timestamp":1783619797236,"level":"DEBUG","args":["[Manus] Debug collector initialized (no rrweb, UI events only)"],"stack":null}
+[2026-07-09T17:56:39.250Z] {"timestamp":1783619797320,"level":"DEBUG","args":["[vite] connected."],"stack":null}
+[2026-07-09T17:56:39.250Z] {"timestamp":1783619798049,"level":"INFO","args":["%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools","font-weight:bold"],"stack":null}
+[2026-07-09T17:56:39.250Z] {"timestamp":1783619798077,"level":"LOG","args":["Firebase initialized successfully"],"stack":null}

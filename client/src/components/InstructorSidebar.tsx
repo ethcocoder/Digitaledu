@@ -10,7 +10,7 @@ import {
   ChevronRight,
   MonitorPlay
 } from 'lucide-react';
-import { useState } from 'react';
+import { useSidebar } from '@/contexts/SidebarContext';
 import { useUser } from '@/contexts/UserContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -45,7 +45,8 @@ function SidebarItem({ icon: Icon, label, path, active, collapsed, onClick }: Si
 
 export default function InstructorSidebar() {
   const [location, setLocation] = useLocation();
-  const [collapsed, setCollapsed] = useState(false);
+  const { mode, toggle } = useSidebar();
+  const collapsed = mode === 'collapsed';
   const { logout } = useUser();
   const { theme, t } = useLanguage();
   const isDark = theme === 'dark';
@@ -61,41 +62,19 @@ export default function InstructorSidebar() {
   return (
     <aside 
       className={`fixed top-0 left-0 h-screen transition-all duration-300 z-50 flex flex-col border-r ${
-        collapsed ? 'w-20' : 'w-72'
+        collapsed ? 'w-0 overflow-hidden border-transparent' : 'w-72'
       } ${
         isDark 
           ? 'bg-slate-950/80 backdrop-blur-xl border-teal-500/10' 
           : 'bg-white/90 backdrop-blur-xl border-teal-200/50'
       }`}
     >
-      {/* Header */}
-      <div className="p-6 flex items-center justify-between overflow-hidden">
-        {!collapsed && (
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/20">
-              <MonitorPlay className="text-white w-6 h-6" />
-            </div>
-            <div>
-              <h2 className={`font-bold text-lg tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                Digital<span className="text-teal-500">Edu</span>
-              </h2>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-teal-500/80">
-                Instructor Portal
-              </p>
-            </div>
-          </div>
-        )}
-        {collapsed && (
-           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/20 mx-auto">
-             <MonitorPlay className="text-white w-6 h-6" />
-           </div>
-        )}
-      </div>
-
       {/* Toggle Button */}
       <button
-        onClick={() => setCollapsed(!collapsed)}
-        className={`absolute -right-3 top-20 w-6 h-6 rounded-full border flex items-center justify-center transition-all ${
+        onClick={toggle}
+        className={`fixed top-20 z-[60] w-6 h-6 rounded-full border flex items-center justify-center transition-all duration-300 ${
+          collapsed ? 'left-2' : 'left-[270px]'
+        } ${
           isDark 
             ? 'bg-slate-900 border-teal-500/20 text-teal-500 hover:border-teal-400' 
             : 'bg-white border-teal-200 text-teal-600 hover:border-teal-400'
@@ -103,6 +82,23 @@ export default function InstructorSidebar() {
       >
         {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
       </button>
+
+      {/* Header */}
+      <div className="p-6 flex items-center justify-between overflow-hidden shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-teal-500/20 shrink-0">
+            <MonitorPlay className="text-white w-6 h-6" />
+          </div>
+          <div className="min-w-0">
+            <h2 className={`font-bold text-lg tracking-tight truncate ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              Digital<span className="text-teal-500">Edu</span>
+            </h2>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-teal-500/80 truncate">
+              Instructor Portal
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* Menu */}
       <div className="flex-1 px-4 py-6 space-y-2 overflow-y-auto no-scrollbar">
@@ -118,15 +114,15 @@ export default function InstructorSidebar() {
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-teal-500/10">
+      <div className="p-4 border-t border-teal-500/10 shrink-0">
         <button
           onClick={logout}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-red-400 hover:bg-red-500/10 ${
             collapsed ? 'justify-center' : ''
           }`}
         >
-          <LogOut className="w-5 h-5" />
-          {!collapsed && <span className="font-medium">{t('dashboard.logout')}</span>}
+          <LogOut className="w-5 h-5 shrink-0" />
+          {!collapsed && <span className="font-medium truncate">{t('dashboard.logout')}</span>}
         </button>
       </div>
     </aside>

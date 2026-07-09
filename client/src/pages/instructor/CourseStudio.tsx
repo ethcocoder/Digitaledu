@@ -264,9 +264,12 @@ export default function CourseStudio() {
                 {expandedModule === mod.id && (
                   <div className="p-4 space-y-4">
                     <div className="grid grid-cols-2 gap-3">
-                      <input value={mod.videoUrl} onChange={(e) => updateModule(mod.id, 'videoUrl', e.target.value)}
-                        placeholder="Video embed URL" className={`w-full px-3 py-2 rounded-lg border outline-none text-sm ${isDark ? 'bg-slate-950 border-teal-500/20' : 'bg-gray-50 border-teal-200'}`}
-                      />
+                      <div>
+                        <input value={mod.videoUrl} onChange={(e) => updateModule(mod.id, 'videoUrl', e.target.value)}
+                          placeholder="YouTube URL (e.g. https://youtu.be/...)" className={`w-full px-3 py-2 rounded-lg border outline-none text-sm ${isDark ? 'bg-slate-950 border-teal-500/20' : 'bg-gray-50 border-teal-200'}`}
+                        />
+                        <p className={`text-[10px] mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Supports youtube.com/watch?v= or youtu.be/ links</p>
+                      </div>
                       <input type="number" min={1} value={mod.durationMinutes} onChange={(e) => updateModule(mod.id, 'durationMinutes', Number(e.target.value))}
                         placeholder="Duration (min)" className={`w-full px-3 py-2 rounded-lg border outline-none text-sm ${isDark ? 'bg-slate-950 border-teal-500/20' : 'bg-gray-50 border-teal-200'}`}
                       />

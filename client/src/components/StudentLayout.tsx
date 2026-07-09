@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import StudentSidebar from './StudentSidebar';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useSidebar } from '@/contexts/SidebarContext';
 import { Bell, Search, User } from 'lucide-react';
 import { useUser } from '@/contexts/UserContext';
 
@@ -11,14 +12,16 @@ interface StudentLayoutProps {
 
 export default function StudentLayout({ children, title }: StudentLayoutProps) {
   const { theme } = useLanguage();
+  const { mode } = useSidebar();
   const { profile } = useUser();
   const isDark = theme === 'dark';
+  const collapsed = mode === 'collapsed';
 
   return (
     <div className={`min-h-screen flex ${isDark ? 'bg-slate-950 text-white' : 'bg-gray-50 text-slate-900'}`}>
       <StudentSidebar />
       
-      <main className="flex-1 transition-all duration-300 ml-20 lg:ml-72 flex flex-col">
+      <main className={`flex-1 transition-all duration-300 ${collapsed ? 'ml-0' : 'ml-72'} flex flex-col`}>
         {/* Top Header */}
         <header className={`h-20 flex items-center justify-between px-8 border-b sticky top-0 z-40 backdrop-blur-md ${
           isDark ? 'bg-slate-950/50 border-yellow-500/10' : 'bg-white/50 border-yellow-200/50'
