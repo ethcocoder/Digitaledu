@@ -24,7 +24,7 @@ export const enrollmentService = {
 
       const { course, error: courseError } = await courseService.getCourseById(courseId);
       if (courseError || !course) throw new Error(courseError || 'Course not found');
-      if (course.status !== 'approved') throw new Error('Course is not available for enrollment');
+      if (course.status !== 'approved' && course.status !== 'published') throw new Error('Course is not available for enrollment');
 
       const existing = await enrollmentService.getEnrollment(studentId, courseId);
       if (existing.enrollment) throw new Error('Already enrolled in this course');
