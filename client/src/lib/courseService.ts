@@ -128,6 +128,10 @@ export const courseService = {
   updateCourseStatus: async (courseId: string, status: CourseStatus): Promise<{ error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
+      // Prevent non-admin callers from using this to approve/reject
+      if (status === 'approved' || status === 'rejected') {
+        return { error: 'Only admins can approve or reject courses. Use reviewCourse instead.' };
+      }
       await updateDoc(doc(db, 'courses', courseId), {
         status,
         updatedAt: Date.now(),
