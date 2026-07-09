@@ -6,7 +6,6 @@ import {
   updateDoc,
   query,
   where,
-  orderBy,
   onSnapshot,
   increment,
 } from 'firebase/firestore';
@@ -63,15 +62,11 @@ export const enrollmentService = {
   ): Promise<{ enrollment: Enrollment | null; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(
-        collection(db, 'enrollments'),
-        where('studentId', '==', studentId),
-        where('courseId', '==', courseId)
-      );
+      const q = query(collection(db, 'enrollments'), where('studentId', '==', studentId));
       const snapshot = await getDocs(q);
-      if (snapshot.empty) return { enrollment: null, error: null };
-      const docSnap = snapshot.docs[0];
-      return { enrollment: { id: docSnap.id, ...docSnap.data() } as Enrollment, error: null };
+      const match = snapshot.docs.find((d) => d.data().courseId === courseId);
+      if (!match) return { enrollment: null, error: null };
+      return { enrollment: { id: match.id, ...match.data() } as Enrollment, error: null };
     } catch (error: any) {
       return { enrollment: null, error: error.message };
     }
@@ -82,14 +77,11 @@ export const enrollmentService = {
   ): Promise<{ enrollments: Enrollment[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(
-        collection(db, 'enrollments'),
-        where('studentId', '==', studentId),
-        orderBy('lastAccessedAt', 'desc')
-      );
+      const q = query(collection(db, 'enrollments'), where('studentId', '==', studentId));
       const snapshot = await getDocs(q);
       const enrollments: Enrollment[] = [];
       snapshot.forEach((d) => enrollments.push({ id: d.id, ...d.data() } as Enrollment));
+      enrollments.sort((a, b) => (b.lastAccessedAt || 0) - (a.lastAccessedAt || 0));
       return { enrollments, error: null };
     } catch (error: any) {
       return { enrollments: [], error: error.message };
@@ -101,14 +93,11 @@ export const enrollmentService = {
   ): Promise<{ enrollments: Enrollment[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(
-        collection(db, 'enrollments'),
-        where('instructorId', '==', instructorId),
-        orderBy('enrolledAt', 'desc')
-      );
+      const q = query(collection(db, 'enrollments'), where('instructorId', '==', instructorId));
       const snapshot = await getDocs(q);
       const enrollments: Enrollment[] = [];
       snapshot.forEach((d) => enrollments.push({ id: d.id, ...d.data() } as Enrollment));
+      enrollments.sort((a, b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
       return { enrollments, error: null };
     } catch (error: any) {
       return { enrollments: [], error: error.message };
@@ -118,10 +107,11 @@ export const enrollmentService = {
   getAllEnrollments: async (): Promise<{ enrollments: Enrollment[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(collection(db, 'enrollments'), orderBy('enrolledAt', 'desc'));
+      const q = query(collection(db, 'enrollments'));
       const snapshot = await getDocs(q);
       const enrollments: Enrollment[] = [];
       snapshot.forEach((d) => enrollments.push({ id: d.id, ...d.data() } as Enrollment));
+      enrollments.sort((a, b) => (b.enrolledAt || 0) - (a.enrolledAt || 0));
       return { enrollments, error: null };
     } catch (error: any) {
       return { enrollments: [], error: error.message };
@@ -167,14 +157,11 @@ export const enrollmentService = {
     callback: (enrollments: Enrollment[]) => void
   ): (() => void) => {
     if (!db) return () => {};
-    const q = query(
-      collection(db, 'enrollments'),
-      where('studentId', '==', studentId),
-      orderBy('lastAccessedAt', 'desc')
-    );
+    const q = query(collection(db, 'enrollments'), where('studentId', '==', studentId));
     return onSnapshot(q, (snapshot) => {
       const enrollments: Enrollment[] = [];
       snapshot.forEach((d) => enrollments.push({ id: d.id, ...d.data() } as Enrollment));
+      enrollments.sort((a, b) => (b.lastAccessedAt || 0) - (a.lastAccessedAt || 0));
       callback(enrollments);
     });
   },

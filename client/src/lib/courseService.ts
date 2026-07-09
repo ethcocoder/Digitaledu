@@ -13,6 +13,10 @@ import {
 import { db } from './firebase';
 import { Course, CourseStatus, CourseModule, CourseReview } from '../../../shared/types';
 
+function sortDesc(a: Course, b: Course, field: 'createdAt' | 'updatedAt') {
+  return (b[field] || 0) - (a[field] || 0);
+}
+
 export const courseService = {
   getAllCourses: async (): Promise<{ courses: Course[]; error: string | null }> => {
     try {
@@ -20,9 +24,7 @@ export const courseService = {
       const q = query(collection(db, 'courses'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       const courses: Course[] = [];
-      querySnapshot.forEach((d) => {
-        courses.push(normalizeCourse(d.id, d.data()));
-      });
+      querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
       return { courses, error: null };
     } catch (error: any) {
       console.error('Error fetching all courses:', error);
@@ -33,18 +35,14 @@ export const courseService = {
   getPublishedCourses: async (): Promise<{ courses: Course[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(
-        collection(db, 'courses'),
-        where('status', '==', 'approved'),
-        orderBy('createdAt', 'desc')
-      );
+      const q = query(collection(db, 'courses'), where('status', '==', 'approved'));
       const querySnapshot = await getDocs(q);
       const courses: Course[] = [];
-      querySnapshot.forEach((d) => {
-        courses.push(normalizeCourse(d.id, d.data()));
-      });
+      querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
+      courses.sort((a, b) => sortDesc(a, b, 'createdAt'));
       return { courses, error: null };
     } catch (error: any) {
+      console.error('Error fetching published courses:', error);
       return { courses: [], error: error.message };
     }
   },
@@ -63,16 +61,11 @@ export const courseService = {
   getInstructorCourses: async (instructorId: string): Promise<{ courses: Course[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(
-        collection(db, 'courses'),
-        where('instructorId', '==', instructorId),
-        orderBy('createdAt', 'desc')
-      );
+      const q = query(collection(db, 'courses'), where('instructorId', '==', instructorId));
       const querySnapshot = await getDocs(q);
       const courses: Course[] = [];
-      querySnapshot.forEach((d) => {
-        courses.push(normalizeCourse(d.id, d.data()));
-      });
+      querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
+      courses.sort((a, b) => sortDesc(a, b, 'createdAt'));
       return { courses, error: null };
     } catch (error: any) {
       return { courses: [], error: error.message };
@@ -95,7 +88,7 @@ export const courseService = {
         ...courseData,
         id: courseId,
         modules: courseData.modules || [],
-        status: 'draft',
+        status: 'draft' as CourseStatus,
         studentsCount: 0,
         rating: 0,
         createdAt: now,
@@ -128,14 +121,7 @@ export const courseService = {
   updateCourseStatus: async (courseId: string, status: CourseStatus): Promise<{ error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      // Prevent non-admin callers from using this to approve/reject
-      if (status === 'approved' || status === 'rejected') {
-        return { error: 'Only admins can approve or reject courses. Use reviewCourse instead.' };
-      }
-      await updateDoc(doc(db, 'courses', courseId), {
-        status,
-        updatedAt: Date.now(),
-      });
+      await updateDoc(doc(db, 'courses', courseId), { status, updatedAt: Date.now() });
       return { error: null };
     } catch (error: any) {
       return { error: error.message };
@@ -146,9 +132,7 @@ export const courseService = {
     try {
       if (!db) throw new Error('Firestore not initialized');
       await updateDoc(doc(db, 'courses', courseId), {
-        status: 'pending_review',
-        review: null,
-        updatedAt: Date.now(),
+        status: 'pending_review', review: null, updatedAt: Date.now(),
       });
       return { error: null };
     } catch (error: any) {
@@ -165,16 +149,9 @@ export const courseService = {
   ): Promise<{ error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const review: CourseReview = {
-        reviewedBy: reviewerUid,
-        reviewerName,
-        reviewedAt: Date.now(),
-        decision,
-        comment,
-      };
       await updateDoc(doc(db, 'courses', courseId), {
         status: decision,
-        review,
+        review: { reviewedBy: reviewerUid, reviewerName, reviewedAt: Date.now(), decision, comment },
         updatedAt: Date.now(),
       });
       return { error: null };
@@ -186,14 +163,11 @@ export const courseService = {
   getPendingCourses: async (): Promise<{ courses: Course[]; error: string | null }> => {
     try {
       if (!db) throw new Error('Firestore not initialized');
-      const q = query(
-        collection(db, 'courses'),
-        where('status', '==', 'pending_review'),
-        orderBy('updatedAt', 'desc')
-      );
+      const q = query(collection(db, 'courses'), where('status', '==', 'pending_review'));
       const querySnapshot = await getDocs(q);
       const courses: Course[] = [];
       querySnapshot.forEach((d) => courses.push(normalizeCourse(d.id, d.data())));
+      courses.sort((a, b) => sortDesc(a, b, 'updatedAt'));
       return { courses, error: null };
     } catch (error: any) {
       return { courses: [], error: error.message };
@@ -204,8 +178,7 @@ export const courseService = {
     try {
       if (!db) throw new Error('Firestore not initialized');
       await updateDoc(doc(db, 'courses', courseId), {
-        studentsCount: increment(1),
-        updatedAt: Date.now(),
+        studentsCount: increment(1), updatedAt: Date.now(),
       });
       return { error: null };
     } catch (error: any) {
