@@ -2,112 +2,81 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // ──────── Core helpers ────────
+
     function isAuth() {
       return request.auth != null;
     }
 
-    function isOwner(userId) {
-      return isAuth() && request.auth.uid == userId;
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
     }
 
-    function userDoc() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    function getUserRole() {
+      let doc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      return doc.exists ? doc.data.role : null;
     }
 
-    function isSuperAdmin() {
-      return isAuth() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
+    function hasRole(role) {
+      let r = getUserRole();
+      return r != null && r in [role];
     }
 
     function isAdmin() {
-      return isAuth() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
+      let r = getUserRole();
+      return r != null && r in ['admin', 'superadmin'];
     }
 
-    // Instructor can only transition to these statuses (no self-approval)
-    function instructorAllowedStatus(newStatus) {
-      return newStatus == 'draft' || newStatus == 'pending_review' || newStatus == 'archived';
-    }
+    // ──────── Users ────────
 
-    // ---------------------------------------------------------
-    // Users Collection
-    // ---------------------------------------------------------
-    match /users/{userId} {
-      allow create: if isOwner(userId);
-      allow read: if isOwner(userId) || isAdmin();
-      allow list: if isAdmin();
-      allow update: if isOwner(userId) || isAdmin();
-      allow delete: if isSuperAdmin();
-    }
-
-    // ---------------------------------------------------------
-    // Courses Collection
-    // ---------------------------------------------------------
-    match /courses/{courseId} {
-      // Read: approved/published are public-ish; owner/admin see all
-      allow read: if isAuth() && (
-        resource.data.status == 'approved' ||
-        resource.data.status == 'published' ||
-        resource.data.instructorId == request.auth.uid ||
-        isAdmin()
-      );
-
-      // Create: instructor must own it, must start as draft
-      allow create: if isAuth() &&
-        request.resource.data.instructorId == request.auth.uid &&
-        request.resource.data.status == 'draft';
-
-      // Update:
-      //   - Owner (instructor): can update any field except status cannot be 'approved'/'rejected'
-      //   - Admin/superadmin: full access
-      allow update: if isAuth() && (
-        (
-          resource.data.instructorId == request.auth.uid &&
-          instructorAllowedStatus(request.resource.data.status)
-        ) ||
-        isAdmin()
-      );
-
-      allow delete: if isSuperAdmin();
-    }
-
-    // ---------------------------------------------------------
-    // Platform Settings (global config)
-    // ---------------------------------------------------------
-    match /platformSettings/{docId} {
+    match /users/{uid} {
+      allow create: if isOwner(uid);
       allow read: if isAuth();
-      allow write: if isSuperAdmin();
+      allow list: if isAuth();
+      allow update: if isOwner(uid) || isAdmin();
+      allow delete: if hasRole('superadmin');
     }
 
-    // ---------------------------------------------------------
-    // Enrollments Collection
-    // ---------------------------------------------------------
-    match /enrollments/{enrollmentId} {
-      allow read: if isAuth() && (
-        resource.data.studentId == request.auth.uid ||
+    // ──────── Courses ────────
+
+    match /courses/{courseId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth() && (
         resource.data.instructorId == request.auth.uid ||
         isAdmin()
       );
-      allow create: if isAuth() &&
-        request.resource.data.studentId == request.auth.uid;
+      allow delete: if hasRole('superadmin');
+    }
+
+    // ──────── Enrollments ────────
+
+    match /enrollments/{eid} {
+      allow read, list: if isAuth();
+      allow create: if isAuth() && request.resource.data.studentId == request.auth.uid;
       allow update: if isAuth() && (
         resource.data.studentId == request.auth.uid ||
+        resource.data.instructorId == request.auth.uid ||
         isAdmin()
       );
       allow delete: if isAdmin();
     }
 
-    // ---------------------------------------------------------
-    // User Progress (gamification)
-    // ---------------------------------------------------------
-    match /userProgress/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
-      allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-      allow delete: if isSuperAdmin();
+    // ──────── User Progress (gamification) ────────
+
+    match /userProgress/{uid} {
+      allow read: if isAuth();
+      allow list: if isAuth();
+      allow create: if isOwner(uid);
+      allow update: if isOwner(uid);
+      allow delete: if hasRole('superadmin');
     }
 
-    match /{document=**} {
-      allow read, write: if false;
+    // ──────── Platform Settings ────────
+
+    match /platformSettings/{docId} {
+      allow read: if isAuth();
+      allow write: if hasRole('superadmin');
     }
   }
 }
